@@ -30,10 +30,6 @@
           })
           .saveSetting(token)
       }
-
-      function close() {
-        google.script.host.close()
-      }
     </script>
   </head>
   <body>
@@ -44,7 +40,7 @@
       </div>
       <div class="block">
         <button class="action" onclick="saveSetting()">保存</button>
-        <button onclick="close()">キャンセル</button>
+        <button onclick="google.script.host.close()">キャンセル</button>
       </div>
     </div>
   </body>
