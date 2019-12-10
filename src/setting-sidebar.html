@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    <script>
+      function onError(e) {
+        console.error(e.message, e.stack)
+        alert('エラーが発生しました。')
+      }
+
+      function loadSetting() {
+        google.script.run
+          .withFailureHandler(onError)
+          .withSuccessHandler((_setting) => {
+            setting = _setting
+            if (setting.token) {
+              document.getElementById('token-input').value = setting.token
+            }
+          }).loadSetting()
+      }
+
+      function saveSetting() {
+        const token = document.getElementById('token-input').value
+
+        google.script.run
+          .withFailureHandler(onError)
+          .withSuccessHandler(() => {
+            alert('設定を保存しました')
+          })
+          .saveSetting(token)
+      }
+
+      function close() {
+        google.script.host.close()
+      }
+    </script>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="block">
+        <label for="token-input"><b>APIトークン</b></label>
+        <input id="token-input" type="text">
+      </div>
+      <div class="block">
+        <button class="action" onclick="saveSetting()">保存</button>
+        <button onclick="close()">キャンセル</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    (function() {
+      loadSetting()
+    })()
+  </script>
+</html>
