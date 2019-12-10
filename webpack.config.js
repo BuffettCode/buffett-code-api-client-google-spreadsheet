@@ -4,6 +4,7 @@ const GasPlugin = require('gas-webpack-plugin')
 module.exports = {
   mode: 'development',
   entry: './src/main.ts',
+  devtool: false,
   module: {
     rules: [
       {
