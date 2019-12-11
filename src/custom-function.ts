@@ -14,12 +14,15 @@ function bCodeQuarter(
   const yearQuarter = new YearQuarter(fiscalYear, fiscalQuarter)
   const [from, to] = yearQuarterRangeOf(yearQuarter)
   const quarter = client.quarter(ticker, from, to)
+  if (!quarter[ticker]) {
+    throw new Error('<<指定されたデータを取得できませんでした>>')
+  }
+
   const targetQuarter = quarter[ticker].filter(q => {
     return (
       q['fiscal_year'] === fiscalYear && q['fiscal_quarter'] === fiscalQuarter
     )
   })
-
   if (!targetQuarter.length) {
     throw new Error('<<指定されたデータを取得できませんでした>>')
   }

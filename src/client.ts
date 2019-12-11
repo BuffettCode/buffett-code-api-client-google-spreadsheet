@@ -169,7 +169,24 @@ export class BuffettCodeApiClientV2 {
   }
 
   private static request(url: string, options: object): object {
-    const res = UrlFetchApp.fetch(url, options)
+    const defaultOptions = {
+      muteHttpExceptions: true
+    }
+    const fullOptions = { ...defaultOptions, ...options }
+    const res = UrlFetchApp.fetch(url, fullOptions)
+
+    // TODO
+    const code = res.getResponseCode()
+    if (code == 403) {
+      throw new Error('<<APIキーが有効ではありません>>')
+    } else if (code == 429) {
+      throw new Error('<<APIの実行回数が上限に達しました>>')
+    } else if (code % 100 == 4) {
+      throw new Error('<<無効なリクエストです>>')
+    } else if (code % 100 == 5) {
+      throw new Error('<<システムエラーが発生しました>>')
+    }
+
     return JSON.parse(res.getContentText())
   }
 
