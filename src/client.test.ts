@@ -1,4 +1,4 @@
-import { BuffettCodeApiClientV2 } from './client'
+import { BuffettCodeApiClientV2, HttpError } from './client'
 import { YearQuarter } from './year-quarter'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,6 +26,12 @@ function useMockFetchApp(responseCode: number, contentText: string) {
 
   return mockFetch
 }
+
+test('HttpError', () => {
+  const res = useMockFetchApp(403, '{"message": "Forbidden"}')()
+  const error = new HttpError(res)
+  expect(error instanceof HttpError).toBeTruthy()
+})
 
 test('isQuarterProperty', () => {
   expect(BuffettCodeApiClientV2.isQuarterProperty('company_name')).toBeTruthy()
@@ -64,25 +70,33 @@ test('request', () => {
 
 test('request when error', () => {
   const mockGetResponseCode = jest.fn()
-  mockGetResponseCode
-    .mockReturnValueOnce(403)
-    .mockReturnValueOnce(429)
-    .mockReturnValueOnce(404)
-    .mockReturnValueOnce(503)
+  mockGetResponseCode.mockReturnValueOnce(403).mockReturnValue(503)
+
+  const mockGetContentText = jest.fn()
+  mockGetContentText
+    .mockReturnValueOnce('{"message": "Forbidden"}')
+    .mockReturnValue('{"message": "Service Unavailable"}')
 
   global.UrlFetchApp = {
     fetch: (): object => {
       return {
-        getResponseCode: mockGetResponseCode
+        getResponseCode: mockGetResponseCode,
+        getContentText: mockGetContentText
       }
     }
   }
 
   const request = BuffettCodeApiClientV2['request']
-  expect(() => request('http://example.com')).toThrow(Error)
-  expect(() => request('http://example.com')).toThrow(Error)
-  expect(() => request('http://example.com')).toThrow(Error)
-  expect(() => request('http://example.com')).toThrow(Error)
+  expect(() => request('http://example.com')).toThrow(HttpError)
+  expect(() => request('http://example.com')).toThrow(HttpError)
+  try {
+    request('http://example.com')
+  } catch (e) {
+    expect(e.response.getResponseCode()).toBe(503)
+    expect(e.response.getContentText()).toBe(
+      '{"message": "Service Unavailable"}'
+    )
+  }
 })
 
 test('quarter', () => {

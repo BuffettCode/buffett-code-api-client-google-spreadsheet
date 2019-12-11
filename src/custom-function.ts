@@ -1,8 +1,17 @@
-import { BuffettCodeApiClientV2 } from './client'
+import { BuffettCodeApiClientV2, HttpError } from './client'
 import { Property } from './property'
 import { Setting } from './setting'
 import { yearQuarterRangeOf } from './util'
 import { YearQuarter } from './year-quarter'
+
+export class ApiResponseError implements Error {
+  public name = 'ApiResponseError'
+  public message: string
+
+  constructor(message = '') {
+    this.message = message
+  }
+}
 
 function bCodeQuarter(
   client: BuffettCodeApiClientV2,
@@ -15,7 +24,7 @@ function bCodeQuarter(
   const [from, to] = yearQuarterRangeOf(yearQuarter)
   const quarter = client.quarter(ticker, from, to)
   if (!quarter[ticker]) {
-    throw new Error('<<指定されたデータを取得できませんでした>>')
+    throw new ApiResponseError()
   }
 
   const targetQuarter = quarter[ticker].filter(q => {
@@ -24,7 +33,7 @@ function bCodeQuarter(
     )
   })
   if (!targetQuarter.length) {
-    throw new Error('<<指定されたデータを取得できませんでした>>')
+    throw new ApiResponseError()
   }
 
   const value = targetQuarter[0][propertyName]
@@ -39,20 +48,21 @@ function bCodeIndicator(
   propertyName: string
 ): Property {
   const indicator = client.indicator(ticker)
+  if (!indicator[ticker] || !indicator[ticker][0]) {
+    throw new ApiResponseError()
+  }
+
   const value = indicator[ticker][0][propertyName] // TODO
   const unit = indicator['column_description'][propertyName]['unit']
   return new Property(value, unit)
 }
 
-// TODO: Improve validation
-export function bCode(
+function validate(
   ticker: string,
   fiscalYear: string,
   fiscalQuarter: string,
-  propertyName: string,
-  isRawValue = false,
-  isWithUnits = false
-): number | string {
+  propertyName: string
+): void {
   if (!ticker) {
     throw new Error('<<tickerが有効ではありません>>')
   }
@@ -72,14 +82,6 @@ export function bCode(
     throw new Error(`<<指定された項目が見つかりません: ${propertyName}>>`)
   }
 
-  const setting = Setting.load()
-  if (!setting.token) {
-    throw new Error('<<APIキーが有効ではありません>>')
-  }
-
-  const client = new BuffettCodeApiClientV2(setting.token)
-
-  let property: Property
   if (isQuarterProperty) {
     if (!fiscalYear) {
       throw new Error('<<fiscalYearが有効ではありません>>')
@@ -88,17 +90,62 @@ export function bCode(
     if (!fiscalQuarter) {
       throw new Error('<<fiscalQuarterが有効ではありません>>')
     }
+  }
+}
 
-    property = bCodeQuarter(
-      client,
-      ticker,
-      parseInt(fiscalYear, 10),
-      parseInt(fiscalQuarter, 10),
-      propertyName
-    )
-  } else {
-    property = bCodeIndicator(client, ticker, propertyName)
+// TODO: エラーハンドリングの改善
+export function bCode(
+  ticker: string,
+  fiscalYear: string,
+  fiscalQuarter: string,
+  propertyName: string,
+  isRawValue = false,
+  isWithUnits = false
+): number | string {
+  validate(ticker, fiscalYear, fiscalQuarter, propertyName)
+
+  const setting = Setting.load()
+  if (!setting.token) {
+    throw new Error('<<APIキーが有効ではありません>>')
   }
 
-  return property.format(isRawValue, isWithUnits)
+  const client = new BuffettCodeApiClientV2(setting.token)
+
+  const isQuarterProperty = BuffettCodeApiClientV2.isQuarterProperty(
+    propertyName
+  )
+
+  try {
+    let property: Property
+    if (isQuarterProperty) {
+      property = bCodeQuarter(
+        client,
+        ticker,
+        parseInt(fiscalYear, 10),
+        parseInt(fiscalQuarter, 10),
+        propertyName
+      )
+    } else {
+      property = bCodeIndicator(client, ticker, propertyName)
+    }
+
+    return property.format(isRawValue, isWithUnits)
+  } catch (e) {
+    if (e instanceof ApiResponseError) {
+      throw new Error('<<指定されたデータを取得できませんでした>>')
+    } else if (e instanceof HttpError) {
+      const code = e.response.getResponseCode()
+      if (code == 403) {
+        throw new Error('<<APIキーが有効ではありません>>')
+      } else if (code == 429) {
+        throw new Error('<<APIの実行回数が上限に達しました>>')
+      } else if (Math.floor(code / 100) == 4) {
+        throw new Error('<<無効なリクエストです>>')
+      } else {
+        throw new Error('<<システムエラーが発生しました>>')
+      }
+    } else {
+      throw new Error('<<未定義のエラー>>')
+    }
+  }
 }

@@ -1,6 +1,16 @@
 import { YearQuarter } from './year-quarter'
 import { UrlBuilder } from './url-builder'
 
+export class HttpError implements Error {
+  public name = 'HttpError'
+  public message: string
+
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  constructor(public response: GoogleAppsScript.URL_Fetch.HTTPResponse) {
+    this.message = `${response.getResponseCode()}: ${response.getContentText()}`
+  }
+}
+
 export class BuffettCodeApiClientV2 {
   static readonly baseUrl = 'https://api.buffett-code.com/api/v2'
 
@@ -175,16 +185,9 @@ export class BuffettCodeApiClientV2 {
     const fullOptions = { ...defaultOptions, ...options }
     const res = UrlFetchApp.fetch(url, fullOptions)
 
-    // TODO
     const code = res.getResponseCode()
-    if (code == 403) {
-      throw new Error('<<APIキーが有効ではありません>>')
-    } else if (code == 429) {
-      throw new Error('<<APIの実行回数が上限に達しました>>')
-    } else if (code % 100 == 4) {
-      throw new Error('<<無効なリクエストです>>')
-    } else if (code % 100 == 5) {
-      throw new Error('<<システムエラーが発生しました>>')
+    if (Math.floor(code / 100) === 4 || Math.floor(code / 100) === 5) {
+      throw new HttpError(res)
     }
 
     return JSON.parse(res.getContentText())
