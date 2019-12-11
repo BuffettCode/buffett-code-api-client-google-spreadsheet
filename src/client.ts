@@ -1,3 +1,4 @@
+import { YearQuarter } from './year-quarter'
 import { UrlBuilder } from './url-builder'
 
 export class BuffettCodeApiClientV2 {
@@ -172,7 +173,7 @@ export class BuffettCodeApiClientV2 {
     return JSON.parse(res.getContentText())
   }
 
-  public quarter(tickers: string, from: string, to: string): object {
+  public quarter(tickers: string, from: YearQuarter, to: YearQuarter): object {
     const endpoint = BuffettCodeApiClientV2.baseUrl + '/quarter'
     const builder = new UrlBuilder(endpoint, { tickers, from, to })
     const url = builder.toString()
