@@ -168,7 +168,7 @@ export class BuffettCodeApiClientV2 {
     return BuffettCodeApiClientV2.indicatorPropertyNames.indexOf(name) >= 0
   }
 
-  private static request(url: string, options: object): object {
+  private static request(url: string, options = {}): object {
     const defaultOptions = {
       muteHttpExceptions: true
     }
