@@ -1,5 +1,5 @@
 export class Setting {
-  static tokenProperty = 'token'
+  static readonly tokenProperty = 'token'
 
   private constructor(private _token) {}
 

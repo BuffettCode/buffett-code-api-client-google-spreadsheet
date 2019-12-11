@@ -1,9 +1,9 @@
 import { UrlBuilder } from './url-builder'
 
 export class BuffettCodeApiClientV2 {
-  static baseUrl = 'https://api.buffett-code.com/api/v2'
+  static readonly baseUrl = 'https://api.buffett-code.com/api/v2'
 
-  static quarterPropertyNames = [
+  static readonly quarterPropertyNames = [
     'company_name',
     'ceo_name',
     'headquarters_address',
@@ -81,7 +81,7 @@ export class BuffettCodeApiClientV2 {
     'edinet_title'
   ]
 
-  static indicatorPropertyNames = [
+  static readonly indicatorPropertyNames = [
     'stockprice',
     'trading_volume',
     'num_of_shares',
