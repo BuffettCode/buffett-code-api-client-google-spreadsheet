@@ -145,7 +145,7 @@ export function bCode(
         throw new Error('<<システムエラーが発生しました>>')
       }
     } else {
-      throw new Error('<<未定義のエラー>>')
+      throw new Error(`<<未定義のエラー: ${e.message}>>`)
     }
   }
 }
