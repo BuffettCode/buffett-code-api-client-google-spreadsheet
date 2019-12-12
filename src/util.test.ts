@@ -1,14 +1,5 @@
-import { round, yearQuarterRangeOf } from './util'
+import { yearQuarterRangeOf } from './util'
 import { YearQuarter } from './year-quarter'
-
-test('round', () => {
-  expect(round(1234.5678, 1)).toBe(1234.6)
-  expect(round(1234.5678, -1)).toBe(1230)
-
-  // TODO: 現在の実装だと精度に問題がある
-  // expect(round(1.05, 1)).toBe(1.1)
-  // expect(round(1.005, 1)).toBe(1.01)
-})
 
 test('yearQuarterRangeOf', () => {
   expect(yearQuarterRangeOf(new YearQuarter(2018, 1))).toEqual([
