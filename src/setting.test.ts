@@ -40,3 +40,22 @@ test('save', () => {
   expect(mockSetProperty.mock.calls.length).toBe(1)
   expect(mockSetProperty.mock.calls[0]).toEqual([Setting.tokenProperty, 'bar'])
 })
+
+test('setDefaultToken', () => {
+  const mockGetProperty = jest.fn()
+  mockGetProperty.mockReturnValue(undefined)
+
+  global.PropertiesService = {
+    getUserProperties: (): object => {
+      return {
+        getProperty: mockGetProperty
+      }
+    }
+  }
+
+  const setting = Setting.load()
+  expect(setting.token).toBeUndefined()
+
+  setting.setDefaultToken()
+  expect(setting.token).toBe(Setting.defaultToken)
+})

@@ -1,5 +1,6 @@
 export class Setting {
   static readonly tokenProperty = 'token'
+  static readonly defaultToken = 'sAJGq9JH193KiwnF947v74KnDYkO7z634LWQQfPY'
 
   private constructor(private _token) {}
 
@@ -9,6 +10,10 @@ export class Setting {
 
   public set token(token: string) {
     this._token = token
+  }
+
+  public setDefaultToken(): void {
+    this._token = Setting.defaultToken
   }
 
   public save(): void {

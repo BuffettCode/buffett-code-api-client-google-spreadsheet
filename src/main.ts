@@ -10,6 +10,10 @@ global.onOpen = (): void => {
   createAddonMenu()
 }
 global.onInstall = (): void => {
+  const setting = Setting.load()
+  setting.setDefaultToken()
+  setting.save()
+
   global.onOpen()
 }
 
