@@ -135,11 +135,14 @@ export function bCode(
       throw new Error('<<指定されたデータを取得できませんでした>>')
     } else if (e instanceof HttpError) {
       const code = e.response.getResponseCode()
-      if (code == 403) {
+
+      if (e.isInvalidTestingRequest()) {
+        throw new Error('<<テスト用のAPIキーでは取得できないデータです>>')
+      } else if (code === 403) {
         throw new Error('<<APIキーが有効ではありません>>')
-      } else if (code == 429) {
+      } else if (code === 429) {
         throw new Error('<<APIの実行回数が上限に達しました>>')
-      } else if (Math.floor(code / 100) == 4) {
+      } else if (Math.floor(code / 100) === 4) {
         throw new Error('<<無効なリクエストです>>')
       } else {
         throw new Error('<<システムエラーが発生しました>>')

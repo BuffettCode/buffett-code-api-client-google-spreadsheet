@@ -9,6 +9,18 @@ export class HttpError implements Error {
   constructor(public response: GoogleAppsScript.URL_Fetch.HTTPResponse) {
     this.message = `${response.getResponseCode()}: ${response.getContentText()}`
   }
+
+  public isInvalidTestingRequest(): boolean {
+    const content = this.response.getContentText()
+    return (
+      content ===
+      '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
+    )
+  }
+
+  public toString(): string {
+    return this.message
+  }
 }
 
 export class BuffettCodeApiClientV2 {
@@ -186,11 +198,17 @@ export class BuffettCodeApiClientV2 {
     const res = UrlFetchApp.fetch(url, fullOptions)
 
     const code = res.getResponseCode()
+    const content = res.getContentText()
     if (Math.floor(code / 100) === 4 || Math.floor(code / 100) === 5) {
+      throw new HttpError(res)
+    } else if (
+      content ===
+      '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
+    ) {
       throw new HttpError(res)
     }
 
-    return JSON.parse(res.getContentText())
+    return JSON.parse(content)
   }
 
   public quarter(tickers: string, from: YearQuarter, to: YearQuarter): object {

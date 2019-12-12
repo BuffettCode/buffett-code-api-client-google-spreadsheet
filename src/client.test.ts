@@ -33,6 +33,19 @@ test('HttpError', () => {
   expect(error instanceof HttpError).toBeTruthy()
 })
 
+test('HttpError#isInvalidTestingRequest', () => {
+  const res1 = useMockFetchApp(
+    200,
+    '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
+  )()
+  const error1 = new HttpError(res1)
+  expect(error1.isInvalidTestingRequest()).toBeTruthy()
+
+  const res2 = useMockFetchApp(403, '{"message": "Forbidden"}')()
+  const error2 = new HttpError(res2)
+  expect(error2.isInvalidTestingRequest()).toBeFalsy()
+})
+
 test('isQuarterProperty', () => {
   expect(BuffettCodeApiClientV2.isQuarterProperty('company_name')).toBeTruthy()
   expect(BuffettCodeApiClientV2.isQuarterProperty('edinet_title')).toBeTruthy()
@@ -70,10 +83,16 @@ test('request', () => {
 
 test('request when error', () => {
   const mockGetResponseCode = jest.fn()
-  mockGetResponseCode.mockReturnValueOnce(403).mockReturnValue(503)
+  mockGetResponseCode
+    .mockReturnValueOnce(200)
+    .mockReturnValueOnce(403)
+    .mockReturnValue(503)
 
   const mockGetContentText = jest.fn()
   mockGetContentText
+    .mockReturnValueOnce(
+      '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
+    )
     .mockReturnValueOnce('{"message": "Forbidden"}')
     .mockReturnValue('{"message": "Service Unavailable"}')
 
@@ -87,6 +106,7 @@ test('request when error', () => {
   }
 
   const request = BuffettCodeApiClientV2['request']
+  expect(() => request('http://example.com')).toThrow(HttpError)
   expect(() => request('http://example.com')).toThrow(HttpError)
   expect(() => request('http://example.com')).toThrow(HttpError)
   try {
