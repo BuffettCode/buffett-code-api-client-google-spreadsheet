@@ -1,6 +1,6 @@
 import { Formatter } from './formatter'
 
-export class Property {
+export class Result {
   constructor(public value: number | string | null, public unit: string) {}
 
   public format(isRawValue: boolean, isWithUnits: boolean): number | string {

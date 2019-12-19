@@ -1,5 +1,5 @@
 import { BuffettCodeApiClientV2, HttpError } from './client'
-import { Property } from './property'
+import { Result } from './result'
 import { Setting } from './setting'
 import { yearQuarterRangeOf } from './util'
 import { YearQuarter } from './year-quarter'
@@ -19,7 +19,7 @@ function bCodeQuarter(
   fiscalYear: number,
   fiscalQuarter: number,
   propertyName: string
-): Property {
+): Result {
   const yearQuarter = new YearQuarter(fiscalYear, fiscalQuarter)
   const [from, to] = yearQuarterRangeOf(yearQuarter)
   const quarter = client.quarter(ticker, from, to)
@@ -39,14 +39,14 @@ function bCodeQuarter(
   const value = targetQuarter[0][propertyName]
   const unit = quarter['column_description'][propertyName]['unit']
 
-  return new Property(value, unit)
+  return new Result(value, unit)
 }
 
 function bCodeIndicator(
   client: BuffettCodeApiClientV2,
   ticker: string,
   propertyName: string
-): Property {
+): Result {
   const indicator = client.indicator(ticker)
   if (!indicator[ticker] || !indicator[ticker][0]) {
     throw new ApiResponseError()
@@ -54,7 +54,7 @@ function bCodeIndicator(
 
   const value = indicator[ticker][0][propertyName] // TODO
   const unit = indicator['column_description'][propertyName]['unit']
-  return new Property(value, unit)
+  return new Result(value, unit)
 }
 
 function validate(
@@ -116,9 +116,9 @@ export function bCode(
   )
 
   try {
-    let property: Property
+    let result: Result
     if (isQuarterProperty) {
-      property = bCodeQuarter(
+      result = bCodeQuarter(
         client,
         ticker,
         parseInt(fiscalYear, 10),
@@ -126,10 +126,10 @@ export function bCode(
         propertyName
       )
     } else {
-      property = bCodeIndicator(client, ticker, propertyName)
+      result = bCodeIndicator(client, ticker, propertyName)
     }
 
-    return property.format(isRawValue, isWithUnits)
+    return result.format(isRawValue, isWithUnits)
   } catch (e) {
     if (e instanceof ApiResponseError) {
       throw new Error('<<指定されたデータを取得できませんでした>>')
