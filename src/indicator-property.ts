@@ -26,6 +26,6 @@ export class IndicatorProperty {
       return null
     }
 
-    return property.name_jp.trim()
+    return property.name_jp
   }
 }

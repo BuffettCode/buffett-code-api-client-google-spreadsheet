@@ -140,7 +140,7 @@ module.exports = {
     unit: '%'
   },
   interest_coverage_ratio: {
-    name_jp: 'インタレストカバレッジレシオ ',
+    name_jp: 'インタレストカバレッジレシオ',
     unit: '倍'
   },
   real_corp_tax_rate: {
@@ -276,7 +276,7 @@ module.exports = {
     unit: '倍'
   },
   accrual: {
-    name_jp: 'アクルーアル ',
+    name_jp: 'アクルーアル',
     unit: '百万円'
   },
   day: {

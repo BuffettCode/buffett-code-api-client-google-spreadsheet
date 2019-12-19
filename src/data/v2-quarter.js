@@ -316,7 +316,15 @@ module.exports = {
     unit: 'なし'
   },
   dividend: {
-    name_jp: '配当金',
+    name_jp: '配当金（実績）',
+    unit: '円'
+  },
+  eps_actual: {
+    name_jp: 'EPS（実績）',
+    unit: '円'
+  },
+  bps: {
+    name_jp: 'BPS',
     unit: '円'
   }
 }
