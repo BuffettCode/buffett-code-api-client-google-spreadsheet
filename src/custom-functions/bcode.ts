@@ -1,6 +1,7 @@
 import { BuffettCodeApiClientV2, HttpError } from '../client'
 import { IndicatorCache } from '../indicator-cache'
 import { IndicatorProperty } from '../indicator-property'
+import { QuarterCache } from '../quarter-cache'
 import { QuarterProperty } from '../quarter-property'
 import { Result } from '../result'
 import { Setting } from '../setting'
@@ -23,14 +24,22 @@ function bcodeQuarter(
   fiscalQuarter: number,
   propertyName: string
 ): Result {
+  let quarters
   const yearQuarter = new YearQuarter(fiscalYear, fiscalQuarter)
-  const [from, to] = yearQuarterRangeOf(yearQuarter)
-  const quarter = client.quarter(ticker, from, to)
-  if (!quarter[ticker]) {
-    throw new ApiResponseError()
+  const cached = QuarterCache.get(ticker, yearQuarter)
+  if (cached) {
+    quarters = cached
+  } else {
+    const [from, to] = yearQuarterRangeOf(yearQuarter)
+    const quarterResponse = client.quarter(ticker, from, to)
+    if (!quarterResponse[ticker]) {
+      throw new ApiResponseError()
+    }
+    quarters = quarterResponse[ticker]
+    QuarterCache.put(ticker, yearQuarter, quarters)
   }
 
-  const targetQuarter = quarter[ticker].filter(q => {
+  const targetQuarter = quarters.filter(q => {
     return (
       q['fiscal_year'] === fiscalYear && q['fiscal_quarter'] === fiscalQuarter
     )
@@ -40,7 +49,7 @@ function bcodeQuarter(
   }
 
   const value = targetQuarter[0][propertyName]
-  const unit = quarter['column_description'][propertyName]['unit']
+  const unit = QuarterProperty.unitOf(propertyName)
 
   return new Result(value, unit)
 }
@@ -55,17 +64,18 @@ function bcodeIndicator(
   if (cached) {
     indicator = cached
   } else {
-    indicator = client.indicator(ticker)
+    const indicatorResponse = client.indicator(ticker)
 
-    if (!indicator[ticker] || !indicator[ticker][0]) {
+    if (!indicatorResponse[ticker] || !indicatorResponse[ticker][0]) {
       throw new ApiResponseError()
     }
 
+    indicator = indicatorResponse[ticker]
     IndicatorCache.put(ticker, indicator)
   }
 
-  const value = indicator[ticker][0][propertyName] // TODO
-  const unit = indicator['column_description'][propertyName]['unit']
+  const value = indicator[0][propertyName] // NOTE: indicatorは常に1つ
+  const unit = IndicatorProperty.unitOf(propertyName)
   return new Result(value, unit)
 }
 
