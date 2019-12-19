@@ -1,4 +1,6 @@
 import { BuffettCodeApiClientV2, HttpError } from './client'
+import { IndicatorProperty } from './indicator-property'
+import { QuarterProperty } from './quarter-property'
 import { Result } from './result'
 import { Setting } from './setting'
 import { yearQuarterRangeOf } from './util'
@@ -71,10 +73,8 @@ function validate(
     throw new Error('<<propertyNameが有効ではありません>>')
   }
 
-  const isQuarterProperty = BuffettCodeApiClientV2.isQuarterProperty(
-    propertyName
-  )
-  const isIndicatorProperty = BuffettCodeApiClientV2.isIndicatorProperty(
+  const isQuarterProperty = QuarterProperty.isQuarterProperty(propertyName)
+  const isIndicatorProperty = IndicatorProperty.isIndicatorProperty(
     propertyName
   )
 
@@ -111,9 +111,7 @@ export function bCode(
 
   const client = new BuffettCodeApiClientV2(setting.token)
 
-  const isQuarterProperty = BuffettCodeApiClientV2.isQuarterProperty(
-    propertyName
-  )
+  const isQuarterProperty = QuarterProperty.isQuarterProperty(propertyName)
 
   try {
     let result: Result

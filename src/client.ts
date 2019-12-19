@@ -1,7 +1,5 @@
 import { YearQuarter } from './year-quarter'
 import { UrlBuilder } from './url-builder'
-import v2quarter from './data/v2-quarter.js'
-import v2indicator from './data/v2-indicator.js'
 
 export class HttpError implements Error {
   public name = 'HttpError'
@@ -28,18 +26,7 @@ export class HttpError implements Error {
 export class BuffettCodeApiClientV2 {
   static readonly baseUrl = 'https://api.buffett-code.com/api/v2'
 
-  static readonly quarterPropertyNames = Object.keys(v2quarter)
-  static readonly indicatorPropertyNames = Object.keys(v2indicator)
-
   constructor(private _token: string) {}
-
-  static isQuarterProperty(name: string): boolean {
-    return BuffettCodeApiClientV2.quarterPropertyNames.indexOf(name) >= 0
-  }
-
-  static isIndicatorProperty(name: string): boolean {
-    return BuffettCodeApiClientV2.indicatorPropertyNames.indexOf(name) >= 0
-  }
 
   private static request(url: string, options = {}): object {
     const defaultOptions = {
