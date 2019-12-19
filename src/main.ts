@@ -1,6 +1,7 @@
 import { createAddonMenu, showSettingSidebar } from './menu'
 import { Setting } from './setting'
 import { bCode } from './custom-functions/bcode'
+import { bCodeUnit } from './custom-functions/bcode-unit'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const global: any
@@ -59,4 +60,15 @@ global.BCODE = (
     isRawValue,
     isWithUnits
   )
+}
+
+/**
+ * 指定した項目の単位を取得します。
+ *
+ * @param {"net_sales"} propertyName 項目名
+ * @return 指定した項目の単位
+ * @customfunction
+ */
+global.BCODE_UNIT = (propertyName: string): string => {
+  return bCodeUnit(propertyName)
 }
