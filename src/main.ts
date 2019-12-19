@@ -1,7 +1,7 @@
 import { createAddonMenu, showSettingSidebar } from './menu'
 import { Setting } from './setting'
-import { bCode } from './custom-functions/bcode'
-import { bCodeUnit } from './custom-functions/bcode-unit'
+import { bcode } from './custom-functions/bcode'
+import { bcodeUnit } from './custom-functions/bcode-unit'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const global: any
@@ -52,7 +52,7 @@ global.BCODE = (
   isRawValue = false,
   isWithUnits = false
 ): number | string => {
-  return bCode(
+  return bcode(
     ticker,
     fiscalYear,
     fiscalQuarter,
@@ -70,5 +70,5 @@ global.BCODE = (
  * @customfunction
  */
 global.BCODE_UNIT = (propertyName: string): string => {
-  return bCodeUnit(propertyName)
+  return bcodeUnit(propertyName)
 }

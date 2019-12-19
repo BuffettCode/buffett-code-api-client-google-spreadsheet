@@ -15,7 +15,7 @@ export class ApiResponseError implements Error {
   }
 }
 
-function bCodeQuarter(
+function bcodeQuarter(
   client: BuffettCodeApiClientV2,
   ticker: string,
   fiscalYear: number,
@@ -44,7 +44,7 @@ function bCodeQuarter(
   return new Result(value, unit)
 }
 
-function bCodeIndicator(
+function bcodeIndicator(
   client: BuffettCodeApiClientV2,
   ticker: string,
   propertyName: string
@@ -94,7 +94,7 @@ function validate(
 }
 
 // TODO: エラーハンドリングの改善
-export function bCode(
+export function bcode(
   ticker: string,
   fiscalYear: string,
   fiscalQuarter: string,
@@ -116,7 +116,7 @@ export function bCode(
   try {
     let result: Result
     if (isQuarterProperty) {
-      result = bCodeQuarter(
+      result = bcodeQuarter(
         client,
         ticker,
         parseInt(fiscalYear, 10),
@@ -124,7 +124,7 @@ export function bCode(
         propertyName
       )
     } else {
-      result = bCodeIndicator(client, ticker, propertyName)
+      result = bcodeIndicator(client, ticker, propertyName)
     }
 
     return result.format(isRawValue, isWithUnits)

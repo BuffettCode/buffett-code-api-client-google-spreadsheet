@@ -1,7 +1,7 @@
 import { IndicatorProperty } from '../indicator-property'
 import { QuarterProperty } from '../quarter-property'
 
-export function bCodeUnit(propertyName: string): string {
+export function bcodeUnit(propertyName: string): string {
   if (!propertyName) {
     throw new Error('<<propertyNameが有効ではありません>>')
   }
