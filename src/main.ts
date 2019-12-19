@@ -1,6 +1,7 @@
 import { createAddonMenu, showSettingSidebar } from './menu'
 import { Setting } from './setting'
 import { bcode } from './custom-functions/bcode'
+import { bcodeLabel } from './custom-functions/bcode-label'
 import { bcodeUnit } from './custom-functions/bcode-unit'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,6 +61,17 @@ global.BCODE = (
     isRawValue,
     isWithUnits
   )
+}
+
+/**
+ * 指定した項目の名称を日本語で取得します。
+ *
+ * @param {"net_sales"} propertyName 項目名
+ * @return 指定した項目の名称
+ * @customfunction
+ */
+global.BCODE_LABEL = (propertyName: string): string => {
+  return bcodeLabel(propertyName)
 }
 
 /**
