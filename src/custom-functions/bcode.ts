@@ -1,83 +1,11 @@
+import { ApiResponseError } from './error'
+import { bcodeIndicator } from './bcode-indicator'
+import { bcodeQuarter } from './bcode-quarter'
 import { BuffettCodeApiClientV2, HttpError } from '../client'
-import { IndicatorCache } from '../indicator-cache'
 import { IndicatorProperty } from '../indicator-property'
-import { QuarterCache } from '../quarter-cache'
 import { QuarterProperty } from '../quarter-property'
 import { Result } from '../result'
 import { Setting } from '../setting'
-import { yearQuarterRangeOf } from '../util'
-import { YearQuarter } from '../year-quarter'
-
-export class ApiResponseError implements Error {
-  public name = 'ApiResponseError'
-  public message: string
-
-  constructor(message = '') {
-    this.message = message
-  }
-}
-
-function bcodeQuarter(
-  client: BuffettCodeApiClientV2,
-  ticker: string,
-  fiscalYear: number,
-  fiscalQuarter: number,
-  propertyName: string
-): Result {
-  let quarters
-  const yearQuarter = new YearQuarter(fiscalYear, fiscalQuarter)
-  const cached = QuarterCache.get(ticker, yearQuarter)
-  if (cached) {
-    quarters = cached
-  } else {
-    const [from, to] = yearQuarterRangeOf(yearQuarter)
-    const quarterResponse = client.quarter(ticker, from, to)
-    if (!quarterResponse[ticker]) {
-      throw new ApiResponseError()
-    }
-    quarters = quarterResponse[ticker]
-    QuarterCache.put(ticker, yearQuarter, quarters)
-  }
-
-  const targetQuarter = quarters.filter(q => {
-    return (
-      q['fiscal_year'] === fiscalYear && q['fiscal_quarter'] === fiscalQuarter
-    )
-  })
-  if (!targetQuarter.length) {
-    throw new ApiResponseError()
-  }
-
-  const value = targetQuarter[0][propertyName]
-  const unit = QuarterProperty.unitOf(propertyName)
-
-  return new Result(value, unit)
-}
-
-function bcodeIndicator(
-  client: BuffettCodeApiClientV2,
-  ticker: string,
-  propertyName: string
-): Result {
-  let indicator
-  const cached = IndicatorCache.get(ticker)
-  if (cached) {
-    indicator = cached
-  } else {
-    const indicatorResponse = client.indicator(ticker)
-
-    if (!indicatorResponse[ticker] || !indicatorResponse[ticker][0]) {
-      throw new ApiResponseError()
-    }
-
-    indicator = indicatorResponse[ticker]
-    IndicatorCache.put(ticker, indicator)
-  }
-
-  const value = indicator[0][propertyName] // NOTE: indicatorは常に1つ
-  const unit = IndicatorProperty.unitOf(propertyName)
-  return new Result(value, unit)
-}
 
 function validate(
   ticker: string,

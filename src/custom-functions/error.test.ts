@@ -1,4 +1,4 @@
-import { ApiResponseError } from './bcode'
+import { ApiResponseError } from './error'
 
 test('ApiResponseError', () => {
   const error = new ApiResponseError()
