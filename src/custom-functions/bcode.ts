@@ -1,10 +1,10 @@
-import { BuffettCodeApiClientV2, HttpError } from './client'
-import { IndicatorProperty } from './indicator-property'
-import { QuarterProperty } from './quarter-property'
-import { Result } from './result'
-import { Setting } from './setting'
-import { yearQuarterRangeOf } from './util'
-import { YearQuarter } from './year-quarter'
+import { BuffettCodeApiClientV2, HttpError } from '../client'
+import { IndicatorProperty } from '../indicator-property'
+import { QuarterProperty } from '../quarter-property'
+import { Result } from '../result'
+import { Setting } from '../setting'
+import { yearQuarterRangeOf } from '../util'
+import { YearQuarter } from '../year-quarter'
 
 export class ApiResponseError implements Error {
   public name = 'ApiResponseError'

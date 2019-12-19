@@ -1,4 +1,4 @@
-import { ApiResponseError } from './custom-function'
+import { ApiResponseError } from './bcode'
 
 test('ApiResponseError', () => {
   const error = new ApiResponseError()

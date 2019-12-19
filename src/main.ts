@@ -1,6 +1,6 @@
 import { createAddonMenu, showSettingSidebar } from './menu'
 import { Setting } from './setting'
-import { bCode } from './custom-function'
+import { bCode } from './custom-functions/bcode'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const global: any
