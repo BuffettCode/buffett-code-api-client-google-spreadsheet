@@ -1,4 +1,5 @@
 import { BuffettCodeApiClientV2, HttpError } from '../client'
+import { IndicatorCache } from '../indicator-cache'
 import { IndicatorProperty } from '../indicator-property'
 import { QuarterProperty } from '../quarter-property'
 import { Result } from '../result'
@@ -49,9 +50,18 @@ function bcodeIndicator(
   ticker: string,
   propertyName: string
 ): Result {
-  const indicator = client.indicator(ticker)
-  if (!indicator[ticker] || !indicator[ticker][0]) {
-    throw new ApiResponseError()
+  let indicator
+  const cached = IndicatorCache.get(ticker)
+  if (cached) {
+    indicator = cached
+  } else {
+    indicator = client.indicator(ticker)
+
+    if (!indicator[ticker] || !indicator[ticker][0]) {
+      throw new ApiResponseError()
+    }
+
+    IndicatorCache.put(ticker, indicator)
   }
 
   const value = indicator[ticker][0][propertyName] // TODO
