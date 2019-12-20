@@ -15,3 +15,7 @@ test('shift', () => {
 test('toString', () => {
   expect(new YearQuarter(2018, 3).toString()).toBe('2018Q3')
 })
+
+test('parse', () => {
+  expect(YearQuarter.parse('2018Q3').toString()).toBe('2018Q3')
+})

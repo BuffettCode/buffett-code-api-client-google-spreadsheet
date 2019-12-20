@@ -1,8 +1,13 @@
-import { createAddonMenu, showSettingSidebar } from './menu'
-import { Setting } from './setting'
+import { CsvExporter } from './csv-exporter'
 import { bcode } from './custom-functions/bcode'
 import { bcodeLabel } from './custom-functions/bcode-label'
 import { bcodeUnit } from './custom-functions/bcode-unit'
+import {
+  createAddonMenu,
+  showCsvExportDialog,
+  showSettingSidebar
+} from './menu'
+import { Setting } from './setting'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const global: any
@@ -20,6 +25,7 @@ global.onInstall = (): void => {
 }
 
 /* gui */
+global.showCsvExportDialog_ = showCsvExportDialog
 global.showSettingSidebar_ = showSettingSidebar
 
 /* gui functions */
@@ -30,6 +36,15 @@ global.saveSetting = (token: string): void => {
   const setting = Setting.load()
   setting.token = token
   setting.save()
+}
+global.exportCsv = (ticker: string, from: string, to: string): void => {
+  try {
+    CsvExporter.exportCsv(ticker, from, to)
+  } catch (e) {
+    Logger.log(e.message)
+    const ui = SpreadsheetApp.getUi()
+    ui.alert('エラーが発生しました', e.message, ui.ButtonSet.OK)
+  }
 }
 
 /* custom functions */

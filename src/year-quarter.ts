@@ -19,4 +19,11 @@ export class YearQuarter {
   public toString(): string {
     return this.year + 'Q' + this.quarter
   }
+
+  static parse(str: string): YearQuarter {
+    const [yearString, quarterString] = str.split('Q')
+    const year = parseInt(yearString, 10)
+    const quarter = parseInt(quarterString, 10)
+    return new YearQuarter(year, quarter)
+  }
 }
