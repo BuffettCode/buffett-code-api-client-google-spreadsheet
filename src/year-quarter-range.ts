@@ -19,4 +19,9 @@ export class YearQuarterRange {
     }
     return yearQuarters
   }
+
+  // 3年間分(=12四半期分)の範囲を取得する
+  static defaultRangeOf(yearQuarter: YearQuarter): [YearQuarter, YearQuarter] {
+    return [yearQuarter.shift(-10), yearQuarter.shift(1)]
+  }
 }

@@ -3,7 +3,7 @@ import { BuffettCodeApiClientV2 } from '../client'
 import { QuarterCache } from '../quarter-cache'
 import { QuarterProperty } from '../quarter-property'
 import { Result } from '../result'
-import { yearQuarterRangeOf } from '../util'
+import { YearQuarterRange } from '../year-quarter-range'
 import { YearQuarter } from '../year-quarter'
 
 export function bcodeQuarter(
@@ -19,7 +19,7 @@ export function bcodeQuarter(
   if (cached) {
     quarter = cached
   } else {
-    const [from, to] = yearQuarterRangeOf(yearQuarter)
+    const [from, to] = YearQuarterRange.defaultRangeOf(yearQuarter)
     const quarterResponse = client.quarter(ticker, from, to)
     if (!quarterResponse[ticker]) {
       throw new ApiResponseError()
