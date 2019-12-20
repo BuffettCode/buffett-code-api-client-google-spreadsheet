@@ -31,7 +31,7 @@
     "update-api-json:quarter": "echo 'module.exports =' > src/data/v2-quarter.js && curl 'http://docs.buffett-code.com/v2-quarter.json' >> src/data/v2-quarter.js",
     "update-api-json:indicator": "echo 'module.exports =' > src/data/v2-indicator.js && curl 'http://docs.buffett-code.com/v2-indicator.json' >> src/data/v2-indicator.js",
     "prebuild": "rimraf dist",
-    "build": "cpx appsscript.json dist && cpx src/*.html dist && webpack",
+    "build": "cpx 'appsscript.json' 'dist' -v && cpx 'src/*.html' 'dist' -v && webpack",
     "watch": "webpack -w",
     "test": "jest",
     "deploy": "npm run build && clasp push"
