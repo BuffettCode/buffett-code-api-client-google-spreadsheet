@@ -34,7 +34,8 @@
     "prebuild": "rimraf dist",
     "build": "cpx 'appsscript.json' 'dist' -v && cpx 'src/*.html' 'dist' -v && webpack",
     "watch": "webpack -w",
-    "test": "jest",
+    "lint": "eslint src",
+    "test": "npm run lint && jest",
     "deploy": "npm run build && clasp push"
   },
   "repository": {
