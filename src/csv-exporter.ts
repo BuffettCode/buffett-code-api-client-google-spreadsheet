@@ -1,6 +1,8 @@
 import { BuffettCodeApiClientV2 } from './client'
 import { Setting } from './setting'
 import { YearQuarter } from './year-quarter'
+import { YearQuarterRange } from './year-quarter-range'
+import { QuarterCache } from './quarter-cache'
 import { QuarterProperty } from './quarter-property'
 
 export class CsvExporter {
@@ -12,15 +14,26 @@ export class CsvExporter {
     const fromYearQuarter = YearQuarter.parse(from)
     const toYearQuarter = YearQuarter.parse(to)
 
-    const setting = Setting.load()
-    const client = new BuffettCodeApiClientV2(setting.token)
-    const res = client.quarter(ticker, fromYearQuarter, toYearQuarter)
+    const range = YearQuarterRange.range(fromYearQuarter, toYearQuarter)
+    const allCached = range.map(q => QuarterCache.get(ticker, q))
 
-    if (!res[ticker] || !res[ticker].length) {
-      throw new Error('<<指定されたデータを取得できませんでした>>')
+    let quarters
+    if (allCached.every(cached => cached)) {
+      quarters = allCached
+    } else {
+      const setting = Setting.load()
+      const client = new BuffettCodeApiClientV2(setting.token)
+      const res = client.quarter(ticker, fromYearQuarter, toYearQuarter)
+
+      if (!res[ticker] || !res[ticker].length) {
+        throw new Error('<<指定されたデータを取得できませんでした>>')
+      }
+
+      quarters = res[ticker]
+      QuarterCache.putAll(ticker, quarters)
     }
 
-    const quarters = res[ticker].slice().sort((a, b) => {
+    const sortedQuarters = quarters.slice().sort((a, b) => {
       const labelA = `${a['fiscal_year']}Q${a['fiscal_quarter']}`
       const labelB = `${b['fiscal_year']}Q${b['fiscal_quarter']}`
       if (labelA > labelB) {
@@ -32,12 +45,12 @@ export class CsvExporter {
       }
     })
 
-    const quarterLabels = quarters.map(
+    const quarterLabels = sortedQuarters.map(
       quarter => `${quarter['fiscal_year']}Q${quarter['fiscal_quarter']}`
     )
     const header = [['キー', '項目名', '単位', ...quarterLabels]]
     const values = QuarterProperty.names.map(name => {
-      const data = quarters.map(quarter => quarter[name])
+      const data = sortedQuarters.map(quarter => quarter[name])
       return [
         name,
         QuarterProperty.labelOf(name),
