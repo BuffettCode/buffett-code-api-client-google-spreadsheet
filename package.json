@@ -47,7 +47,15 @@
     "postdeploy:dev": "npm run switch:local",
     "predeploy:prod": "npm run switch:prod",
     "deploy:prod": "npm run build && clasp push",
-    "postdeploy:prod": "npm run switch:local"
+    "postdeploy:prod": "npm run switch:local",
+    "open": "npm run open:local",
+    "open:local": "clasp open",
+    "preopen:dev": "npm run switch:dev",
+    "open:dev": "clasp open",
+    "postopen:dev": "npm run switch:local",
+    "preopen:prod": "npm run switch:prod",
+    "open:prod": "clasp open",
+    "postopen:prod": "npm run switch:local"
   },
   "repository": {
     "type": "git",
