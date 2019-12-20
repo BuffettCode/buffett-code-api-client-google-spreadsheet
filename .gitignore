@@ -83,3 +83,4 @@ typings/
 # Project specific
 dist/
 .clasp.json
+.clasp.*.json

@@ -19,8 +19,21 @@ npm test
 
 ## Deploy
 
+Prepare the following files:
+- `.clasp.json'
+- `.clasp.local.json'
+- `.clasp.dev.json'   # correspond to develop branch
+- `.clasp.prod.json'  # correspond to master branch
+
 ```sh
-npm run deploy
+# deploy to local environment
+npm run deploy # or npm run deploy:local
+
+# deploy to dev environment
+npm run deploy:dev
+
+# deploy to prod environment
+npm run deploy:prod
 ```
 
 ## Update api JSON files

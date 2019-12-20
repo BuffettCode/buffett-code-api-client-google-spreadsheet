@@ -17,6 +17,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "gas-webpack-plugin": "^1.0.2",
     "jest": "^24.9.0",
+    "json": "^9.0.6",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "ts-jest": "^24.2.0",
@@ -36,7 +37,17 @@
     "watch": "webpack -w",
     "lint": "eslint src",
     "test": "npm run lint && jest",
-    "deploy": "npm run build && clasp push"
+    "switch:local": "clasp setting scriptId `cat .clasp.local.json | json scriptId` > /dev/null",
+    "switch:dev": "clasp setting scriptId `cat .clasp.dev.json | json scriptId` > /dev/null",
+    "switch:prod": "clasp setting scriptId `cat .clasp.prod.json | json scriptId` > /dev/null",
+    "deploy": "npm run deploy:local",
+    "deploy:local": "npm run build && clasp push",
+    "predeploy:dev": "npm run switch:dev",
+    "deploy:dev": "npm run build && clasp push",
+    "postdeploy:dev": "npm run switch:local",
+    "predeploy:prod": "npm run switch:prod",
+    "deploy:prod": "npm run build && clasp push",
+    "postdeploy:prod": "npm run switch:local"
   },
   "repository": {
     "type": "git",
