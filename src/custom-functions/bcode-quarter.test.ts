@@ -16,9 +16,7 @@ test('bcodeQuarter (uncached)', () => {
   const result = bcodeQuarter(client, ticker, 2018, 1, 'net_sales')
 
   expect(result).toEqual(new Result(12513000000.0, '百万円'))
-  expect(QuarterCache.get(ticker, yearQuarter)[0]['net_sales']).toBe(
-    12513000000.0
-  )
+  expect(QuarterCache.get(ticker, yearQuarter)['net_sales']).toBe(12513000000.0)
 })
 
 test('bcodeQuarter (cached)', () => {
@@ -30,7 +28,5 @@ test('bcodeQuarter (cached)', () => {
   const result = bcodeQuarter(client, ticker, 2018, 1, 'net_sales')
 
   expect(result).toEqual(new Result(12513000000.0, '百万円'))
-  expect(QuarterCache.get(ticker, yearQuarter)[0]['net_sales']).toBe(
-    12513000000.0
-  )
+  expect(QuarterCache.get(ticker, yearQuarter)['net_sales']).toBe(12513000000.0)
 })

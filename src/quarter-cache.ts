@@ -24,12 +24,25 @@ export class QuarterCache {
 
   static put(
     ticker: string,
-    yearQuarter: YearQuarter,
-    quarters: object[],
+    quarter: object,
     expirationInSeconds = 21600
   ): void {
     const cache = CacheService.getUserCache()
+    const yearQuarter = new YearQuarter(
+      quarter['fiscal_year'],
+      quarter['fiscal_quarter']
+    )
     const key = QuarterCache.key(ticker, yearQuarter)
-    cache.put(key, JSON.stringify(quarters), expirationInSeconds)
+    cache.put(key, JSON.stringify(quarter), expirationInSeconds)
+  }
+
+  static putAll(
+    ticker: string,
+    quarters: object[],
+    expirationInSeconds = 21600
+  ): void {
+    quarters.forEach(quarter =>
+      QuarterCache.put(ticker, quarter, expirationInSeconds)
+    )
   }
 }

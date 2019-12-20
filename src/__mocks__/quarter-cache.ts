@@ -8,11 +8,13 @@ export class QuarterCache {
     return cached === undefined ? null : cached
   }
 
-  static put(
-    ticker: string,
-    yearQuarter: YearQuarter,
-    indicator: object[]
-  ): void {
-    QuarterCache.cache[`${ticker}-${yearQuarter}`] = indicator
+  static put(ticker: string, quarter: object): void {
+    QuarterCache.cache[
+      `${ticker}-${quarter['fiscal_year']}Q${quarter['fiscal_quarter']}`
+    ] = quarter
+  }
+
+  static putAll(ticker: string, quarters: object[]): void {
+    quarters.forEach(quarter => QuarterCache.put(ticker, quarter))
   }
 }

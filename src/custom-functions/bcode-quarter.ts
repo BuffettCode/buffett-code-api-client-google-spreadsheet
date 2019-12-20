@@ -13,31 +13,32 @@ export function bcodeQuarter(
   fiscalQuarter: number,
   propertyName: string
 ): Result {
-  let quarters
+  let quarter
   const yearQuarter = new YearQuarter(fiscalYear, fiscalQuarter)
   const cached = QuarterCache.get(ticker, yearQuarter)
   if (cached) {
-    quarters = cached
+    quarter = cached
   } else {
     const [from, to] = yearQuarterRangeOf(yearQuarter)
     const quarterResponse = client.quarter(ticker, from, to)
     if (!quarterResponse[ticker]) {
       throw new ApiResponseError()
     }
-    quarters = quarterResponse[ticker]
-    QuarterCache.put(ticker, yearQuarter, quarters)
+    const quarters = quarterResponse[ticker]
+    QuarterCache.putAll(ticker, quarters)
+
+    const filtered = quarters.filter(q => {
+      return (
+        q['fiscal_year'] === fiscalYear && q['fiscal_quarter'] === fiscalQuarter
+      )
+    })
+    if (!filtered.length) {
+      throw new ApiResponseError()
+    }
+    quarter = filtered[0]
   }
 
-  const targetQuarter = quarters.filter(q => {
-    return (
-      q['fiscal_year'] === fiscalYear && q['fiscal_quarter'] === fiscalQuarter
-    )
-  })
-  if (!targetQuarter.length) {
-    throw new ApiResponseError()
-  }
-
-  const value = targetQuarter[0][propertyName]
+  const value = quarter[propertyName]
   const unit = QuarterProperty.unitOf(propertyName)
 
   return new Result(value, unit)
