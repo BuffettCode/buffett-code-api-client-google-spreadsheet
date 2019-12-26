@@ -20,10 +20,10 @@ npm test
 ## Deploy
 
 Prepare the following files:
-- `.clasp.json'
-- `.clasp.local.json'
-- `.clasp.dev.json'   # correspond to develop branch
-- `.clasp.prod.json'  # correspond to master branch
+- `.clasp.json`
+- `.clasp.local.json`
+- `.clasp.dev.json`   # correspond to develop branch
+- `.clasp.prod.json`  # correspond to master branch
 
 ```sh
 # deploy to local environment
