@@ -4,6 +4,7 @@ import { bcodeLabel } from './custom-functions/bcode-label'
 import { bcodeUnit } from './custom-functions/bcode-unit'
 import {
   createAddonMenu,
+  recalculateCustomFunctionCells,
   showCsvExportDialog,
   showSettingSidebar
 } from './menu'
@@ -26,6 +27,7 @@ global.onInstall = (): void => {
 
 /* gui */
 global.showCsvExportDialog_ = showCsvExportDialog
+global.reloadCustomFunctionCells_ = recalculateCustomFunctionCells
 global.showSettingSidebar_ = showSettingSidebar
 
 /* gui functions */
