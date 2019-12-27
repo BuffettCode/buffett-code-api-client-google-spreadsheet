@@ -1,5 +1,5 @@
-import { IndicatorProperty } from '../indicator-property'
-import { QuarterProperty } from '../quarter-property'
+import { IndicatorProperty } from '../api/indicator-property'
+import { QuarterProperty } from '../api/quarter-property'
 
 export function bcodeUnit(propertyName: string): string {
   if (!propertyName) {

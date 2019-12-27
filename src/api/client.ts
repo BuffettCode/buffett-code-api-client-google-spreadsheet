@@ -1,4 +1,4 @@
-import { YearQuarter } from './year-quarter'
+import { YearQuarter } from '../year-quarter'
 import { UrlBuilder } from './url-builder'
 
 export class HttpError implements Error {

@@ -1,6 +1,9 @@
+import { BuffettCodeApiClientV2 as BuffettCodeApiClientV2Mock } from '../__mocks__/api/client'
 import { QuarterCache as QuarterCacheMock } from '../__mocks__/services/quarter-cache'
 
-jest.mock('../client')
+jest.mock('../api/client', () => ({
+  BuffettCodeApiClientV2: BuffettCodeApiClientV2Mock
+}))
 jest.mock('../setting')
 jest.mock('./quarter-cache', () => ({
   __esModule: true,
@@ -9,7 +12,7 @@ jest.mock('./quarter-cache', () => ({
 
 import { CsvExporter } from './csv-exporter'
 import { QuarterCache } from './quarter-cache'
-import { QuarterProperty } from '../quarter-property'
+import { QuarterProperty } from '../api/quarter-property'
 import { YearQuarter } from '../year-quarter'
 
 test('generateData (uncached)', () => {

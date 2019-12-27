@@ -1,7 +1,7 @@
 import { ApiResponseError } from './error'
-import { BuffettCodeApiClientV2 } from '../client'
+import { BuffettCodeApiClientV2 } from '../api/client'
 import { IndicatorCache } from '../services/indicator-cache'
-import { IndicatorProperty } from '../indicator-property'
+import { IndicatorProperty } from '../api/indicator-property'
 import { Result } from '../result'
 
 export function bcodeIndicator(

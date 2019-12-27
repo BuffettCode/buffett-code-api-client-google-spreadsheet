@@ -1,4 +1,4 @@
-import * as v2quarter from './data/v2-quarter.js'
+import * as v2quarter from '../data/v2-quarter.js'
 
 export class QuarterProperty {
   static readonly names = Object.keys(v2quarter)

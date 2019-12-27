@@ -1,5 +1,5 @@
-import { default as indicator } from './fixtures/indicator.js'
-import { default as quarter } from './fixtures/quarter.js'
+import { default as indicator } from '../fixtures/indicator.js'
+import { default as quarter } from '../fixtures/quarter.js'
 
 export class BuffettCodeApiClientV2 {
   public mockIndicator = jest.fn()

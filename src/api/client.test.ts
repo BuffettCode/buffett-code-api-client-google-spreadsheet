@@ -1,5 +1,5 @@
 import { BuffettCodeApiClientV2, HttpError } from './client'
-import { YearQuarter } from './year-quarter'
+import { YearQuarter } from '../year-quarter'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const global: any

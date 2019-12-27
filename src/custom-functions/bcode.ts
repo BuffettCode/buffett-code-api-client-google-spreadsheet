@@ -1,9 +1,9 @@
 import { ApiResponseError } from './error'
 import { bcodeIndicator } from './bcode-indicator'
 import { bcodeQuarter } from './bcode-quarter'
-import { BuffettCodeApiClientV2, HttpError } from '../client'
-import { IndicatorProperty } from '../indicator-property'
-import { QuarterProperty } from '../quarter-property'
+import { BuffettCodeApiClientV2, HttpError } from '../api/client'
+import { IndicatorProperty } from '../api/indicator-property'
+import { QuarterProperty } from '../api/quarter-property'
 import { Result } from '../result'
 import { Setting } from '../setting'
 

@@ -1,4 +1,4 @@
-import * as v2indicator from './data/v2-indicator.js'
+import * as v2indicator from '../data/v2-indicator.js'
 
 export class IndicatorProperty {
   static readonly names = Object.keys(v2indicator)
