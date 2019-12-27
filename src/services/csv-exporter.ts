@@ -14,7 +14,7 @@ export class CsvExporter {
     const fromYearQuarter = YearQuarter.parse(from)
     const toYearQuarter = YearQuarter.parse(to)
 
-    const range = YearQuarterRange.range(fromYearQuarter, toYearQuarter)
+    const range = new YearQuarterRange(fromYearQuarter, toYearQuarter).range()
     const allCached = range.map(q => QuarterCache.get(ticker, q))
 
     let quarters
