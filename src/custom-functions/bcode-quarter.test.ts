@@ -1,9 +1,13 @@
+import { QuarterCache as QuarterCacheMock } from '../__mocks__/services/quarter-cache'
+
 jest.mock('../client')
-jest.mock('../quarter-cache')
+jest.mock('../services/quarter-cache', () => ({
+  QuarterCache: QuarterCacheMock
+}))
 
 import { bcodeQuarter } from './bcode-quarter'
 import { BuffettCodeApiClientV2 } from '../client'
-import { QuarterCache } from '../quarter-cache'
+import { QuarterCache } from '../services/quarter-cache'
 import { Result } from '../result'
 import { YearQuarter } from '../year-quarter'
 

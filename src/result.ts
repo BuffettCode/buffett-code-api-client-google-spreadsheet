@@ -1,4 +1,4 @@
-import { Formatter } from './formatter'
+import { Formatter } from './services/formatter'
 
 export class Result {
   constructor(public value: number | string | null, public unit: string) {}

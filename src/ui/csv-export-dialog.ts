@@ -1,4 +1,4 @@
-import { CsvExporter } from '../csv-exporter'
+import { CsvExporter } from '../services/csv-exporter'
 
 export function exportCsv(ticker: string, from: string, to: string): void {
   try {

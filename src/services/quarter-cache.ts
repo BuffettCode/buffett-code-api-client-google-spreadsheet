@@ -1,4 +1,4 @@
-import { YearQuarter } from './year-quarter'
+import { YearQuarter } from '../year-quarter'
 
 export class QuarterCache {
   static readonly prefix = 'quarter'

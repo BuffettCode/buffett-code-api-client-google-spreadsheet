@@ -1,9 +1,14 @@
+import { IndicatorCache as IndicatorCacheMock } from '../__mocks__/services/indicator-cache'
+
 jest.mock('../client')
-jest.mock('../indicator-cache')
+jest.mock('../services/indicator-cache', () => ({
+  __esModule: true,
+  IndicatorCache: IndicatorCacheMock
+}))
 
 import { bcodeIndicator } from './bcode-indicator'
 import { BuffettCodeApiClientV2 } from '../client'
-import { IndicatorCache } from '../indicator-cache'
+import { IndicatorCache } from '../services/indicator-cache'
 import { Result } from '../result'
 
 test('bcodeIndicator (uncached)', () => {

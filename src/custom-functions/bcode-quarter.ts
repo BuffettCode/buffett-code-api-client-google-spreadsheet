@@ -1,6 +1,6 @@
 import { ApiResponseError } from './error'
 import { BuffettCodeApiClientV2 } from '../client'
-import { QuarterCache } from '../quarter-cache'
+import { QuarterCache } from '../services/quarter-cache'
 import { QuarterProperty } from '../quarter-property'
 import { Result } from '../result'
 import { YearQuarterRange } from '../year-quarter-range'

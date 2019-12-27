@@ -1,6 +1,6 @@
 import { ApiResponseError } from './error'
 import { BuffettCodeApiClientV2 } from '../client'
-import { IndicatorCache } from '../indicator-cache'
+import { IndicatorCache } from '../services/indicator-cache'
 import { IndicatorProperty } from '../indicator-property'
 import { Result } from '../result'
 

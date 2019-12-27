@@ -1,4 +1,4 @@
-import { CellRecalculator } from '../cell-recalculator'
+import { CellRecalculator } from '../services/cell-recalculator'
 
 export function createAddonMenu(): void {
   const menu = SpreadsheetApp.getUi().createAddonMenu()

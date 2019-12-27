@@ -1,11 +1,16 @@
-jest.mock('./client')
-jest.mock('./setting')
-jest.mock('./quarter-cache')
+import { QuarterCache as QuarterCacheMock } from '../__mocks__/services/quarter-cache'
+
+jest.mock('../client')
+jest.mock('../setting')
+jest.mock('./quarter-cache', () => ({
+  __esModule: true,
+  QuarterCache: QuarterCacheMock
+}))
 
 import { CsvExporter } from './csv-exporter'
 import { QuarterCache } from './quarter-cache'
-import { QuarterProperty } from './quarter-property'
-import { YearQuarter } from './year-quarter'
+import { QuarterProperty } from '../quarter-property'
+import { YearQuarter } from '../year-quarter'
 
 test('generateData (uncached)', () => {
   const ticker = '2371'
