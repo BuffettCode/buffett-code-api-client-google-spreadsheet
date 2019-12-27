@@ -1,4 +1,3 @@
-import { CsvExporter } from './csv-exporter'
 import { bcode } from './custom-functions/bcode'
 import { bcodeLabel } from './custom-functions/bcode-label'
 import { bcodeUnit } from './custom-functions/bcode-unit'
@@ -7,7 +6,9 @@ import {
   recalculateCustomFunctionCells,
   showCsvExportDialog,
   showSettingSidebar
-} from './menu'
+} from './ui/menu'
+import { exportCsv } from './ui/csv-export-dialog'
+import { loadSetting, saveSetting } from './ui/setting-sidebar'
 import { Setting } from './setting'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,23 +32,9 @@ global.reloadCustomFunctionCells_ = recalculateCustomFunctionCells
 global.showSettingSidebar_ = showSettingSidebar
 
 /* gui functions */
-global.loadSetting = (): Setting => {
-  return Setting.load()
-}
-global.saveSetting = (token: string): void => {
-  const setting = Setting.load()
-  setting.token = token
-  setting.save()
-}
-global.exportCsv = (ticker: string, from: string, to: string): void => {
-  try {
-    CsvExporter.exportCsv(ticker, from, to)
-  } catch (e) {
-    Logger.log(e.message)
-    const ui = SpreadsheetApp.getUi()
-    ui.alert('エラーが発生しました', e.message, ui.ButtonSet.OK)
-  }
-}
+global.loadSetting = loadSetting
+global.saveSetting = saveSetting
+global.exportCsv = exportCsv
 
 /* custom functions */
 /**
