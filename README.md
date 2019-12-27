@@ -1,7 +1,7 @@
 buffett-code-api-client-google-spreadsheet
 ==========================================
 
-![Node CI](https://github.com/BuffettCode/buffett-code-api-client-google-spreadsheet/workflows/Node%20CI/badge.svg)
+[![Node CI](https://github.com/BuffettCode/buffett-code-api-client-google-spreadsheet/workflows/Node%20CI/badge.svg)](https://github.com/BuffettCode/buffett-code-api-client-google-spreadsheet/actions?query=workflow%3A%22Node+CI%22)
 
 ## Build
 
