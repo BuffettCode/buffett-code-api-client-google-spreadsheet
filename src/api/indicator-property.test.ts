@@ -10,7 +10,7 @@ test('isIndicatorProperty', () => {
   expect(IndicatorProperty.isIndicatorProperty('edinet_title')).toBeFalsy()
 
   expect(IndicatorProperty.isIndicatorProperty('stockprice')).toBeTruthy()
-  expect(IndicatorProperty.isIndicatorProperty('accrual')).toBeTruthy()
+  expect(IndicatorProperty.isIndicatorProperty('day')).toBeTruthy()
 })
 
 test('unitOf', () => {
@@ -20,7 +20,7 @@ test('unitOf', () => {
   expect(IndicatorProperty.unitOf('edinet_title')).toBeNull()
 
   expect(IndicatorProperty.unitOf('stockprice')).toBe('円')
-  expect(IndicatorProperty.unitOf('accrual')).toBe('百万円')
+  expect(IndicatorProperty.unitOf('day')).toBe('なし')
 })
 
 test('labelOf', () => {
@@ -30,5 +30,5 @@ test('labelOf', () => {
   expect(IndicatorProperty.labelOf('edinet_title')).toBeNull()
 
   expect(IndicatorProperty.labelOf('stockprice')).toBe('株価')
-  expect(IndicatorProperty.labelOf('accrual')).toBe('アクルーアル')
+  expect(IndicatorProperty.labelOf('day')).toBe('日時')
 })

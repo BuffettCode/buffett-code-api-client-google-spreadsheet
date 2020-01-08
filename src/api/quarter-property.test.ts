@@ -10,7 +10,7 @@ test('isQuarterProperty', () => {
   expect(QuarterProperty.isQuarterProperty('edinet_title')).toBeTruthy()
 
   expect(QuarterProperty.isQuarterProperty('stockprice')).toBeFalsy()
-  expect(QuarterProperty.isQuarterProperty('accrual')).toBeFalsy()
+  expect(QuarterProperty.isQuarterProperty('day')).toBeFalsy()
 })
 
 test('unitOf', () => {
@@ -20,7 +20,7 @@ test('unitOf', () => {
   expect(QuarterProperty.unitOf('edinet_title')).toBe('なし')
 
   expect(QuarterProperty.unitOf('stockprice')).toBeNull()
-  expect(QuarterProperty.unitOf('accrual')).toBeNull()
+  expect(QuarterProperty.unitOf('day')).toBeNull()
 })
 
 test('labelOf', () => {
@@ -30,5 +30,5 @@ test('labelOf', () => {
   expect(QuarterProperty.labelOf('edinet_title')).toBe('edinet開示資料名')
 
   expect(QuarterProperty.labelOf('stockprice')).toBeNull()
-  expect(QuarterProperty.labelOf('accrual')).toBeNull()
+  expect(QuarterProperty.labelOf('day')).toBeNull()
 })

@@ -27,11 +27,10 @@
     "webpack-cli": "^3.3.10"
   },
   "scripts": {
-    "preupdate-api-json": "mkdir -p src/data",
     "update-api-json": "npm run update-api-json:quarter && npm run update-api-json:indicator",
-    "postupdate-api-json": "prettier --write src/data/*.js",
-    "update-api-json:quarter": "echo 'module.exports =' > src/data/v2-quarter.js && curl 'http://docs.buffett-code.com/v2-quarter.json' >> src/data/v2-quarter.js",
-    "update-api-json:indicator": "echo 'module.exports =' > src/data/v2-indicator.js && curl 'http://docs.buffett-code.com/v2-indicator.json' >> src/data/v2-indicator.js",
+    "postupdate-api-json": "prettier --write src/__mocks__/fixtures/*.js",
+    "update-api-json:quarter": "echo 'module.exports =' > src/__mocks__/fixtures/quarter-property.js && curl 'http://docs.buffett-code.com/v2-quarter.json' >> src/__mocks__/fixtures/quarter-property.js",
+    "update-api-json:indicator": "echo 'module.exports =' > src/__mocks__/fixtures/indicator-property.js && curl 'http://docs.buffett-code.com/v2-indicator.json' >> src/__mocks__/fixtures/indicator-property.js",
     "prebuild": "rimraf dist",
     "build": "cpx 'appsscript.json' 'dist' -v && cpx 'src/ui/*.html' 'dist' -v && webpack",
     "watch": "webpack -w",

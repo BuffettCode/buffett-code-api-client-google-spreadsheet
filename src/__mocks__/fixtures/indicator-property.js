@@ -1,4 +1,3 @@
-/* eslint @typescript-eslint/camelcase: 0 */
 module.exports = {
   stockprice: {
     name_jp: '株価',
