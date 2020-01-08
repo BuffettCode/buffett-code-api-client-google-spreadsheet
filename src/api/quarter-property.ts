@@ -1,18 +1,27 @@
-import * as v2quarter from '../data/v2-quarter.js'
-
 export class QuarterProperty {
-  static readonly names = Object.keys(v2quarter)
+  static readonly url = 'http://docs.buffett-code.com/v2-quarter.json'
 
   private constructor() {
     //
   }
 
+  protected static fetch(): object {
+    const res = UrlFetchApp.fetch(QuarterProperty.url)
+    return JSON.parse(res.getContentText())
+  }
+
+  static names(): string[] {
+    const properties = QuarterProperty.fetch()
+    return Object.keys(properties)
+  }
+
   static isQuarterProperty(name: string): boolean {
-    return QuarterProperty.names.indexOf(name) >= 0
+    return QuarterProperty.names().indexOf(name) >= 0
   }
 
   static unitOf(name: string): string | null {
-    const property = v2quarter[name]
+    const properties = QuarterProperty.fetch()
+    const property = properties[name]
     if (!property) {
       return null
     }
@@ -21,7 +30,8 @@ export class QuarterProperty {
   }
 
   static labelOf(name: string): string | null {
-    const property = v2quarter[name]
+    const properties = QuarterProperty.fetch()
+    const property = properties[name]
     if (!property) {
       return null
     }

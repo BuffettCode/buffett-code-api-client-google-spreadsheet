@@ -35,9 +35,3 @@ npm run deploy:dev
 # deploy to prod environment
 npm run deploy:prod
 ```
-
-## Update api JSON files
-
-```sh
-npm run update-api-json
-```

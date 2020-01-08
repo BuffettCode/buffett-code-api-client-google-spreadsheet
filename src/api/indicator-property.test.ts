@@ -1,6 +1,11 @@
 import { IndicatorProperty } from './indicator-property'
+import { useMockFetchApp } from './test-helper'
+
+import { default as indicator } from '../__mocks__/fixtures/indicator-property'
 
 test('isIndicatorProperty', () => {
+  useMockFetchApp(200, JSON.stringify(indicator))
+
   expect(IndicatorProperty.isIndicatorProperty('company_name')).toBeFalsy()
   expect(IndicatorProperty.isIndicatorProperty('edinet_title')).toBeFalsy()
 
@@ -9,6 +14,8 @@ test('isIndicatorProperty', () => {
 })
 
 test('unitOf', () => {
+  useMockFetchApp(200, JSON.stringify(indicator))
+
   expect(IndicatorProperty.unitOf('company_name')).toBeNull()
   expect(IndicatorProperty.unitOf('edinet_title')).toBeNull()
 
@@ -17,6 +24,8 @@ test('unitOf', () => {
 })
 
 test('labelOf', () => {
+  useMockFetchApp(200, JSON.stringify(indicator))
+
   expect(IndicatorProperty.labelOf('company_name')).toBeNull()
   expect(IndicatorProperty.labelOf('edinet_title')).toBeNull()
 

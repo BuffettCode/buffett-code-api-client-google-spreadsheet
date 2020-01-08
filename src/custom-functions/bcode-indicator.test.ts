@@ -1,5 +1,6 @@
 import { BuffettCodeApiClientV2 as BuffettCodeApiClientV2Mock } from '../__mocks__/api/client'
 import { IndicatorCache as IndicatorCacheMock } from '../__mocks__/services/indicator-cache'
+import { IndicatorProperty as IndicatorPropertyMock } from '../__mocks__/api/indicator-property'
 
 jest.mock('../api/client', () => ({
   BuffettCodeApiClientV2: BuffettCodeApiClientV2Mock
@@ -7,6 +8,9 @@ jest.mock('../api/client', () => ({
 jest.mock('../services/indicator-cache', () => ({
   __esModule: true,
   IndicatorCache: IndicatorCacheMock
+}))
+jest.mock('../api/indicator-property', () => ({
+  IndicatorProperty: IndicatorPropertyMock
 }))
 
 import { bcodeIndicator } from './bcode-indicator'

@@ -49,7 +49,7 @@ export class CsvExporter {
       quarter => `${quarter['fiscal_year']}Q${quarter['fiscal_quarter']}`
     )
     const header = [['キー', '項目名', '単位', ...quarterLabels]]
-    const values = QuarterProperty.names.map(name => {
+    const values = QuarterProperty.names().map(name => {
       const data = sortedQuarters.map(quarter => quarter[name])
       return [
         name,

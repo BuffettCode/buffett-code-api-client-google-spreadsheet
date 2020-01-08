@@ -1,5 +1,6 @@
 import { BuffettCodeApiClientV2 as BuffettCodeApiClientV2Mock } from '../__mocks__/api/client'
 import { QuarterCache as QuarterCacheMock } from '../__mocks__/services/quarter-cache'
+import { QuarterProperty as QuarterPropertyMock } from '../__mocks__/api/quarter-property'
 
 jest.mock('../api/client', () => ({
   BuffettCodeApiClientV2: BuffettCodeApiClientV2Mock
@@ -8,6 +9,9 @@ jest.mock('../setting')
 jest.mock('./quarter-cache', () => ({
   __esModule: true,
   QuarterCache: QuarterCacheMock
+}))
+jest.mock('../api/quarter-property', () => ({
+  QuarterProperty: QuarterPropertyMock
 }))
 
 import { CsvExporter } from './csv-exporter'
@@ -23,7 +27,7 @@ test('generateData (uncached)', () => {
 
   const data = CsvExporter.generateData(ticker, from, to)
 
-  expect(data.length).toBe(QuarterProperty.names.length + 1)
+  expect(data.length).toBe(QuarterProperty.names().length + 1)
   expect(data[0].length).toBe(3 + 1)
   expect(data[0]).toEqual(['キー', '項目名', '単位', from])
   expect(data[1]).toEqual(['fiscal_year', '会計年度', 'なし', 2018.0])
@@ -41,7 +45,7 @@ test('generateData (cached)', () => {
 
   const data = CsvExporter.generateData(ticker, from, to)
 
-  expect(data.length).toBe(QuarterProperty.names.length + 1)
+  expect(data.length).toBe(QuarterProperty.names().length + 1)
   expect(data[0].length).toBe(3 + 1)
   expect(data[0]).toEqual(['キー', '項目名', '単位', from])
   expect(data[1]).toEqual(['fiscal_year', '会計年度', 'なし', 2018.0])

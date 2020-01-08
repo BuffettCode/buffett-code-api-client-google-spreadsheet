@@ -1,11 +1,15 @@
 import { BuffettCodeApiClientV2 as BuffettCodeApiClientV2Mock } from '../__mocks__/api/client'
 import { QuarterCache as QuarterCacheMock } from '../__mocks__/services/quarter-cache'
+import { QuarterProperty as QuarterPropertyMock } from '../__mocks__/api/quarter-property'
 
 jest.mock('../api/client', () => ({
   BuffettCodeApiClientV2: BuffettCodeApiClientV2Mock
 }))
 jest.mock('../services/quarter-cache', () => ({
   QuarterCache: QuarterCacheMock
+}))
+jest.mock('../api/quarter-property', () => ({
+  QuarterProperty: QuarterPropertyMock
 }))
 
 import { bcodeQuarter } from './bcode-quarter'

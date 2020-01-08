@@ -1,31 +1,6 @@
 import { BuffettCodeApiClientV2, HttpError } from './client'
 import { YearQuarter } from '../year-quarter'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare const global: any
-
-// FIXME: Mockの型がみつからない
-/* eslint @typescript-eslint/no-explicit-any: 0 */
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function useMockFetchApp(responseCode: number, contentText: string) {
-  const mockGetResponseCode = jest.fn()
-  mockGetResponseCode.mockReturnValue(responseCode)
-
-  const mockGetContentText = jest.fn()
-  mockGetContentText.mockReturnValue(contentText)
-
-  const mockFetch = jest.fn()
-  mockFetch.mockReturnValue({
-    getResponseCode: mockGetResponseCode,
-    getContentText: mockGetContentText
-  })
-
-  global.UrlFetchApp = {
-    fetch: mockFetch
-  }
-
-  return mockFetch
-}
+import { useMockFetchApp } from './test-helper'
 
 test('HttpError', () => {
   const res = useMockFetchApp(403, '{"message": "Forbidden"}')()
@@ -65,33 +40,27 @@ test('request', () => {
   })
 })
 
-test('request when error', () => {
-  const mockGetResponseCode = jest.fn()
-  mockGetResponseCode
-    .mockReturnValueOnce(200)
-    .mockReturnValueOnce(403)
-    .mockReturnValue(503)
-
-  const mockGetContentText = jest.fn()
-  mockGetContentText
-    .mockReturnValueOnce(
-      '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
-    )
-    .mockReturnValueOnce('{"message": "Forbidden"}')
-    .mockReturnValue('{"message": "Service Unavailable"}')
-
-  global.UrlFetchApp = {
-    fetch: (): object => {
-      return {
-        getResponseCode: mockGetResponseCode,
-        getContentText: mockGetContentText
-      }
-    }
-  }
+test('request when testing apikey error', () => {
+  useMockFetchApp(
+    200,
+    '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
+  )
 
   const request = BuffettCodeApiClientV2['request']
   expect(() => request('http://example.com')).toThrow(HttpError)
+})
+
+test('request when 403 error', () => {
+  useMockFetchApp(403, '{"message": "Forbidden"}')
+
+  const request = BuffettCodeApiClientV2['request']
   expect(() => request('http://example.com')).toThrow(HttpError)
+})
+
+test('request when 503 error', () => {
+  useMockFetchApp(503, '{"message": "Service Unavailable"}')
+
+  const request = BuffettCodeApiClientV2['request']
   expect(() => request('http://example.com')).toThrow(HttpError)
   try {
     request('http://example.com')

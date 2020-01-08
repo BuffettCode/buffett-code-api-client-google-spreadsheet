@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/camelcase: 0 */
 module.exports = {
   fiscal_year: {
     name_jp: '会計年度',
