@@ -29,16 +29,6 @@ function validate(
   if (!isQuarterProperty && !isIndicatorProperty) {
     throw new Error(`<<指定された項目が見つかりません: ${propertyName}>>`)
   }
-
-  if (isQuarterProperty) {
-    if (!fiscalYear) {
-      throw new Error('<<fiscalYearが有効ではありません>>')
-    }
-
-    if (!fiscalQuarter) {
-      throw new Error('<<fiscalQuarterが有効ではありません>>')
-    }
-  }
 }
 
 // TODO: エラーハンドリングの改善
@@ -59,11 +49,9 @@ export function bcode(
 
   const client = new BuffettCodeApiClientV2(setting.token)
 
-  const isQuarterProperty = QuarterProperty.isQuarterProperty(propertyName)
-
   try {
     let result: Result
-    if (isQuarterProperty) {
+    if (fiscalYear && fiscalQuarter) {
       result = bcodeQuarter(
         client,
         ticker,
