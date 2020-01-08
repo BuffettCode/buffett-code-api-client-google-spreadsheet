@@ -34,7 +34,7 @@
     "prebuild": "rimraf dist",
     "build": "cpx 'appsscript.json' 'dist' -v && cpx 'src/ui/*.html' 'dist' -v && webpack",
     "watch": "webpack -w",
-    "lint": "eslint src",
+    "lint": "eslint 'src/**/*.ts'",
     "test": "npm run lint && jest",
     "switch:local": "cp .clasp.local.json .clasp.json",
     "switch:dev": "cp .clasp.dev.json .clasp.json",
