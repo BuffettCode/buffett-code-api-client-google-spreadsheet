@@ -1,12 +1,7 @@
-import { BuffettCodeApiClientV2, HttpError } from './client'
+import { BuffettCodeApiClientV2 } from './client'
+import { HttpError } from './http-error'
 import { YearQuarter } from '../year-quarter'
 import { useMockFetchApp } from './test-helper'
-
-test('HttpError', () => {
-  const res = useMockFetchApp(403, '{"message": "Forbidden"}')()
-  const error = new HttpError(res)
-  expect(error instanceof HttpError).toBeTruthy()
-})
 
 test('HttpError#isInvalidTestingRequest', () => {
   const res1 = useMockFetchApp(
