@@ -6,21 +6,21 @@ export class IndicatorProperty {
   }
 
   protected static fetch(): object {
-    const res = UrlFetchApp.fetch(IndicatorProperty.url)
+    const res = UrlFetchApp.fetch(this.url)
     return JSON.parse(res.getContentText())
   }
 
   static names(): string[] {
-    const properties = IndicatorProperty.fetch()
+    const properties = this.fetch()
     return Object.keys(properties)
   }
 
   static isIndicatorProperty(name: string): boolean {
-    return IndicatorProperty.names().indexOf(name) >= 0
+    return this.names().indexOf(name) >= 0
   }
 
   static unitOf(name: string): string | null {
-    const properties = IndicatorProperty.fetch()
+    const properties = this.fetch()
     const property = properties[name]
     if (!property) {
       return null
@@ -30,7 +30,7 @@ export class IndicatorProperty {
   }
 
   static labelOf(name: string): string | null {
-    const properties = IndicatorProperty.fetch()
+    const properties = this.fetch()
     const property = properties[name]
     if (!property) {
       return null

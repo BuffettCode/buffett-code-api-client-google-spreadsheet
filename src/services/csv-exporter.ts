@@ -71,7 +71,7 @@ export class CsvExporter {
       throw new Error('<<期間が有効ではありません>>')
     }
 
-    const data = CsvExporter.generateData(ticker, from, to)
+    const data = this.generateData(ticker, from, to)
 
     const numRows = data.length
     const numColumns = data[0].length

@@ -13,7 +13,7 @@ export class QuarterCache {
 
   static get(ticker: string, yearQuarter: YearQuarter): object[] | null {
     const cache = CacheService.getUserCache()
-    const key = QuarterCache.key(ticker, yearQuarter)
+    const key = this.key(ticker, yearQuarter)
     const cached = cache.get(key)
     if (!cached) {
       return null
@@ -32,7 +32,7 @@ export class QuarterCache {
       quarter['fiscal_year'],
       quarter['fiscal_quarter']
     )
-    const key = QuarterCache.key(ticker, yearQuarter)
+    const key = this.key(ticker, yearQuarter)
     cache.put(key, JSON.stringify(quarter), expirationInSeconds)
   }
 
@@ -41,8 +41,6 @@ export class QuarterCache {
     quarters: object[],
     expirationInSeconds = 21600
   ): void {
-    quarters.forEach(quarter =>
-      QuarterCache.put(ticker, quarter, expirationInSeconds)
-    )
+    quarters.forEach(quarter => this.put(ticker, quarter, expirationInSeconds))
   }
 }

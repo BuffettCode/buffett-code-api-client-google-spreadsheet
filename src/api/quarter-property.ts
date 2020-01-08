@@ -6,21 +6,21 @@ export class QuarterProperty {
   }
 
   protected static fetch(): object {
-    const res = UrlFetchApp.fetch(QuarterProperty.url)
+    const res = UrlFetchApp.fetch(this.url)
     return JSON.parse(res.getContentText())
   }
 
   static names(): string[] {
-    const properties = QuarterProperty.fetch()
+    const properties = this.fetch()
     return Object.keys(properties)
   }
 
   static isQuarterProperty(name: string): boolean {
-    return QuarterProperty.names().indexOf(name) >= 0
+    return this.names().indexOf(name) >= 0
   }
 
   static unitOf(name: string): string | null {
-    const properties = QuarterProperty.fetch()
+    const properties = this.fetch()
     const property = properties[name]
     if (!property) {
       return null
@@ -30,7 +30,7 @@ export class QuarterProperty {
   }
 
   static labelOf(name: string): string | null {
-    const properties = QuarterProperty.fetch()
+    const properties = this.fetch()
     const property = properties[name]
     if (!property) {
       return null
