@@ -1,7 +1,7 @@
 import { ApiResponseError } from './error'
 import { BuffettCodeApiClientV2 } from '../api/client'
 import { QuarterCache } from '../services/quarter-cache'
-import { QuarterProperty } from '../api/quarter-property'
+import { CachingQuarterProperty } from '../api/caching-quarter-property'
 import { Result } from '../result'
 import { YearQuarterRange } from '../year-quarter-range'
 import { YearQuarter } from '../year-quarter'
@@ -39,7 +39,7 @@ export function bcodeQuarter(
   }
 
   const value = quarter[propertyName]
-  const unit = QuarterProperty.unitOf(propertyName)
+  const unit = CachingQuarterProperty.unitOf(propertyName)
 
   return new Result(value, unit)
 }

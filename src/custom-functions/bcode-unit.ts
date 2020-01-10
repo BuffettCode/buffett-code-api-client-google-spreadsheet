@@ -1,12 +1,14 @@
 import { CachingIndicatorProperty } from '../api/caching-indicator-property'
-import { QuarterProperty } from '../api/quarter-property'
+import { CachingQuarterProperty } from '../api/caching-quarter-property'
 
 export function bcodeUnit(propertyName: string): string {
   if (!propertyName) {
     throw new Error('<<propertyNameが有効ではありません>>')
   }
 
-  const isQuarterProperty = QuarterProperty.isQuarterProperty(propertyName)
+  const isQuarterProperty = CachingQuarterProperty.isQuarterProperty(
+    propertyName
+  )
   const isIndicatorProperty = CachingIndicatorProperty.isIndicatorProperty(
     propertyName
   )
@@ -18,7 +20,7 @@ export function bcodeUnit(propertyName: string): string {
   // NOTE: プロパティがquarterとindicatornの両方に存在する可能性もあるが、
   //       どちらを見ても同じはずなので決め打ちでquarterを優先に見ている
   if (isQuarterProperty) {
-    return QuarterProperty.unitOf(propertyName)
+    return CachingQuarterProperty.unitOf(propertyName)
   } else {
     return CachingIndicatorProperty.unitOf(propertyName)
   }
