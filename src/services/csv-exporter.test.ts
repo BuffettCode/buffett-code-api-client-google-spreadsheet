@@ -1,24 +1,18 @@
-import { BuffettCodeApiClientV2 as BuffettCodeApiClientV2Mock } from '../__mocks__/api/client'
-import { QuarterCache as QuarterCacheMock } from '../__mocks__/services/quarter-cache'
-import { QuarterProperty as QuarterPropertyMock } from '../__mocks__/api/quarter-property'
-import { default as quarter } from '../__mocks__/fixtures/quarter-property'
-
-jest.mock('../api/client', () => ({
-  BuffettCodeApiClientV2: BuffettCodeApiClientV2Mock
-}))
-jest.mock('../setting')
-jest.mock('./quarter-cache', () => ({
-  __esModule: true,
-  QuarterCache: QuarterCacheMock
-}))
-jest.mock('../api/quarter-property', () => ({
-  QuarterProperty: QuarterPropertyMock
-}))
-
 import { CsvExporter } from './csv-exporter'
 import { QuarterCache } from './quarter-cache'
 import { QuarterProperty } from '../api/quarter-property'
 import { YearQuarter } from '../year-quarter'
+
+import { default as quarter } from '../__mocks__/fixtures/quarter-property'
+
+jest.mock('../setting')
+jest.mock('../api/client', () => jest.requireActual('../__mocks__/api/client'))
+jest.mock('../api/quarter-property', () =>
+  jest.requireActual('../__mocks__/api/quarter-property')
+)
+jest.mock('./quarter-cache', () =>
+  jest.requireActual('../__mocks__/services/quarter-cache')
+)
 
 const fiscalYearIndex = Object.keys(quarter).indexOf('fiscal_year')
 const fiscalQuarterIndex = Object.keys(quarter).indexOf('fiscal_quarter')
