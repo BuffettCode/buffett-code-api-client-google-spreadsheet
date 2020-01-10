@@ -3,7 +3,7 @@ import { bcodeIndicator } from './bcode-indicator'
 import { bcodeQuarter } from './bcode-quarter'
 import { BuffettCodeApiClientV2 } from '../api/client'
 import { HttpError } from '../api/http-error'
-import { IndicatorProperty } from '../api/indicator-property'
+import { CachingIndicatorProperty } from '../api/caching-indicator-property'
 import { QuarterProperty } from '../api/quarter-property'
 import { Result } from '../result'
 import { Setting } from '../setting'
@@ -23,7 +23,7 @@ function validate(
   }
 
   const isQuarterProperty = QuarterProperty.isQuarterProperty(propertyName)
-  const isIndicatorProperty = IndicatorProperty.isIndicatorProperty(
+  const isIndicatorProperty = CachingIndicatorProperty.isIndicatorProperty(
     propertyName
   )
 

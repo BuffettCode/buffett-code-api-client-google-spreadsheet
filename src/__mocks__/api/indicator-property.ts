@@ -1,12 +1,16 @@
 import { default as indicator } from '../fixtures/indicator-property'
 
 export class IndicatorProperty {
+  static fetch(): object {
+    return indicator
+  }
+
   static isIndicatorProperty(name: string): boolean {
-    return Object.keys(indicator).indexOf(name) >= 0
+    return Object.keys(this.fetch()).indexOf(name) >= 0
   }
 
   static labelOf(name: string): string | null {
-    const property = indicator[name]
+    const property = this.fetch()[name]
     if (!property) {
       return null
     }
@@ -15,7 +19,7 @@ export class IndicatorProperty {
   }
 
   static unitOf(name: string): string | null {
-    const property = indicator[name]
+    const property = this.fetch()[name]
     if (!property) {
       return null
     }
@@ -24,6 +28,6 @@ export class IndicatorProperty {
   }
 
   static names(): string[] {
-    return Object.keys(indicator)
+    return Object.keys(this.fetch())
   }
 }

@@ -1,4 +1,4 @@
-import { IndicatorProperty } from '../api/indicator-property'
+import { CachingIndicatorProperty } from '../api/caching-indicator-property'
 import { QuarterProperty } from '../api/quarter-property'
 
 export function bcodeUnit(propertyName: string): string {
@@ -7,7 +7,7 @@ export function bcodeUnit(propertyName: string): string {
   }
 
   const isQuarterProperty = QuarterProperty.isQuarterProperty(propertyName)
-  const isIndicatorProperty = IndicatorProperty.isIndicatorProperty(
+  const isIndicatorProperty = CachingIndicatorProperty.isIndicatorProperty(
     propertyName
   )
 
@@ -20,6 +20,6 @@ export function bcodeUnit(propertyName: string): string {
   if (isQuarterProperty) {
     return QuarterProperty.unitOf(propertyName)
   } else {
-    return IndicatorProperty.unitOf(propertyName)
+    return CachingIndicatorProperty.unitOf(propertyName)
   }
 }

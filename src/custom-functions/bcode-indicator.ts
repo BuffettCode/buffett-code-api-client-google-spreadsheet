@@ -1,7 +1,7 @@
 import { ApiResponseError } from './error'
 import { BuffettCodeApiClientV2 } from '../api/client'
 import { IndicatorCache } from '../services/indicator-cache'
-import { IndicatorProperty } from '../api/indicator-property'
+import { CachingIndicatorProperty } from '../api/caching-indicator-property'
 import { Result } from '../result'
 
 export function bcodeIndicator(
@@ -25,6 +25,6 @@ export function bcodeIndicator(
   }
 
   const value = indicator[0][propertyName] // NOTE: indicatorは常に1つ
-  const unit = IndicatorProperty.unitOf(propertyName)
+  const unit = CachingIndicatorProperty.unitOf(propertyName)
   return new Result(value, unit)
 }

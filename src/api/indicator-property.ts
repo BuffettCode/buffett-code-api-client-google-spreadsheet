@@ -1,7 +1,7 @@
 export class IndicatorProperty {
   static readonly url = 'http://docs.buffett-code.com/v2-indicator.json'
 
-  private constructor() {
+  protected constructor() {
     //
   }
 
