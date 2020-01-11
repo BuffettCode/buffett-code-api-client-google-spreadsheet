@@ -28,16 +28,27 @@ export class BuffettCodeApiClientV2 {
     return JSON.parse(content)
   }
 
-  public quarter(tickers: string, from: YearQuarter, to: YearQuarter): object {
+  // NOTE: 本来はticker単体ではなくtickersを扱うべき
+  public quarter(
+    ticker: string,
+    from: YearQuarter,
+    to: YearQuarter
+  ): object[] | null {
     const endpoint = BuffettCodeApiClientV2.baseUrl + '/quarter'
-    const builder = new UrlBuilder(endpoint, { tickers, from, to })
+    const builder = new UrlBuilder(endpoint, { tickers: ticker, from, to })
     const url = builder.toString()
     const options = {
       headers: {
         'x-api-key': this._token
       }
     }
-    return BuffettCodeApiClientV2.request(url, options)
+
+    const res = BuffettCodeApiClientV2.request(url, options)
+    if (!res[ticker] || !res[ticker].length) {
+      return null
+    }
+
+    return res[ticker]
   }
 
   public indicator(tickers: string): object {

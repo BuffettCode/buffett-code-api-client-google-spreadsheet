@@ -17,4 +17,9 @@ export class QuarterCache {
   static putAll(ticker: string, quarters: object[]): void {
     quarters.forEach(quarter => QuarterCache.put(ticker, quarter))
   }
+
+  // for testing
+  static clearAll(): void {
+    Object.keys(this.cache).forEach(key => delete this.cache[key])
+  }
 }

@@ -6,11 +6,15 @@ export class BuffettCodeApiClientV2 {
   public mockQuarter = jest.fn()
 
   constructor(readonly token: string) {
-    // return once for cache testing
-    this.mockIndicator.mockReturnValueOnce(indicator)
-    this.mockQuarter.mockReturnValueOnce(quarter)
+    this.mockIndicator.mockReturnValue(indicator)
+    this.mockQuarter.mockReturnValue(quarter)
   }
 
-  quarter = this.mockQuarter
-  indicator = this.mockIndicator
+  quarter(ticker): object[] | null {
+    return this.mockQuarter()[ticker] || null
+  }
+
+  indicator(): object | null {
+    return this.mockIndicator()
+  }
 }

@@ -1,5 +1,5 @@
 import { bcodeQuarter } from './bcode-quarter'
-import { BuffettCodeApiClientV2 } from '../api/client'
+import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { QuarterCache } from '../services/quarter-cache'
 import { QuarterPropertyCache } from '../services/quarter-property-cache'
 import { Result } from '../result'
@@ -22,7 +22,7 @@ test('bcodeQuarter (uncached)', () => {
   expect(QuarterCache.get(ticker, yearQuarter)).toBeNull()
   expect(QuarterPropertyCache.get()).toBeNull()
 
-  const client = new BuffettCodeApiClientV2('token')
+  const client = new CachingBuffettCodeApiClientV2('token')
   const result = bcodeQuarter(client, ticker, 2018, 1, 'net_sales')
 
   expect(result).toEqual(new Result(12513000000.0, '百万円'))
@@ -36,7 +36,7 @@ test('bcodeQuarter (cached)', () => {
   expect(QuarterCache.get(ticker, yearQuarter)['net_sales']).not.toBeNull()
   expect(QuarterPropertyCache.get()).not.toBeNull()
 
-  const client = new BuffettCodeApiClientV2('token')
+  const client = new CachingBuffettCodeApiClientV2('token')
   const result = bcodeQuarter(client, ticker, 2018, 1, 'net_sales')
 
   expect(result).toEqual(new Result(12513000000.0, '百万円'))

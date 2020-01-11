@@ -1,8 +1,6 @@
-import { BuffettCodeApiClientV2 } from '../api/client'
+import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { Setting } from '../setting'
 import { YearQuarter } from '../year-quarter'
-import { YearQuarterRange } from '../year-quarter-range'
-import { QuarterCache } from './quarter-cache'
 import { QuarterProperty } from '../api/quarter-property'
 
 export class CsvExporter {
@@ -14,23 +12,11 @@ export class CsvExporter {
     const fromYearQuarter = YearQuarter.parse(from)
     const toYearQuarter = YearQuarter.parse(to)
 
-    const range = new YearQuarterRange(fromYearQuarter, toYearQuarter).range()
-    const allCached = range.map(q => QuarterCache.get(ticker, q))
-
-    let quarters
-    if (allCached.every(cached => cached)) {
-      quarters = allCached
-    } else {
-      const setting = Setting.load()
-      const client = new BuffettCodeApiClientV2(setting.token)
-      const res = client.quarter(ticker, fromYearQuarter, toYearQuarter)
-
-      if (!res[ticker] || !res[ticker].length) {
-        throw new Error('<<指定されたデータを取得できませんでした>>')
-      }
-
-      quarters = res[ticker]
-      QuarterCache.putAll(ticker, quarters)
+    const setting = Setting.load()
+    const client = new CachingBuffettCodeApiClientV2(setting.token)
+    const quarters = client.quarter(ticker, fromYearQuarter, toYearQuarter)
+    if (!quarters.length) {
+      throw new Error('<<指定されたデータを取得できませんでした>>')
     }
 
     const sortedQuarters = quarters.slice().sort((a, b) => {

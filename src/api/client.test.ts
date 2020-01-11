@@ -2,6 +2,7 @@ import { BuffettCodeApiClientV2 } from './client'
 import { HttpError } from './http-error'
 import { YearQuarter } from '../year-quarter'
 import { useMockFetchApp } from './test-helper'
+import * as quarter from '../__mocks__/fixtures/quarter'
 
 test('HttpError#isInvalidTestingRequest', () => {
   const res1 = useMockFetchApp(
@@ -68,19 +69,17 @@ test('request when 503 error', () => {
 })
 
 test('quarter', () => {
-  const mockFetch = useMockFetchApp(200, '{"message": "this is a message"}')
+  const mockFetch = useMockFetchApp(200, JSON.stringify(quarter))
 
   const client = new BuffettCodeApiClientV2('foo')
-  const tickers = '6501,6502'
+  const ticker = '2371'
   const from = new YearQuarter(2017, 3)
   const to = new YearQuarter(2019, 1)
-  expect(client.quarter(tickers, from, to)).toEqual({
-    message: 'this is a message'
-  })
+  expect(client.quarter(ticker, from, to)).toEqual(quarter[ticker])
   expect(mockFetch.mock.calls.length).toBe(1)
   expect(mockFetch.mock.calls[0].length).toBe(2)
   expect(mockFetch.mock.calls[0][0]).toBe(
-    'https://api.buffett-code.com/api/v2/quarter?tickers=6501%2C6502&from=2017Q3&to=2019Q1'
+    'https://api.buffett-code.com/api/v2/quarter?tickers=2371&from=2017Q3&to=2019Q1'
   )
   expect(mockFetch.mock.calls[0][1]).toEqual({
     headers: { 'x-api-key': 'foo' },
