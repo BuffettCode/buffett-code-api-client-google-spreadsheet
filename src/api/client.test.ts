@@ -1,25 +1,28 @@
 import { BuffettCodeApiClientV2 } from './client'
 import { HttpError } from './http-error'
 import { YearQuarter } from '../time/year-quarter'
-import { useMockFetchApp } from './test-helper'
+import { useMockedUrlFetchApp } from './test-helper'
 import * as indicator from '../__mocks__/fixtures/indicator'
 import * as quarter from '../__mocks__/fixtures/quarter'
 
 test('HttpError#isInvalidTestingRequest', () => {
-  const res1 = useMockFetchApp(
+  const res1 = useMockedUrlFetchApp(
     200,
     '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
   )()
   const error1 = new HttpError(res1)
   expect(error1.isInvalidTestingRequest()).toBeTruthy()
 
-  const res2 = useMockFetchApp(403, '{"message": "Forbidden"}')()
+  const res2 = useMockedUrlFetchApp(403, '{"message": "Forbidden"}')()
   const error2 = new HttpError(res2)
   expect(error2.isInvalidTestingRequest()).toBeFalsy()
 })
 
 test('request', () => {
-  const mockFetch = useMockFetchApp(200, '{"message": "this is a message"}')
+  const mockFetch = useMockedUrlFetchApp(
+    200,
+    '{"message": "this is a message"}'
+  )
 
   expect(
     BuffettCodeApiClientV2['request']('http://example.com', {
@@ -38,7 +41,7 @@ test('request', () => {
 })
 
 test('request when testing apikey error', () => {
-  useMockFetchApp(
+  useMockedUrlFetchApp(
     200,
     '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
   )
@@ -48,14 +51,14 @@ test('request when testing apikey error', () => {
 })
 
 test('request when 403 error', () => {
-  useMockFetchApp(403, '{"message": "Forbidden"}')
+  useMockedUrlFetchApp(403, '{"message": "Forbidden"}')
 
   const request = BuffettCodeApiClientV2['request']
   expect(() => request('http://example.com')).toThrow(HttpError)
 })
 
 test('request when 503 error', () => {
-  useMockFetchApp(503, '{"message": "Service Unavailable"}')
+  useMockedUrlFetchApp(503, '{"message": "Service Unavailable"}')
 
   const request = BuffettCodeApiClientV2['request']
   expect(() => request('http://example.com')).toThrow(HttpError)
@@ -70,7 +73,7 @@ test('request when 503 error', () => {
 })
 
 test('quarter', () => {
-  const mockFetch = useMockFetchApp(200, JSON.stringify(quarter))
+  const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(quarter))
 
   const client = new BuffettCodeApiClientV2('foo')
   const ticker = '2371'
@@ -89,7 +92,7 @@ test('quarter', () => {
 })
 
 test('indicator', () => {
-  const mockFetch = useMockFetchApp(200, JSON.stringify(indicator))
+  const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(indicator))
 
   const client = new BuffettCodeApiClientV2('foo')
   const ticker = '2371'

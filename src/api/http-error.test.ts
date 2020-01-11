@@ -1,8 +1,8 @@
 import { HttpError } from './http-error'
-import { useMockFetchApp } from './test-helper'
+import { useMockedUrlFetchApp } from './test-helper'
 
 test('HttpError', () => {
-  const res = useMockFetchApp(403, '{"message": "Forbidden"}')()
+  const res = useMockedUrlFetchApp(403, '{"message": "Forbidden"}')()
   const error = new HttpError(res)
   expect(error instanceof HttpError).toBeTruthy()
 })
