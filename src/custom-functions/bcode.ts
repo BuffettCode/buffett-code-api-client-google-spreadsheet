@@ -1,7 +1,7 @@
 import { ApiResponseError } from './error'
 import { bcodeIndicator } from './bcode-indicator'
 import { bcodeQuarter } from './bcode-quarter'
-import { BuffettCodeApiClientV2 } from '../api/client'
+import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { HttpError } from '../api/http-error'
 import { CachingIndicatorProperty } from '../api/caching-indicator-property'
 import { QuarterProperty } from '../api/quarter-property'
@@ -48,7 +48,7 @@ export function bcode(
     throw new Error('<<APIキーが有効ではありません>>')
   }
 
-  const client = new BuffettCodeApiClientV2(setting.token)
+  const client = new CachingBuffettCodeApiClientV2(setting.token)
 
   try {
     let result: Result

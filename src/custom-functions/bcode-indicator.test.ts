@@ -1,5 +1,5 @@
 import { bcodeIndicator } from './bcode-indicator'
-import { BuffettCodeApiClientV2 } from '../api/client'
+import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { IndicatorCache } from '../services/indicator-cache'
 import { IndicatorPropertyCache } from '../services/indicator-property-cache'
 import { Result } from '../result'
@@ -20,11 +20,11 @@ test('bcodeIndicator (uncached)', () => {
   expect(IndicatorCache.get(ticker)).toBeNull()
   expect(IndicatorPropertyCache.get()).toBeNull()
 
-  const client = new BuffettCodeApiClientV2('token')
+  const client = new CachingBuffettCodeApiClientV2('token')
   const result = bcodeIndicator(client, ticker, 'roa')
 
   expect(result).toEqual(new Result(35.53659143898409, '%'))
-  expect(IndicatorCache.get(ticker)[0]['roa']).toBe(35.53659143898409)
+  expect(IndicatorCache.get(ticker)['roa']).toBe(35.53659143898409)
   expect(IndicatorPropertyCache.get()).not.toBeNull()
 })
 
@@ -33,10 +33,10 @@ test('bcodeIndicator (cached)', () => {
   expect(IndicatorCache.get(ticker)['roa']).not.toBeNull()
   expect(IndicatorPropertyCache.get()).not.toBeNull()
 
-  const client = new BuffettCodeApiClientV2('token')
+  const client = new CachingBuffettCodeApiClientV2('token')
   const result = bcodeIndicator(client, ticker, 'roa')
 
   expect(result).toEqual(new Result(35.53659143898409, '%'))
-  expect(IndicatorCache.get(ticker)[0]['roa']).toBe(35.53659143898409)
+  expect(IndicatorCache.get(ticker)['roa']).toBe(35.53659143898409)
   expect(IndicatorPropertyCache.get()).not.toBeNull()
 })

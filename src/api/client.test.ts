@@ -2,6 +2,7 @@ import { BuffettCodeApiClientV2 } from './client'
 import { HttpError } from './http-error'
 import { YearQuarter } from '../year-quarter'
 import { useMockFetchApp } from './test-helper'
+import * as indicator from '../__mocks__/fixtures/indicator'
 import * as quarter from '../__mocks__/fixtures/quarter'
 
 test('HttpError#isInvalidTestingRequest', () => {
@@ -88,17 +89,15 @@ test('quarter', () => {
 })
 
 test('indicator', () => {
-  const mockFetch = useMockFetchApp(200, '{"message": "this is a message"}')
+  const mockFetch = useMockFetchApp(200, JSON.stringify(indicator))
 
   const client = new BuffettCodeApiClientV2('foo')
-  const tickers = '6501,6502'
-  expect(client.indicator(tickers)).toEqual({
-    message: 'this is a message'
-  })
+  const ticker = '2371'
+  expect(client.indicator(ticker)).toEqual(indicator[ticker][0])
   expect(mockFetch.mock.calls.length).toBe(1)
   expect(mockFetch.mock.calls[0].length).toBe(2)
   expect(mockFetch.mock.calls[0][0]).toBe(
-    'https://api.buffett-code.com/api/v2/indicator?tickers=6501%2C6502'
+    'https://api.buffett-code.com/api/v2/indicator?tickers=2371'
   )
   expect(mockFetch.mock.calls[0][1]).toEqual({
     headers: { 'x-api-key': 'foo' },

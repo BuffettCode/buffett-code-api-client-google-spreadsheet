@@ -14,7 +14,8 @@ export class BuffettCodeApiClientV2 {
     return this.mockQuarter()[ticker] || null
   }
 
-  indicator(): object | null {
-    return this.mockIndicator()
+  indicator(ticker): object | null {
+    const indicator = this.mockIndicator()[ticker]
+    return indicator ? indicator[0] : null
   }
 }

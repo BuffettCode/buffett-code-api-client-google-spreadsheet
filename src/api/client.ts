@@ -51,15 +51,22 @@ export class BuffettCodeApiClientV2 {
     return res[ticker]
   }
 
-  public indicator(tickers: string): object {
+  // NOTE: 本来はticker単体ではなくtickersを扱うべき
+  public indicator(ticker: string): object | null {
     const endpoint = BuffettCodeApiClientV2.baseUrl + '/indicator'
-    const builder = new UrlBuilder(endpoint, { tickers })
+    const builder = new UrlBuilder(endpoint, { tickers: ticker })
     const url = builder.toString()
     const options = {
       headers: {
         'x-api-key': this._token
       }
     }
-    return BuffettCodeApiClientV2.request(url, options)
+
+    const res = BuffettCodeApiClientV2.request(url, options)
+    if (!res[ticker] || !res[ticker].length) {
+      return null
+    }
+
+    return res[ticker][0] // NOTE: indicatorは常に1つ
   }
 }

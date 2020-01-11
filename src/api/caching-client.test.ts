@@ -1,11 +1,40 @@
 import { CachingBuffettCodeApiClientV2 } from './caching-client'
 import { YearQuarter } from '../year-quarter'
+import { IndicatorCache } from '../services/indicator-cache'
 import { QuarterCache } from '../__mocks__/services/quarter-cache'
 
 jest.mock('./client', () => jest.requireActual('../__mocks__/api/client'))
+jest.mock('../services/indicator-cache', () =>
+  jest.requireActual('../__mocks__/services/indicator-cache')
+)
 jest.mock('../services/quarter-cache', () =>
   jest.requireActual('../__mocks__/services/quarter-cache')
 )
+
+describe('indicator', () => {
+  const ticker = '2371'
+
+  test('(uncached)', () => {
+    expect(IndicatorCache.get(ticker)).toBeNull()
+
+    const client = new CachingBuffettCodeApiClientV2('token')
+    const res = client.indicator(ticker)
+    expect(res).not.toBeNull()
+
+    expect(IndicatorCache.get(ticker)).toEqual(res)
+  })
+
+  test('(cached)', () => {
+    const cached = IndicatorCache.get(ticker)
+    expect(cached).not.toBeNull()
+
+    const client = new CachingBuffettCodeApiClientV2('token')
+    const res = client.indicator(ticker)
+    expect(res).toEqual(cached)
+
+    expect(IndicatorCache.get(ticker)).toEqual(cached)
+  })
+})
 
 describe('quarter', () => {
   const ticker = '2371'
