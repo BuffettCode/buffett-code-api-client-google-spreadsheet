@@ -15,8 +15,8 @@ export class QuarterPropertyCache {
     return JSON.parse(cached)
   }
 
-  static put(indicatorProperty: object, expirationInSeconds = 21600): void {
+  static put(quarterProperty: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
-    cache.put(this.key, JSON.stringify(indicatorProperty), expirationInSeconds)
+    cache.put(this.key, JSON.stringify(quarterProperty), expirationInSeconds)
   }
 }
