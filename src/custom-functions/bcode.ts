@@ -5,7 +5,7 @@ import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { HttpError } from '../api/http-error'
 import { CachingIndicatorProperty } from '../api/caching-indicator-property'
 import { QuarterProperty } from '../api/quarter-property'
-import { Result } from '../result'
+import { BcodeResult } from './bcode-result'
 import { Setting } from '../setting'
 
 function validate(
@@ -51,7 +51,7 @@ export function bcode(
   const client = new CachingBuffettCodeApiClientV2(setting.token)
 
   try {
-    let result: Result
+    let result: BcodeResult
     if (fiscalYear && fiscalQuarter) {
       result = bcodeQuarter(
         client,

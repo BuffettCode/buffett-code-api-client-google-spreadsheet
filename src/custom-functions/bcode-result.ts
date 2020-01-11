@@ -1,6 +1,6 @@
-import { Formatter } from './services/formatter'
+import { Formatter } from '../services/formatter'
 
-export class Result {
+export class BcodeResult {
   constructor(public value: number | string | null, public unit: string) {}
 
   public format(isRawValue: boolean, isWithUnits: boolean): number | string {

@@ -2,7 +2,7 @@ import { bcodeQuarter } from './bcode-quarter'
 import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { QuarterCache } from '../services/quarter-cache'
 import { QuarterPropertyCache } from '../services/quarter-property-cache'
-import { Result } from '../result'
+import { BcodeResult } from './bcode-result'
 import { YearQuarter } from '../time/year-quarter'
 
 jest.mock('../api/client', () => jest.requireActual('../__mocks__/api/client'))
@@ -25,7 +25,7 @@ test('bcodeQuarter (uncached)', () => {
   const client = new CachingBuffettCodeApiClientV2('token')
   const result = bcodeQuarter(client, ticker, 2018, 1, 'net_sales')
 
-  expect(result).toEqual(new Result(12513000000.0, '百万円'))
+  expect(result).toEqual(new BcodeResult(12513000000.0, '百万円'))
   expect(QuarterCache.get(ticker, yearQuarter)['net_sales']).toBe(12513000000.0)
   expect(QuarterPropertyCache.get()).not.toBeNull()
 })
@@ -39,7 +39,7 @@ test('bcodeQuarter (cached)', () => {
   const client = new CachingBuffettCodeApiClientV2('token')
   const result = bcodeQuarter(client, ticker, 2018, 1, 'net_sales')
 
-  expect(result).toEqual(new Result(12513000000.0, '百万円'))
+  expect(result).toEqual(new BcodeResult(12513000000.0, '百万円'))
   expect(QuarterCache.get(ticker, yearQuarter)['net_sales']).toBe(12513000000.0)
   expect(QuarterPropertyCache.get()).not.toBeNull()
 })

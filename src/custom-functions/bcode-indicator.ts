@@ -1,13 +1,13 @@
 import { ApiResponseError } from './error'
 import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { CachingIndicatorProperty } from '../api/caching-indicator-property'
-import { Result } from '../result'
+import { BcodeResult } from './bcode-result'
 
 export function bcodeIndicator(
   client: CachingBuffettCodeApiClientV2,
   ticker: string,
   propertyName: string
-): Result {
+): BcodeResult {
   const indicator = client.indicator(ticker)
   if (!indicator) {
     throw new ApiResponseError()
@@ -15,5 +15,5 @@ export function bcodeIndicator(
 
   const value = indicator[propertyName]
   const unit = CachingIndicatorProperty.unitOf(propertyName)
-  return new Result(value, unit)
+  return new BcodeResult(value, unit)
 }

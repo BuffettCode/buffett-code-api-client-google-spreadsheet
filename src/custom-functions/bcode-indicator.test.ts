@@ -2,7 +2,7 @@ import { bcodeIndicator } from './bcode-indicator'
 import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { IndicatorCache } from '../services/indicator-cache'
 import { IndicatorPropertyCache } from '../services/indicator-property-cache'
-import { Result } from '../result'
+import { BcodeResult } from './bcode-result'
 
 jest.mock('../api/client', () => jest.requireActual('../__mocks__/api/client'))
 jest.mock('../api/indicator-property', () =>
@@ -23,7 +23,7 @@ test('bcodeIndicator (uncached)', () => {
   const client = new CachingBuffettCodeApiClientV2('token')
   const result = bcodeIndicator(client, ticker, 'roa')
 
-  expect(result).toEqual(new Result(35.53659143898409, '%'))
+  expect(result).toEqual(new BcodeResult(35.53659143898409, '%'))
   expect(IndicatorCache.get(ticker)['roa']).toBe(35.53659143898409)
   expect(IndicatorPropertyCache.get()).not.toBeNull()
 })
@@ -36,7 +36,7 @@ test('bcodeIndicator (cached)', () => {
   const client = new CachingBuffettCodeApiClientV2('token')
   const result = bcodeIndicator(client, ticker, 'roa')
 
-  expect(result).toEqual(new Result(35.53659143898409, '%'))
+  expect(result).toEqual(new BcodeResult(35.53659143898409, '%'))
   expect(IndicatorCache.get(ticker)['roa']).toBe(35.53659143898409)
   expect(IndicatorPropertyCache.get()).not.toBeNull()
 })

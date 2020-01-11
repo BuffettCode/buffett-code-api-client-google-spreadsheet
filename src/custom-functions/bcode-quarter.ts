@@ -1,7 +1,7 @@
 import { ApiResponseError } from './error'
 import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { CachingQuarterProperty } from '../api/caching-quarter-property'
-import { Result } from '../result'
+import { BcodeResult } from './bcode-result'
 import { YearQuarter } from '../time/year-quarter'
 
 export function bcodeQuarter(
@@ -10,7 +10,7 @@ export function bcodeQuarter(
   fiscalYear: number,
   fiscalQuarter: number,
   propertyName: string
-): Result {
+): BcodeResult {
   const yearQuarter = new YearQuarter(fiscalYear, fiscalQuarter)
   const quarter = client.quarterAt(ticker, yearQuarter)
   if (!quarter) {
@@ -20,5 +20,5 @@ export function bcodeQuarter(
   const value = quarter[propertyName]
   const unit = CachingQuarterProperty.unitOf(propertyName)
 
-  return new Result(value, unit)
+  return new BcodeResult(value, unit)
 }
