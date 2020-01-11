@@ -1,6 +1,9 @@
 export class YearQuarter {
   constructor(public year: number, public quarter: number) {
-    // TODO: Improve validation
+    if (year < 1) {
+      throw new Error('Invalid year: ' + year)
+    }
+
     if (quarter < 1 || quarter > 4) {
       throw new Error('Invalid quarter: ' + quarter)
     }
