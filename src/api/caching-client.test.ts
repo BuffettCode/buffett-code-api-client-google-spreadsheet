@@ -1,5 +1,5 @@
 import { CachingBuffettCodeApiClientV2 } from './caching-client'
-import { YearQuarter } from '../year-quarter'
+import { YearQuarter } from '../time/year-quarter'
 import { IndicatorCache } from '../services/indicator-cache'
 import { QuarterCache } from '../__mocks__/services/quarter-cache'
 

@@ -1,4 +1,4 @@
-import { YearQuarter } from '../year-quarter'
+import { YearQuarter } from '../time/year-quarter'
 import { UrlBuilder } from './url-builder'
 import { HttpError } from './http-error'
 

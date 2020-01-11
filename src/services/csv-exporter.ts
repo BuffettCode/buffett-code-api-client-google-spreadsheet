@@ -1,6 +1,6 @@
 import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { Setting } from '../setting'
-import { YearQuarter } from '../year-quarter'
+import { YearQuarter } from '../time/year-quarter'
 import { QuarterProperty } from '../api/quarter-property'
 
 export class CsvExporter {

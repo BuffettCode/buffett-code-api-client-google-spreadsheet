@@ -1,6 +1,6 @@
 import { BuffettCodeApiClientV2 } from './client'
 import { HttpError } from './http-error'
-import { YearQuarter } from '../year-quarter'
+import { YearQuarter } from '../time/year-quarter'
 import { useMockFetchApp } from './test-helper'
 import * as indicator from '../__mocks__/fixtures/indicator'
 import * as quarter from '../__mocks__/fixtures/quarter'

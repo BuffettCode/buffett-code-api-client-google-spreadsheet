@@ -1,5 +1,5 @@
 import { QuarterCache } from './quarter-cache'
-import { YearQuarter } from '../year-quarter'
+import { YearQuarter } from '../time/year-quarter'
 
 test('key', () => {
   expect(QuarterCache.key('6501', new YearQuarter(2019, 4))).toBe(
