@@ -1,6 +1,6 @@
 import { BuffettCodeApiClientV2 } from './client'
-import { YearQuarter } from '../time/year-quarter'
-import { YearQuarterRange } from '../time/year-quarter-range'
+import { YearQuarter } from '../fiscal-periods/year-quarter'
+import { YearQuarterRange } from '../fiscal-periods/year-quarter-range'
 import { IndicatorCache } from '../services/indicator-cache'
 import { QuarterCache } from '../services/quarter-cache'
 

@@ -2,7 +2,7 @@ import { ApiResponseError } from './error'
 import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { CachingQuarterProperty } from '../api/caching-quarter-property'
 import { BcodeResult } from './bcode-result'
-import { YearQuarter } from '../time/year-quarter'
+import { YearQuarter } from '../fiscal-periods/year-quarter'
 
 export function bcodeQuarter(
   client: CachingBuffettCodeApiClientV2,
