@@ -84,3 +84,4 @@ typings/
 dist/
 .clasp.json
 .clasp.*.json
+!.clasp.template.json

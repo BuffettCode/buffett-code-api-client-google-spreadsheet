@@ -17,15 +17,38 @@ npm run watch
 npm test
 ```
 
-## Deploy
+## Environment settings
 
 Prepare the following files:
-- `.clasp.json`
-- `.clasp.local.json`
-- `.clasp.dev.json`   # correspond to develop branch
-- `.clasp.prod.json`  # correspond to master branch
+- `.clasp.json`       # required, the current environment
+- `.clasp.local.json` # optional, correspond to private environment
+- `.clasp.dev.json`   # optional, correspond to develop environment
+- `.clasp.prod.json`  # optional, correspond to production environment
+
+Copy `.clasp.template.json` and edit `.clasp.*.json` for set your script id.
+The script id can be get from `File > Project properties > Script ID` in your script page.
+
+```bash
+cp .clasp.template.json .clasp.prod.json
+cp .clasp.template.json .clasp.dev.json
+cp .clasp.template.json .clasp.local.json
+cp .clasp.local.json .clasp.json  # Use local as initial environment
+```
+
+Finally, you can switch the environment use npm script.
+
+```
+# NOTE: these commands overwrite `.clasp.json`
+npm run switch:local
+npm run switch:dev
+npm run switch:prod
+```
+
+## Deploy
 
 ```sh
+npm run login # only the first time
+
 # deploy to local environment
 npm run deploy # or npm run deploy:local
 
