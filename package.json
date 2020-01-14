@@ -56,7 +56,8 @@
     "postopen:dev": "npm run switch:local",
     "preopen:prod": "npm run switch:prod",
     "open:prod": "npm run open",
-    "postopen:prod": "npm run switch:local"
+    "postopen:prod": "npm run switch:local",
+    "login": "clasp login"
   },
   "repository": {
     "type": "git",
