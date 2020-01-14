@@ -1,7 +1,7 @@
 import { CsvExporter } from './csv-exporter'
 import { QuarterCache } from './quarter-cache'
 import { QuarterProperty } from '../api/quarter-property'
-import { YearQuarter } from '../time/year-quarter'
+import { YearQuarter } from '../fiscal-periods/year-quarter'
 
 import { default as quarter } from '../__mocks__/fixtures/quarter-property'
 
