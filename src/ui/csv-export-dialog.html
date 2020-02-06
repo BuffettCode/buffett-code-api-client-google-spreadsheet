@@ -6,7 +6,11 @@
     <script>
       function onError(e) {
         console.error(e.message, e.stack)
-        alert('エラーが発生しました。')
+
+        const button = document.getElementById('export-button')
+        button.disabled = ""
+
+        alert('エラーが発生しました: ' + e.message)
       }
 
       function exportCsv() {
@@ -14,9 +18,13 @@
         const from = document.getElementById('from-input').value
         const to = document.getElementById('to-input').value
 
+        const button = document.getElementById('export-button')
+        button.disabled = "true"
+
         google.script.run
           .withFailureHandler(onError)
           .withSuccessHandler(() => {
+            google.script.host.close()
             alert('出力が完了しました')
           })
           .exportCsv(ticker, from, to)
@@ -27,18 +35,18 @@
     <div class="sidebar">
       <div class="block form-group">
         <label for="ticker-input"><b>銘柄コード</b></label>
-        <input id="ticker-input" type="text" style="width: 65px;">
+        <input id="ticker-input" type="text" placeholder="2801" style="width: 65px;">
       </div>
 
       <div class="block form-group inline">
         <label for="from-input"><b>期間</b></label>
-        <input id="from-input" type="text" style="width: 65px;">
+        <input id="from-input" type="text" placeholder="2016Q1" style="width: 65px;">
       </div>
       <div class="inline">
         〜
       </div>
       <div class="block inline">
-        <input id="to-input" type="text" style="width: 65px;">
+        <input id="to-input" type="text" placeholder="2018Q4" style="width: 65px;">
       </div>
 
       <div class="block">
@@ -50,8 +58,7 @@
       </div>
 
       <div class="block">
-        <button class="action" onclick="exportCsv()">出力</button>
-        <button onclick="google.script.host.close()">キャンセル</button>
+        <button id="export-button" class="action" onclick="exportCsv()">出力</button>
       </div>
     </div>
   </body>

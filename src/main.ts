@@ -28,7 +28,7 @@ global.onInstall = (): void => {
 
 /* gui */
 global.showCsvExportDialog_ = showCsvExportDialog
-global.reloadCustomFunctionCells_ = recalculateCustomFunctionCells
+global.recalculateCustomFunctionCells_ = recalculateCustomFunctionCells
 global.showSettingSidebar_ = showSettingSidebar
 
 /* gui functions */

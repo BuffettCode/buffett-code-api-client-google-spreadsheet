@@ -23,7 +23,7 @@ export class Setting {
 
   public static load(): Setting {
     const props = PropertiesService.getUserProperties()
-    const token = props.getProperty(Setting.tokenProperty)
+    const token = props.getProperty(this.tokenProperty)
     const setting = new Setting(token)
     return setting
   }

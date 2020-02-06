@@ -1,30 +1,19 @@
 import { ApiResponseError } from './error'
-import { BuffettCodeApiClientV2 } from '../client'
-import { IndicatorCache } from '../services/indicator-cache'
-import { IndicatorProperty } from '../indicator-property'
-import { Result } from '../result'
+import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
+import { CachingIndicatorProperty } from '../api/caching-indicator-property'
+import { BcodeResult } from './bcode-result'
 
 export function bcodeIndicator(
-  client: BuffettCodeApiClientV2,
+  client: CachingBuffettCodeApiClientV2,
   ticker: string,
   propertyName: string
-): Result {
-  let indicator
-  const cached = IndicatorCache.get(ticker)
-  if (cached) {
-    indicator = cached
-  } else {
-    const indicatorResponse = client.indicator(ticker)
-
-    if (!indicatorResponse[ticker] || !indicatorResponse[ticker][0]) {
-      throw new ApiResponseError()
-    }
-
-    indicator = indicatorResponse[ticker]
-    IndicatorCache.put(ticker, indicator)
+): BcodeResult {
+  const indicator = client.indicator(ticker)
+  if (!indicator) {
+    throw new ApiResponseError()
   }
 
-  const value = indicator[0][propertyName] // NOTE: indicatorは常に1つ
-  const unit = IndicatorProperty.unitOf(propertyName)
-  return new Result(value, unit)
+  const value = indicator[propertyName]
+  const unit = CachingIndicatorProperty.unitOf(propertyName)
+  return new BcodeResult(value, unit)
 }

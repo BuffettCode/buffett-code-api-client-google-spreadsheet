@@ -1,10 +1,11 @@
 import { ApiResponseError } from './error'
 import { bcodeIndicator } from './bcode-indicator'
 import { bcodeQuarter } from './bcode-quarter'
-import { BuffettCodeApiClientV2, HttpError } from '../client'
-import { IndicatorProperty } from '../indicator-property'
-import { QuarterProperty } from '../quarter-property'
-import { Result } from '../result'
+import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
+import { HttpError } from '../api/http-error'
+import { CachingIndicatorProperty } from '../api/caching-indicator-property'
+import { QuarterProperty } from '../api/quarter-property'
+import { BcodeResult } from './bcode-result'
 import { Setting } from '../setting'
 
 function validate(
@@ -22,22 +23,12 @@ function validate(
   }
 
   const isQuarterProperty = QuarterProperty.isQuarterProperty(propertyName)
-  const isIndicatorProperty = IndicatorProperty.isIndicatorProperty(
+  const isIndicatorProperty = CachingIndicatorProperty.isIndicatorProperty(
     propertyName
   )
 
   if (!isQuarterProperty && !isIndicatorProperty) {
     throw new Error(`<<指定された項目が見つかりません: ${propertyName}>>`)
-  }
-
-  if (isQuarterProperty) {
-    if (!fiscalYear) {
-      throw new Error('<<fiscalYearが有効ではありません>>')
-    }
-
-    if (!fiscalQuarter) {
-      throw new Error('<<fiscalQuarterが有効ではありません>>')
-    }
   }
 }
 
@@ -57,13 +48,11 @@ export function bcode(
     throw new Error('<<APIキーが有効ではありません>>')
   }
 
-  const client = new BuffettCodeApiClientV2(setting.token)
-
-  const isQuarterProperty = QuarterProperty.isQuarterProperty(propertyName)
+  const client = new CachingBuffettCodeApiClientV2(setting.token)
 
   try {
-    let result: Result
-    if (isQuarterProperty) {
+    let result: BcodeResult
+    if (fiscalYear && fiscalQuarter) {
       result = bcodeQuarter(
         client,
         ticker,

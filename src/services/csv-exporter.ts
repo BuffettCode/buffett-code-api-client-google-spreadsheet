@@ -1,9 +1,7 @@
-import { BuffettCodeApiClientV2 } from '../client'
+import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { Setting } from '../setting'
-import { YearQuarter } from '../year-quarter'
-import { YearQuarterRange } from '../year-quarter-range'
-import { QuarterCache } from './quarter-cache'
-import { QuarterProperty } from '../quarter-property'
+import { YearQuarter } from '../fiscal-periods/year-quarter'
+import { QuarterProperty } from '../api/quarter-property'
 
 export class CsvExporter {
   private constructor() {
@@ -14,23 +12,11 @@ export class CsvExporter {
     const fromYearQuarter = YearQuarter.parse(from)
     const toYearQuarter = YearQuarter.parse(to)
 
-    const range = YearQuarterRange.range(fromYearQuarter, toYearQuarter)
-    const allCached = range.map(q => QuarterCache.get(ticker, q))
-
-    let quarters
-    if (allCached.every(cached => cached)) {
-      quarters = allCached
-    } else {
-      const setting = Setting.load()
-      const client = new BuffettCodeApiClientV2(setting.token)
-      const res = client.quarter(ticker, fromYearQuarter, toYearQuarter)
-
-      if (!res[ticker] || !res[ticker].length) {
-        throw new Error('<<指定されたデータを取得できませんでした>>')
-      }
-
-      quarters = res[ticker]
-      QuarterCache.putAll(ticker, quarters)
+    const setting = Setting.load()
+    const client = new CachingBuffettCodeApiClientV2(setting.token)
+    const quarters = client.quarter(ticker, fromYearQuarter, toYearQuarter)
+    if (!quarters.length) {
+      throw new Error('<<指定されたデータを取得できませんでした>>')
     }
 
     const sortedQuarters = quarters.slice().sort((a, b) => {
@@ -49,7 +35,7 @@ export class CsvExporter {
       quarter => `${quarter['fiscal_year']}Q${quarter['fiscal_quarter']}`
     )
     const header = [['キー', '項目名', '単位', ...quarterLabels]]
-    const values = QuarterProperty.names.map(name => {
+    const values = QuarterProperty.names().map(name => {
       const data = sortedQuarters.map(quarter => quarter[name])
       return [
         name,
@@ -71,7 +57,7 @@ export class CsvExporter {
       throw new Error('<<期間が有効ではありません>>')
     }
 
-    const data = CsvExporter.generateData(ticker, from, to)
+    const data = this.generateData(ticker, from, to)
 
     const numRows = data.length
     const numColumns = data[0].length

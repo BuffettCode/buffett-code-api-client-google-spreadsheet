@@ -1,45 +1,24 @@
 import { ApiResponseError } from './error'
-import { BuffettCodeApiClientV2 } from '../client'
-import { QuarterCache } from '../services/quarter-cache'
-import { QuarterProperty } from '../quarter-property'
-import { Result } from '../result'
-import { YearQuarterRange } from '../year-quarter-range'
-import { YearQuarter } from '../year-quarter'
+import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
+import { CachingQuarterProperty } from '../api/caching-quarter-property'
+import { BcodeResult } from './bcode-result'
+import { YearQuarter } from '../fiscal-periods/year-quarter'
 
 export function bcodeQuarter(
-  client: BuffettCodeApiClientV2,
+  client: CachingBuffettCodeApiClientV2,
   ticker: string,
   fiscalYear: number,
   fiscalQuarter: number,
   propertyName: string
-): Result {
-  let quarter
+): BcodeResult {
   const yearQuarter = new YearQuarter(fiscalYear, fiscalQuarter)
-  const cached = QuarterCache.get(ticker, yearQuarter)
-  if (cached) {
-    quarter = cached
-  } else {
-    const [from, to] = YearQuarterRange.defaultRangeOf(yearQuarter)
-    const quarterResponse = client.quarter(ticker, from, to)
-    if (!quarterResponse[ticker]) {
-      throw new ApiResponseError()
-    }
-    const quarters = quarterResponse[ticker]
-    QuarterCache.putAll(ticker, quarters)
-
-    const filtered = quarters.filter(q => {
-      return (
-        q['fiscal_year'] === fiscalYear && q['fiscal_quarter'] === fiscalQuarter
-      )
-    })
-    if (!filtered.length) {
-      throw new ApiResponseError()
-    }
-    quarter = filtered[0]
+  const quarter = client.quarterAt(ticker, yearQuarter)
+  if (!quarter) {
+    throw new ApiResponseError()
   }
 
   const value = quarter[propertyName]
-  const unit = QuarterProperty.unitOf(propertyName)
+  const unit = CachingQuarterProperty.unitOf(propertyName)
 
-  return new Result(value, unit)
+  return new BcodeResult(value, unit)
 }

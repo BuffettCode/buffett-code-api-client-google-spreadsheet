@@ -1,5 +1,14 @@
 import { YearQuarter } from './year-quarter'
 
+test('constructor', () => {
+  expect(() => new YearQuarter(0, 3)).toThrow(Error)
+  expect(() => new YearQuarter(1, 3)).not.toThrow(Error)
+  expect(() => new YearQuarter(2018, 0)).toThrow(Error)
+  expect(() => new YearQuarter(2018, 1)).not.toThrow(Error)
+  expect(() => new YearQuarter(2018, 4)).not.toThrow(Error)
+  expect(() => new YearQuarter(2018, 5)).toThrow(Error)
+})
+
 test('shift', () => {
   expect(new YearQuarter(2018, 3).shift(-4)).toEqual(new YearQuarter(2017, 3))
   expect(new YearQuarter(2018, 3).shift(-3)).toEqual(new YearQuarter(2017, 4))

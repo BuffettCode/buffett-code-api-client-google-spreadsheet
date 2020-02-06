@@ -1,27 +1,6 @@
-import { YearQuarter } from './year-quarter'
+import { YearQuarter } from '../fiscal-periods/year-quarter'
 import { UrlBuilder } from './url-builder'
-
-export class HttpError implements Error {
-  public name = 'HttpError'
-  public message: string
-
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  constructor(public response: GoogleAppsScript.URL_Fetch.HTTPResponse) {
-    this.message = `${response.getResponseCode()}: ${response.getContentText()}`
-  }
-
-  public isInvalidTestingRequest(): boolean {
-    const content = this.response.getContentText()
-    return (
-      content ===
-      '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
-    )
-  }
-
-  public toString(): string {
-    return this.message
-  }
-}
+import { HttpError } from './http-error'
 
 export class BuffettCodeApiClientV2 {
   static readonly baseUrl = 'https://api.buffett-code.com/api/v2'
@@ -49,27 +28,45 @@ export class BuffettCodeApiClientV2 {
     return JSON.parse(content)
   }
 
-  public quarter(tickers: string, from: YearQuarter, to: YearQuarter): object {
+  // NOTE: 本来はticker単体ではなくtickersを扱うべき
+  public quarter(
+    ticker: string,
+    from: YearQuarter,
+    to: YearQuarter
+  ): object[] | null {
     const endpoint = BuffettCodeApiClientV2.baseUrl + '/quarter'
-    const builder = new UrlBuilder(endpoint, { tickers, from, to })
+    const builder = new UrlBuilder(endpoint, { tickers: ticker, from, to })
     const url = builder.toString()
     const options = {
       headers: {
         'x-api-key': this._token
       }
     }
-    return BuffettCodeApiClientV2.request(url, options)
+
+    const res = BuffettCodeApiClientV2.request(url, options)
+    if (!res[ticker] || !res[ticker].length) {
+      return null
+    }
+
+    return res[ticker]
   }
 
-  public indicator(tickers: string): object {
+  // NOTE: 本来はticker単体ではなくtickersを扱うべき
+  public indicator(ticker: string): object | null {
     const endpoint = BuffettCodeApiClientV2.baseUrl + '/indicator'
-    const builder = new UrlBuilder(endpoint, { tickers })
+    const builder = new UrlBuilder(endpoint, { tickers: ticker })
     const url = builder.toString()
     const options = {
       headers: {
         'x-api-key': this._token
       }
     }
-    return BuffettCodeApiClientV2.request(url, options)
+
+    const res = BuffettCodeApiClientV2.request(url, options)
+    if (!res[ticker] || !res[ticker].length) {
+      return null
+    }
+
+    return res[ticker][0] // NOTE: indicatorは常に1つ
   }
 }
