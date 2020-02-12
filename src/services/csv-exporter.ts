@@ -1,7 +1,7 @@
 import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
 import { Setting } from '../setting'
 import { YearQuarter } from '../fiscal-periods/year-quarter'
-import { QuarterProperty } from '../api/quarter-property'
+import { CachingQuarterProperty } from '../api/caching-quarter-property'
 
 export class CsvExporter {
   private constructor() {
@@ -35,12 +35,12 @@ export class CsvExporter {
       quarter => `${quarter['fiscal_year']}Q${quarter['fiscal_quarter']}`
     )
     const header = [['キー', '項目名', '単位', ...quarterLabels]]
-    const values = QuarterProperty.names().map(name => {
+    const values = CachingQuarterProperty.names().map(name => {
       const data = sortedQuarters.map(quarter => quarter[name])
       return [
         name,
-        QuarterProperty.labelOf(name),
-        QuarterProperty.unitOf(name),
+        CachingQuarterProperty.labelOf(name),
+        CachingQuarterProperty.unitOf(name),
         ...data
       ]
     })

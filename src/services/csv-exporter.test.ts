@@ -10,6 +10,9 @@ jest.mock('../api/client', () => jest.requireActual('../__mocks__/api/client'))
 jest.mock('../api/quarter-property', () =>
   jest.requireActual('../__mocks__/api/quarter-property')
 )
+jest.mock('../services/quarter-property-cache', () =>
+  jest.requireActual('../__mocks__/services/quarter-property-cache')
+)
 jest.mock('./quarter-cache', () =>
   jest.requireActual('../__mocks__/services/quarter-cache')
 )
