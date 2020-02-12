@@ -1,3 +1,4 @@
+import { version } from '../version'
 import { CellRecalculator } from '../services/cell-recalculator'
 
 export function createAddonMenu(): void {
@@ -5,6 +6,8 @@ export function createAddonMenu(): void {
   menu.addItem('CSV出力', 'showCsvExportDialog_')
   menu.addItem('更新', 'recalculateCustomFunctionCells_')
   menu.addItem('設定', 'showSettingSidebar_')
+  menu.addSeparator()
+  menu.addItem('バフェット・コードについて', 'showVersionDialog_')
   menu.addToUi()
 }
 
@@ -25,4 +28,10 @@ export function showSettingSidebar(): void {
     '設定'
   )
   SpreadsheetApp.getUi().showSidebar(html)
+}
+
+export function showVersionDialog(): void {
+  const ui = SpreadsheetApp.getUi()
+  const description = `バージョン: https://github.com/BuffettCode/buffett-code-api-client-google-spreadsheet/releases/tag/${version}`
+  ui.alert('バフェット・コード', description, ui.ButtonSet.OK)
 }
