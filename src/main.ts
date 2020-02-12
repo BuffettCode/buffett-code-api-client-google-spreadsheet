@@ -1,12 +1,7 @@
 import { bcode } from './custom-functions/bcode'
 import { bcodeLabel } from './custom-functions/bcode-label'
 import { bcodeUnit } from './custom-functions/bcode-unit'
-import {
-  createAddonMenu,
-  recalculateCustomFunctionCells,
-  showCsvExportDialog,
-  showSettingSidebar
-} from './ui/menu'
+import * as menu from './ui/menu'
 import { exportCsv } from './ui/csv-export-dialog'
 import { loadSetting, saveSetting } from './ui/setting-sidebar'
 import { Setting } from './setting'
@@ -16,7 +11,7 @@ declare const global: any
 
 /* triggers */
 global.onOpen = (): void => {
-  createAddonMenu()
+  menu.createAddonMenu()
 }
 global.onInstall = (): void => {
   const setting = Setting.load()
@@ -27,9 +22,10 @@ global.onInstall = (): void => {
 }
 
 /* gui */
-global.showCsvExportDialog_ = showCsvExportDialog
-global.recalculateCustomFunctionCells_ = recalculateCustomFunctionCells
-global.showSettingSidebar_ = showSettingSidebar
+global.showCsvExportDialog_ = menu.showCsvExportDialog
+global.recalculateCustomFunctionCells_ = menu.recalculateCustomFunctionCells
+global.showSettingSidebar_ = menu.showSettingSidebar
+global.showVersionDialog_ = menu.showVersionDialog
 
 /* gui functions */
 global.loadSetting = loadSetting

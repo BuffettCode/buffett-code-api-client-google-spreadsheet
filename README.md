@@ -58,3 +58,10 @@ npm run deploy:dev
 # deploy to prod environment
 npm run deploy:prod
 ```
+
+## Release
+
+1. Edit `src/version.ts`.
+2. Merge development branch into master.
+3. Create a release on github.
+3. Create Deployments from `Publish` -> `Deploy from manifest` in script editor for prodcution.
