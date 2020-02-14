@@ -4,14 +4,19 @@
     <base target="_top">
     <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
     <script>
-      function onError(e) {
+      function onLoadSettingError(e) {
         console.error(e.message, e.stack)
-        alert('エラーが発生しました。')
+        alert(`設定の読み込みでエラーが発生しました: ${e.message}`)
+      }
+
+      function onSaveSettingError(e) {
+        console.error(e.message, e.stack)
+        alert(`設定の保存でエラーが発生しました: ${e.message}`)
       }
 
       function loadSetting() {
         google.script.run
-          .withFailureHandler(onError)
+          .withFailureHandler(onLoadSettingError)
           .withSuccessHandler((_setting) => {
             setting = _setting
             if (setting.token) {
@@ -24,7 +29,7 @@
         const token = document.getElementById('token-input').value
 
         google.script.run
-          .withFailureHandler(onError)
+          .withFailureHandler(onSaveSettingError)
           .withSuccessHandler(() => {
             alert('設定を保存しました')
           })
