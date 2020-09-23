@@ -1,11 +1,13 @@
+import { InvalidYearError, InvalidQuarterError } from './error'
+
 export class YearQuarter {
   constructor(public year: number, public quarter: number) {
     if (year < 1) {
-      throw new Error('Invalid year: ' + year)
+      throw new InvalidYearError()
     }
 
     if (quarter < 1 || quarter > 4) {
-      throw new Error('Invalid quarter: ' + quarter)
+      throw new InvalidQuarterError()
     }
   }
 
@@ -21,6 +23,14 @@ export class YearQuarter {
 
   public toString(): string {
     return this.year + 'Q' + this.quarter
+  }
+
+  public isAfterOrEqual(that: YearQuarter): boolean {
+    if (this.year == that.year) {
+      return this.quarter >= that.quarter
+    }
+
+    return this.year >= that.year
   }
 
   static parse(str: string): YearQuarter {

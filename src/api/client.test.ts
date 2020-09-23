@@ -1,7 +1,8 @@
 import { BuffettCodeApiClientV2 } from './client'
 import { HttpError } from './http-error'
-import { YearQuarter } from '../fiscal-periods/year-quarter'
+import { YearQuarterParam } from '../fiscal-periods/year-quarter-param'
 import { useMockedUrlFetchApp } from './test-helper'
+import * as company from '../__mocks__/fixtures/company'
 import * as indicator from '../__mocks__/fixtures/indicator'
 import * as quarter from '../__mocks__/fixtures/quarter'
 
@@ -72,18 +73,34 @@ test('request when 503 error', () => {
   }
 })
 
+test('company', () => {
+  const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(company))
+
+  const client = new BuffettCodeApiClientV2('foo')
+  const ticker = '2371'
+  expect(client.company(ticker)).toEqual(company[ticker][0])
+  expect(mockFetch.mock.calls.length).toBe(1)
+  expect(mockFetch.mock.calls[0].length).toBe(2)
+  expect(mockFetch.mock.calls[0][0]).toBe(
+    `https://api.buffett-code.com/api/v2/company?ticker=${ticker}`
+  )
+  expect(mockFetch.mock.calls[0][1]).toEqual({
+    headers: { 'x-api-key': 'foo' },
+    muteHttpExceptions: true
+  })
+})
+
 test('quarter', () => {
   const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(quarter))
 
   const client = new BuffettCodeApiClientV2('foo')
   const ticker = '2371'
-  const from = new YearQuarter(2017, 3)
-  const to = new YearQuarter(2019, 1)
-  expect(client.quarter(ticker, from, to)).toEqual(quarter[ticker])
+  const period = new YearQuarterParam(2018, 1)
+  expect(client.quarter(ticker, period)).toEqual(quarter[ticker][0])
   expect(mockFetch.mock.calls.length).toBe(1)
   expect(mockFetch.mock.calls[0].length).toBe(2)
   expect(mockFetch.mock.calls[0][0]).toBe(
-    'https://api.buffett-code.com/api/v2/quarter?tickers=2371&from=2017Q3&to=2019Q1'
+    'https://api.buffett-code.com/api/v2/quarter?ticker=2371&fy=2018&fq=1'
   )
   expect(mockFetch.mock.calls[0][1]).toEqual({
     headers: { 'x-api-key': 'foo' },
@@ -101,6 +118,24 @@ test('indicator', () => {
   expect(mockFetch.mock.calls[0].length).toBe(2)
   expect(mockFetch.mock.calls[0][0]).toBe(
     'https://api.buffett-code.com/api/v2/indicator?tickers=2371'
+  )
+  expect(mockFetch.mock.calls[0][1]).toEqual({
+    headers: { 'x-api-key': 'foo' },
+    muteHttpExceptions: true
+  })
+})
+
+test('ondemandQuarter', () => {
+  const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(quarter))
+
+  const client = new BuffettCodeApiClientV2('foo')
+  const ticker = '2371'
+  const period = new YearQuarterParam(2018, 1)
+  expect(client.ondemandQuarter(ticker, period)).toEqual(quarter[ticker][0])
+  expect(mockFetch.mock.calls.length).toBe(1)
+  expect(mockFetch.mock.calls[0].length).toBe(2)
+  expect(mockFetch.mock.calls[0][0]).toBe(
+    'https://api.buffett-code.com/api/v2/ondemand/quarter?ticker=2371&fy=2018&fq=1'
   )
   expect(mockFetch.mock.calls[0][1]).toEqual({
     headers: { 'x-api-key': 'foo' },

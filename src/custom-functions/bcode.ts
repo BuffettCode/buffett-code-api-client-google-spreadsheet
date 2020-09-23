@@ -1,4 +1,13 @@
-import { ApiResponseError } from './error'
+import {
+  ApiResponseError,
+  OndemandApiNotEnabledError,
+  UnsupportedTickerError
+} from './error'
+import {
+  InvalidLYLQError,
+  InvalidYearError,
+  InvalidQuarterError
+} from '../fiscal-periods/error'
 import { bcodeIndicator } from './bcode-indicator'
 import { bcodeQuarter } from './bcode-quarter'
 import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
@@ -56,9 +65,10 @@ export function bcode(
       result = bcodeQuarter(
         client,
         ticker,
-        parseInt(fiscalYear, 10),
-        parseInt(fiscalQuarter, 10),
-        propertyName
+        fiscalYear === 'LY' ? fiscalYear : parseInt(fiscalYear, 10),
+        fiscalQuarter === 'LQ' ? fiscalQuarter : parseInt(fiscalQuarter, 10),
+        propertyName,
+        setting.ondemandApiEnabled
       )
     } else {
       result = bcodeIndicator(client, ticker, propertyName)
@@ -68,6 +78,10 @@ export function bcode(
   } catch (e) {
     if (e instanceof ApiResponseError) {
       throw new Error('<<指定されたデータを取得できませんでした>>')
+    } else if (e instanceof OndemandApiNotEnabledError) {
+      throw new Error('<<従量課金APIが有効になっていません>>')
+    } else if (e instanceof UnsupportedTickerError) {
+      throw new Error('<<サポートされていないtickerです>>')
     } else if (e instanceof HttpError) {
       const code = e.response.getResponseCode()
 
@@ -80,10 +94,18 @@ export function bcode(
       } else if (Math.floor(code / 100) === 4) {
         throw new Error('<<無効なリクエストです>>')
       } else {
+        console.error('システムエラー', e.name, e.message)
         throw new Error('<<システムエラーが発生しました>>')
       }
+    } else if (e instanceof InvalidLYLQError) {
+      throw new Error('<<LYとLQは同時に指定する必要があります>>')
+    } else if (e instanceof InvalidYearError) {
+      throw new Error(`<<無効な決算年度が指定されています: ${fiscalYear}>>`)
+    } else if (e instanceof InvalidQuarterError) {
+      throw new Error(`<<無効な四半期が指定されています: ${fiscalQuarter}>>`)
     } else {
-      throw new Error(`<<未定義のエラー: ${e.message}>>`)
+      console.error('未定義のエラー', e.name, e.message)
+      throw new Error(`<<未定義のエラー: ${e.name}: ${e.message}>>`)
     }
   }
 }

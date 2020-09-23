@@ -36,15 +36,3 @@ test('put', () => {
     21600
   )
 })
-
-test('putAll', () => {
-  const quarters = [quarter, quarter, quarter]
-  QuarterCache.putAll('2371', quarters)
-
-  expect(putMock).toBeCalledTimes(3)
-  expect(putMock).toBeCalledWith(
-    'quarter-2371-2018Q1',
-    JSON.stringify(quarter),
-    21600
-  )
-})
