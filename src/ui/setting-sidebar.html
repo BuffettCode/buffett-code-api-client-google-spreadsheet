@@ -17,23 +17,28 @@
       function loadSetting() {
         google.script.run
           .withFailureHandler(onLoadSettingError)
-          .withSuccessHandler((_setting) => {
-            setting = _setting
+          .withSuccessHandler((setting) => {
             if (setting.token) {
               document.getElementById('token-input').value = setting.token
             }
-          }).loadSetting()
+            if (setting.ondemandApiEnabled) {
+              document.getElementById('ondemand-api-check').checked = setting.ondemandApiEnabled
+            }
+          })
+          .loadSetting()
       }
 
       function saveSetting() {
         const token = document.getElementById('token-input').value
+        const ondemandApiEnabled = document.getElementById('ondemand-api-check').checked
 
         google.script.run
           .withFailureHandler(onSaveSettingError)
           .withSuccessHandler(() => {
             alert('設定を保存しました')
+            google.script.host.close()
           })
-          .saveSetting(token)
+          .saveSetting(token, ondemandApiEnabled)
       }
     </script>
   </head>
@@ -42,6 +47,10 @@
       <div class="block">
         <label for="token-input"><b>APIトークン</b></label>
         <input id="token-input" type="text">
+      </div>
+      <div class="block">
+        <label for="token-input"><b>従量課金APIを利用する</b></label>
+        <input id="ondemand-api-check" type="checkbox">
       </div>
       <div class="block">
         <button class="action" onclick="saveSetting()">保存</button>

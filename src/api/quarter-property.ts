@@ -1,5 +1,5 @@
 export class QuarterProperty {
-  static readonly url = 'http://docs.buffett-code.com/v2-quarter.json'
+  static readonly url = 'https://docs.buffett-code.com/v2-quarter.json'
 
   protected constructor() {
     //

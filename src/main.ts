@@ -16,6 +16,7 @@ global.onOpen = (): void => {
 global.onInstall = (): void => {
   const setting = Setting.load()
   setting.setDefaultToken()
+  setting.setDefaultOndemandApiEnabled()
   setting.save()
 
   global.onOpen()
@@ -37,8 +38,8 @@ global.exportCsv = exportCsv
  * 指定した銘柄の財務数字や指標を取得します。
  *
  * @param {"6501"} ticker 銘柄コード
- * @param {"2017"} fiscalYear 会計年度
- * @param {"4"} fiscalQuarter 四半期 (1～4の数字)
+ * @param {"2017"} fiscalYear 会計年度 (または"LY")
+ * @param {"4"} fiscalQuarter 四半期 (1～4の数字または"LQ")
  * @param {"net_sales"} propertyName 項目名
  * @param {TRUE} isRawValue (オプション) 数値をRAWデータで表示するかどうか (デフォルト値: FALSE)
  * @param {TRUE} isWithUnits (オプション) 単位を末尾に付加するかどうか (デフォルト値: FALSE)

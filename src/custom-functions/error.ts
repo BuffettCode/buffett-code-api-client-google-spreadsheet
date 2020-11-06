@@ -6,3 +6,21 @@ export class ApiResponseError implements Error {
     this.message = message
   }
 }
+
+export class OndemandApiNotEnabledError implements Error {
+  public name = 'OndemandApiNotEnabledError'
+  public message: string
+
+  constructor(message = '') {
+    this.message = message
+  }
+}
+
+export class UnsupportedTickerError implements Error {
+  public name = 'UnsupportedTickerError'
+  public message: string
+
+  constructor(message = '') {
+    this.message = message
+  }
+}
