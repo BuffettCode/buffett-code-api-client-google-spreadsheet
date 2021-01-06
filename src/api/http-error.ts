@@ -11,7 +11,8 @@ export class HttpError implements Error {
     const content = this.response.getContentText()
     return (
       content ===
-      '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
+        '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}' ||
+      content === '{"message":"Testing apikey is not allowed"}'
     )
   }
 

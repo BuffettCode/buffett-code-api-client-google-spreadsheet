@@ -35,12 +35,4 @@ export class QuarterCache {
     const key = this.key(ticker, yearQuarter)
     cache.put(key, JSON.stringify(quarter), expirationInSeconds)
   }
-
-  static putAll(
-    ticker: string,
-    quarters: object[],
-    expirationInSeconds = 21600
-  ): void {
-    quarters.forEach(quarter => this.put(ticker, quarter, expirationInSeconds))
-  }
 }

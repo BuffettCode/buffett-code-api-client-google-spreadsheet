@@ -1,4 +1,4 @@
-import { YearQuarter } from '../fiscal-periods/year-quarter'
+import { YearQuarterParam } from '../fiscal-periods/year-quarter-param'
 import { UrlBuilder } from './url-builder'
 import { HttpError } from './http-error'
 
@@ -16,39 +16,64 @@ export class BuffettCodeApiClientV2 {
 
     const code = res.getResponseCode()
     const content = res.getContentText()
-    if (Math.floor(code / 100) === 4 || Math.floor(code / 100) === 5) {
-      throw new HttpError(res)
-    } else if (
-      content ===
-      '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
+    const error = new HttpError(res)
+    if (
+      Math.floor(code / 100) === 4 ||
+      Math.floor(code / 100) === 5 ||
+      error.isInvalidTestingRequest()
     ) {
+      throw error
+    }
+
+    let json
+    try {
+      json = JSON.parse(content)
+    } catch (e) {
+      console.error('JSON parsing error', code, content)
       throw new HttpError(res)
     }
 
-    return JSON.parse(content)
+    return json
   }
 
-  // NOTE: 本来はticker単体ではなくtickersを扱うべき
-  public quarter(
-    ticker: string,
-    from: YearQuarter,
-    to: YearQuarter
-  ): object[] | null {
-    const endpoint = BuffettCodeApiClientV2.baseUrl + '/quarter'
-    const builder = new UrlBuilder(endpoint, { tickers: ticker, from, to })
-    const url = builder.toString()
-    const options = {
+  private defaultOptions(): object {
+    return {
       headers: {
         'x-api-key': this._token
       }
     }
+  }
+
+  public company(ticker: string): object | null {
+    const endpoint = BuffettCodeApiClientV2.baseUrl + '/company'
+    const builder = new UrlBuilder(endpoint, { ticker: ticker })
+    const url = builder.toString()
+    const options = this.defaultOptions()
 
     const res = BuffettCodeApiClientV2.request(url, options)
     if (!res[ticker] || !res[ticker].length) {
       return null
     }
 
-    return res[ticker]
+    return res[ticker][0]
+  }
+
+  public quarter(ticker: string, period: YearQuarterParam): object | null {
+    const endpoint = BuffettCodeApiClientV2.baseUrl + '/quarter'
+    const builder = new UrlBuilder(endpoint, {
+      ticker,
+      fy: period.year,
+      fq: period.quarter
+    })
+    const url = builder.toString()
+    const options = this.defaultOptions()
+
+    const res = BuffettCodeApiClientV2.request(url, options)
+    if (!res[ticker] || !res[ticker].length) {
+      return null
+    }
+
+    return res[ticker][0]
   }
 
   // NOTE: 本来はticker単体ではなくtickersを扱うべき
@@ -56,11 +81,7 @@ export class BuffettCodeApiClientV2 {
     const endpoint = BuffettCodeApiClientV2.baseUrl + '/indicator'
     const builder = new UrlBuilder(endpoint, { tickers: ticker })
     const url = builder.toString()
-    const options = {
-      headers: {
-        'x-api-key': this._token
-      }
-    }
+    const options = this.defaultOptions()
 
     const res = BuffettCodeApiClientV2.request(url, options)
     if (!res[ticker] || !res[ticker].length) {
@@ -68,5 +89,26 @@ export class BuffettCodeApiClientV2 {
     }
 
     return res[ticker][0] // NOTE: indicatorは常に1つ
+  }
+
+  public ondemandQuarter(
+    ticker: string,
+    period: YearQuarterParam
+  ): object | null {
+    const endpoint = BuffettCodeApiClientV2.baseUrl + '/ondemand/quarter'
+    const builder = new UrlBuilder(endpoint, {
+      ticker,
+      fy: period.year,
+      fq: period.quarter
+    })
+    const url = builder.toString()
+    const options = this.defaultOptions()
+
+    const res = BuffettCodeApiClientV2.request(url, options)
+    if (!res[ticker] || !res[ticker].length) {
+      return null
+    }
+
+    return res[ticker][0] // NOTE: ondemend/quarterは常に1レコード
   }
 }

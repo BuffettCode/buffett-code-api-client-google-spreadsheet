@@ -4,39 +4,80 @@
     <base target="_top">
     <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
     <script>
-      function onError(e) {
+      function onLoadSettingError(e) {
         console.error(e.message, e.stack)
-        alert('エラーが発生しました。')
+        alert(`設定の読み込みでエラーが発生しました: ${e.message}`)
+      }
+
+      function onSaveSettingError(e) {
+        console.error(e.message, e.stack)
+        alert(`設定の保存でエラーが発生しました: ${e.message}`)
       }
 
       function loadSetting() {
         google.script.run
-          .withFailureHandler(onError)
-          .withSuccessHandler((_setting) => {
-            setting = _setting
+          .withFailureHandler(onLoadSettingError)
+          .withSuccessHandler((setting) => {
             if (setting.token) {
               document.getElementById('token-input').value = setting.token
             }
-          }).loadSetting()
+            if (setting.ondemandApiEnabled) {
+              document.getElementById('ondemand-api-check').checked = setting.ondemandApiEnabled
+            }
+          })
+          .loadSetting()
       }
 
       function saveSetting() {
         const token = document.getElementById('token-input').value
+        const ondemandApiEnabled = document.getElementById('ondemand-api-check').checked
 
         google.script.run
-          .withFailureHandler(onError)
+          .withFailureHandler(onSaveSettingError)
           .withSuccessHandler(() => {
             alert('設定を保存しました')
+            google.script.host.close()
           })
-          .saveSetting(token)
+          .saveSetting(token, ondemandApiEnabled)
       }
     </script>
   </head>
   <body>
     <div class="sidebar">
       <div class="block">
+        <h3>APIの設定</h3>
         <label for="token-input"><b>APIトークン</b></label>
         <input id="token-input" type="text">
+      </div>
+      <div class="block">
+        <h3>従量課金APIの設定</h3>
+        <div>
+          <p>
+            バフェット・コードの従量課金APIがスプレッドシートアドオンでもご利用いただけます。<br>
+            従量課金APIを使うことで、現在5年以内の財務数値しか取得できなかったところ、5年より前の財務数値もBCODE関数で取得することができるようになります。<br>
+            月額料金の範囲内のAPIコールか、従量課金のAPIコールかはバフェット・コードが自動で判定しますので、BCODE関数の追加設定は必要ありません。<br>
+            ただし従量課金対象のBCODE関数を使うと、月額利用料とは別に1アクセスあたり8.8円（税込）が課金されますのでご注意ください。<br>
+          </p>
+
+          <p>
+            <h4>■注意事項</h4>
+            <ul style="padding-left: 20px;">
+              <li>昨日まで月額料金の範囲内だったもの（直近5年以内だったもの）が日付変わって今日には従量課金の対象（直近5年より前）になりえますので、日付管理にはご注意ください。</li>
+              <li>従量課金対象となるBCODE関数は、数値を取得後はなるべく値貼り付けで保存されることを強く推奨します。スプレッドシートは任意のタイミングで自動更新がかかるため、BCODE関数のままで残っていると知らぬ間に課金が発生する可能性がありますのでご注意ください。</li>
+              <li>スプレッドシートは他人に共有しないようにしてください。APIキーが設定されたままスプレッドシートが共有されることは利用規約で禁止されております。万が一、利用規約違反を知らず共有した場合でも、共有先の相手が従量課金の対象となるBCODE関数の存在を知らずにスプレッドシートを更新するなど、従量課金APIが稼働するとご契約者（あなた）に課金がなされますのでご注意ください。</li>
+            </ul>
+          </p>
+
+          <p>
+            詳細や注意事項、FAQについては下記のドキュメントにまとめておりますのでご確認ください。<br>
+            <ul style="padding-left: 20px;">
+              <li><a href="https://www.buffett-code.com/legal/web_api/special_notes" target="_blank" rel="noopener">バフェットコード WEB API機能に関する特記事項</a></li>
+              <li><a href="https://blog.buffett-code.com/entry/ondemand_api_usage" target="_blank" rel="noopener">Web API従量課金エンドポイントのご利用にあたって</a></li>
+            </ul>
+          </p>
+        </div>
+        <label for="ondemand-api-check"><b>同意して従量課金APIを利用する</b></label>
+        <input id="ondemand-api-check" type="checkbox">
       </div>
       <div class="block">
         <button class="action" onclick="saveSetting()">保存</button>
