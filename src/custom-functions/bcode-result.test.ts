@@ -34,6 +34,6 @@ test('format', () => {
     '430,602,000,000円'
   )
 
-  expect(new BcodeResult(null, '百万円').format(true, false)).toBe('N/A')
-  expect(new BcodeResult(null, '百万円').format(true, true)).toBe('N/A')
+  expect(new BcodeResult(null, '百万円').format(true, false)).toBe('')
+  expect(new BcodeResult(null, '百万円').format(true, true)).toBe('')
 })
