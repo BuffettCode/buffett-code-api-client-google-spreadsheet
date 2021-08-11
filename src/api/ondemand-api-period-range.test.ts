@@ -1,10 +1,10 @@
-import { CachingBuffettCodeApiClientV2 } from './caching-client'
+import { CachingBuffettCodeApiClientV2 } from './v2/caching-client'
 import { CompanyService } from './company-service'
 import { OndemandApiPeriodRange } from './ondemand-api-period-range'
 import { YearQuarter } from '../fiscal-periods/year-quarter'
 import { YearQuarterRange } from '../fiscal-periods/year-quarter-range'
 
-jest.mock('../api/client', () => jest.requireActual('../__mocks__/api/client'))
+jest.mock('./v2/client', () => jest.requireActual('../__mocks__/api/v2/client'))
 jest.mock('../services/company-cache', () =>
   jest.requireActual('../__mocks__/services/company-cache')
 )

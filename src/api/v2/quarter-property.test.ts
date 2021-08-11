@@ -1,7 +1,7 @@
 import { QuarterProperty } from './quarter-property'
-import { useMockedUrlFetchApp } from './test-helper'
+import { useMockedUrlFetchApp } from '../test-helper'
 
-import { default as quarter } from '../__mocks__/fixtures/quarter-property'
+import { default as quarter } from '../../__mocks__/fixtures/v2/quarter-property'
 
 test('isQuarterProperty', () => {
   useMockedUrlFetchApp(200, JSON.stringify(quarter))

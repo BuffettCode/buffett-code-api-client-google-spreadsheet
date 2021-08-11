@@ -1,5 +1,5 @@
 import { CompanyCache } from './company-cache'
-import * as companyFixture from '../__mocks__/fixtures/company'
+import * as companyFixture from '../__mocks__/fixtures/v2/company'
 import { getMock, putMock } from './cache-test-helper'
 
 const companies = companyFixture.default

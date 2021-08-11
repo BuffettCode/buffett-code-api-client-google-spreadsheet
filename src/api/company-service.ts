@@ -1,4 +1,4 @@
-import { BuffettCodeApiClientV2 } from '../api/client'
+import { BuffettCodeApiClientV2 } from './v2/client'
 import { YearQuarter } from '../fiscal-periods/year-quarter'
 import { YearQuarterParam } from '../fiscal-periods/year-quarter-param'
 

@@ -1,6 +1,6 @@
 import { QuarterCache } from './quarter-cache'
 import { YearQuarter } from '../fiscal-periods/year-quarter'
-import * as quarterFixture from '../__mocks__/fixtures/quarter'
+import * as quarterFixture from '../__mocks__/fixtures/v2/quarter'
 import { getMock, putMock } from './cache-test-helper'
 
 test('key', () => {

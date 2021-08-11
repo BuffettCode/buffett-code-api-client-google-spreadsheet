@@ -3,8 +3,8 @@ import {
   OndemandApiNotEnabledError,
   UnsupportedTickerError
 } from './error'
-import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
-import { CachingQuarterProperty } from '../api/caching-quarter-property'
+import { CachingBuffettCodeApiClientV2 } from '../api/v2/caching-client'
+import { CachingQuarterProperty } from '../api/v2/caching-quarter-property'
 import { CompanyService } from '../api/company-service'
 import { BcodeResult } from './bcode-result'
 import { YearQuarterParam } from '../fiscal-periods/year-quarter-param'

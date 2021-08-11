@@ -1,5 +1,5 @@
 import { QuarterPropertyCache } from './quarter-property-cache'
-import * as quarterProperty from '../__mocks__/fixtures/quarter-property'
+import * as quarterProperty from '../__mocks__/fixtures/v2/quarter-property'
 import { getMock, putMock } from './cache-test-helper'
 
 test('get', () => {

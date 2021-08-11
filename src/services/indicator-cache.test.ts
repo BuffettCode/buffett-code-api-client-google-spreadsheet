@@ -1,5 +1,5 @@
 import { IndicatorCache } from './indicator-cache'
-import * as indicatorFixture from '../__mocks__/fixtures/indicator'
+import * as indicatorFixture from '../__mocks__/fixtures/v2/indicator'
 import { getMock, putMock } from './cache-test-helper'
 
 test('key', () => {

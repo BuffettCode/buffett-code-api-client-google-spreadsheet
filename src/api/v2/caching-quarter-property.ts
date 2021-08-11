@@ -1,5 +1,5 @@
 import { QuarterProperty } from './quarter-property'
-import { QuarterPropertyCache } from '../services/quarter-property-cache'
+import { QuarterPropertyCache } from '../../services/quarter-property-cache'
 
 export class CachingQuarterProperty extends QuarterProperty {
   static fetch(): object {
