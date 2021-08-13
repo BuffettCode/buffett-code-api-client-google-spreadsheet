@@ -10,10 +10,10 @@ import {
 } from '../fiscal-periods/error'
 import { bcodeIndicator } from './bcode-indicator'
 import { bcodeQuarter } from './bcode-quarter'
-import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
+import { CachingBuffettCodeApiClientV2 } from '../api/v2/caching-client'
 import { HttpError } from '../api/http-error'
-import { CachingIndicatorProperty } from '../api/caching-indicator-property'
-import { QuarterProperty } from '../api/quarter-property'
+import { CachingIndicatorProperty } from '../api/v2/caching-indicator-property'
+import { QuarterProperty } from '../api/v2/quarter-property'
 import { BcodeResult } from './bcode-result'
 import { Setting } from '../setting'
 
