@@ -1,6 +1,6 @@
-import { default as company } from '../../fixtures/v2/company.js'
-import { default as indicator } from '../../fixtures/v2/indicator.js'
-import { default as quarter } from '../../fixtures/v2/quarter.js'
+import { default as company } from '~/__mocks__/fixtures/v2/company.js'
+import { default as indicator } from '~/__mocks__/fixtures/v2/indicator.js'
+import { default as quarter } from '~/__mocks__/fixtures/v2/quarter.js'
 
 export class BuffettCodeApiClientV2 {
   public mockCompany = jest.fn()

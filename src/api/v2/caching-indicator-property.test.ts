@@ -1,12 +1,12 @@
-import { CachingIndicatorProperty } from './caching-indicator-property'
-import { IndicatorPropertyCache } from '../../services/indicator-property-cache'
+import { CachingIndicatorProperty } from '~/api/v2/caching-indicator-property'
+import { IndicatorPropertyCache } from '~/services/indicator-property-cache'
 
-jest.mock('./indicator-property', () =>
-  jest.requireActual('../../__mocks__/api/v2/indicator-property')
+jest.mock('~/api/v2/indicator-property', () =>
+  jest.requireActual('~/__mocks__/api/v2/indicator-property')
 )
 
-jest.mock('../../services/indicator-property-cache', () =>
-  jest.requireActual('../../__mocks__/services/indicator-property-cache')
+jest.mock('~/services/indicator-property-cache', () =>
+  jest.requireActual('~/__mocks__/services/indicator-property-cache')
 )
 
 describe('fetch', () => {

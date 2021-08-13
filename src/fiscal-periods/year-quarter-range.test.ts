@@ -1,5 +1,5 @@
-import { YearQuarter } from './year-quarter'
-import { YearQuarterRange } from './year-quarter-range'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
 test('diff', () => {
   expect(

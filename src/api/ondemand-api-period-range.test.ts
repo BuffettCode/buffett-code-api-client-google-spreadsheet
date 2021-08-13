@@ -1,12 +1,14 @@
-import { CachingBuffettCodeApiClientV2 } from './v2/caching-client'
-import { CompanyService } from './company-service'
-import { OndemandApiPeriodRange } from './ondemand-api-period-range'
-import { YearQuarter } from '../fiscal-periods/year-quarter'
-import { YearQuarterRange } from '../fiscal-periods/year-quarter-range'
+import { CompanyService } from '~/api/company-service'
+import { OndemandApiPeriodRange } from '~/api/ondemand-api-period-range'
+import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
-jest.mock('./v2/client', () => jest.requireActual('../__mocks__/api/v2/client'))
-jest.mock('../services/company-cache', () =>
-  jest.requireActual('../__mocks__/services/company-cache')
+jest.mock('~/api/v2/client', () =>
+  jest.requireActual('~/__mocks__/api/v2/client')
+)
+jest.mock('~/services/company-cache', () =>
+  jest.requireActual('~/__mocks__/services/company-cache')
 )
 
 test('selectOndemandQuarterApiPeriod', () => {

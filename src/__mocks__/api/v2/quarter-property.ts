@@ -1,4 +1,4 @@
-import { default as quarter } from '../../fixtures/v2/quarter-property'
+import { default as quarter } from '~/__mocks__/fixtures/v2/quarter-property'
 
 export class QuarterProperty {
   static fetch(): object {

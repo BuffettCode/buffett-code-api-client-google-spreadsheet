@@ -1,4 +1,4 @@
-import { UrlBuilder } from './url-builder'
+import { UrlBuilder } from '~/api/url-builder'
 
 test('toString', () => {
   const endpoint = 'https://example.com'

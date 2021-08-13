@@ -1,4 +1,4 @@
-import { default as indicator } from '../../fixtures/v2/indicator-property'
+import { default as indicator } from '~/__mocks__/fixtures/v2/indicator-property'
 
 export class IndicatorProperty {
   static fetch(): object {

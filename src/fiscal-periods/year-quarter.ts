@@ -1,4 +1,4 @@
-import { InvalidYearError, InvalidQuarterError } from './error'
+import { InvalidYearError, InvalidQuarterError } from '~/fiscal-periods/error'
 
 export class YearQuarter {
   constructor(public year: number, public quarter: number) {

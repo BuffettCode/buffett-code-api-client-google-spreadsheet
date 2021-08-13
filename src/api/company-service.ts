@@ -1,6 +1,6 @@
-import { BuffettCodeApiClientV2 } from './v2/client'
-import { YearQuarter } from '../fiscal-periods/year-quarter'
-import { YearQuarterParam } from '../fiscal-periods/year-quarter-param'
+import { BuffettCodeApiClientV2 } from '~/api/v2/client'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
 export class CompanyService {
   public company: object

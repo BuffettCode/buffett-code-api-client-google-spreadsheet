@@ -1,4 +1,4 @@
-import { Formatter } from './formatter'
+import { Formatter } from '~/services/formatter'
 
 test('round', () => {
   expect(Formatter.round(1234.5678, 1)).toBe(1234.6)

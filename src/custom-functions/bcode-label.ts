@@ -1,5 +1,5 @@
-import { CachingIndicatorProperty } from '../api/v2/caching-indicator-property'
-import { CachingQuarterProperty } from '../api/v2/caching-quarter-property'
+import { CachingIndicatorProperty } from '~/api/v2/caching-indicator-property'
+import { CachingQuarterProperty } from '~/api/v2/caching-quarter-property'
 
 export function bcodeLabel(propertyName: string): string {
   if (!propertyName) {

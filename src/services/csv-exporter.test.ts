@@ -1,25 +1,24 @@
-import { CsvExporter } from './csv-exporter'
-import { QuarterCache } from './quarter-cache'
-import { QuarterProperty } from '../api/v2/quarter-property'
-import { YearQuarter } from '../fiscal-periods/year-quarter'
+import { default as quarter } from '~/__mocks__/fixtures/v2/quarter-property'
+import { QuarterProperty } from '~/api/v2/quarter-property'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { CsvExporter } from '~/services/csv-exporter'
+import { QuarterCache } from '~/services/quarter-cache'
 
-import { default as quarter } from '../__mocks__/fixtures/v2/quarter-property'
-
-jest.mock('../setting')
-jest.mock('../api/v2/client', () =>
-  jest.requireActual('../__mocks__/api/v2/client')
+jest.mock('~/setting', () => jest.requireActual('~/__mocks__/setting'))
+jest.mock('~/api/v2/client', () =>
+  jest.requireActual('~/__mocks__/api/v2/client')
 )
-jest.mock('../api/v2/quarter-property', () =>
-  jest.requireActual('../__mocks__/api/v2/quarter-property')
+jest.mock('~/api/v2/quarter-property', () =>
+  jest.requireActual('~/__mocks__/api/v2/quarter-property')
 )
-jest.mock('../services/quarter-property-cache', () =>
-  jest.requireActual('../__mocks__/services/quarter-property-cache')
+jest.mock('~/services/quarter-property-cache', () =>
+  jest.requireActual('~/__mocks__/services/quarter-property-cache')
 )
-jest.mock('../services/company-cache', () =>
-  jest.requireActual('../__mocks__/services/company-cache')
+jest.mock('~/services/company-cache', () =>
+  jest.requireActual('~/__mocks__/services/company-cache')
 )
-jest.mock('./quarter-cache', () =>
-  jest.requireActual('../__mocks__/services/quarter-cache')
+jest.mock('~/services/quarter-cache', () =>
+  jest.requireActual('~/__mocks__/services/quarter-cache')
 )
 
 const fiscalYearIndex = Object.keys(quarter).indexOf('fiscal_year')

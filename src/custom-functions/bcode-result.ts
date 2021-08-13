@@ -1,4 +1,4 @@
-import { Formatter } from '../services/formatter'
+import { Formatter } from '~/services/formatter'
 
 export class BcodeResult {
   constructor(public value: number | string | null, public unit: string) {}

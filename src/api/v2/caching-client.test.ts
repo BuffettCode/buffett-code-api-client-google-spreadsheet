@@ -1,19 +1,21 @@
-import { CachingBuffettCodeApiClientV2 } from './caching-client'
-import { YearQuarter } from '../../fiscal-periods/year-quarter'
-import { YearQuarterParam } from '../../fiscal-periods/year-quarter-param'
-import { CompanyCache } from '../../__mocks__/services/company-cache'
-import { IndicatorCache } from '../../services/indicator-cache'
-import { QuarterCache } from '../../__mocks__/services/quarter-cache'
+import { CompanyCache } from '~/__mocks__/services/company-cache'
+import { QuarterCache } from '~/__mocks__/services/quarter-cache'
+import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
+import { IndicatorCache } from '~/services/indicator-cache'
 
-jest.mock('./client', () => jest.requireActual('../../__mocks__/api/v2/client'))
-jest.mock('../../services/company-cache', () =>
-  jest.requireActual('../../__mocks__/services/company-cache')
+jest.mock('~/api/v2/client', () =>
+  jest.requireActual('~/__mocks__/api/v2/client')
 )
-jest.mock('../../services/indicator-cache', () =>
-  jest.requireActual('../../__mocks__/services/indicator-cache')
+jest.mock('~/services/company-cache', () =>
+  jest.requireActual('~/__mocks__/services/company-cache')
 )
-jest.mock('../../services/quarter-cache', () =>
-  jest.requireActual('../../__mocks__/services/quarter-cache')
+jest.mock('~/services/indicator-cache', () =>
+  jest.requireActual('~/__mocks__/services/indicator-cache')
+)
+jest.mock('~/services/quarter-cache', () =>
+  jest.requireActual('~/__mocks__/services/quarter-cache')
 )
 
 describe('company', () => {
