@@ -1,8 +1,8 @@
-import { bcodeIndicator } from '~/custom-functions/bcode-indicator'
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
+import { bcodeIndicator } from '~/custom-functions/bcode-indicator'
+import { BcodeResult } from '~/custom-functions/bcode-result'
 import { IndicatorCache } from '~/services/indicator-cache'
 import { IndicatorPropertyCache } from '~/services/indicator-property-cache'
-import { BcodeResult } from '~/custom-functions/bcode-result'
 
 jest.mock('~/api/v2/client', () =>
   jest.requireActual('~/__mocks__/api/v2/client')

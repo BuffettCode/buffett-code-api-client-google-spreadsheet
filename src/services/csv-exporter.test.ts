@@ -1,9 +1,8 @@
-import { CsvExporter } from '~/services/csv-exporter'
-import { QuarterCache } from '~/services/quarter-cache'
+import { default as quarter } from '~/__mocks__/fixtures/v2/quarter-property'
 import { QuarterProperty } from '~/api/v2/quarter-property'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
-
-import { default as quarter } from '~/__mocks__/fixtures/v2/quarter-property'
+import { CsvExporter } from '~/services/csv-exporter'
+import { QuarterCache } from '~/services/quarter-cache'
 
 jest.mock('~/setting', () => jest.requireActual('~/__mocks__/setting'))
 jest.mock('~/api/v2/client', () =>

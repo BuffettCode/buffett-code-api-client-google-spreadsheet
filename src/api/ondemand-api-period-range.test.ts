@@ -1,6 +1,6 @@
-import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { CompanyService } from '~/api/company-service'
 import { OndemandApiPeriodRange } from '~/api/ondemand-api-period-range'
+import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 

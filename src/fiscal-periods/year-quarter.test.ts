@@ -1,5 +1,5 @@
-import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { InvalidYearError, InvalidQuarterError } from '~/fiscal-periods/error'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
 
 test('constructor', () => {
   expect(() => new YearQuarter(0, 3)).toThrow(InvalidYearError)

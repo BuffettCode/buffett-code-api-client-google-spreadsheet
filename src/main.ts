@@ -1,10 +1,10 @@
 import { bcode } from '~/custom-functions/bcode'
 import { bcodeLabel } from '~/custom-functions/bcode-label'
 import { bcodeUnit } from '~/custom-functions/bcode-unit'
-import * as menu from '~/ui/menu'
-import { exportCsv } from '~/ui/csv-export-dialog'
-import { loadSetting, saveSetting } from '~/ui/setting-sidebar'
 import { Setting } from '~/setting'
+import { exportCsv } from '~/ui/csv-export-dialog'
+import * as menu from '~/ui/menu'
+import { loadSetting, saveSetting } from '~/ui/setting-sidebar'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const global: any

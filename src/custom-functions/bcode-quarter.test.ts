@@ -1,9 +1,9 @@
-import { bcodeQuarter } from '~/custom-functions/bcode-quarter'
-import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { QuarterCache } from '~/__mocks__/services/quarter-cache'
-import { QuarterPropertyCache } from '~/services/quarter-property-cache'
+import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
+import { bcodeQuarter } from '~/custom-functions/bcode-quarter'
 import { BcodeResult } from '~/custom-functions/bcode-result'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { QuarterPropertyCache } from '~/services/quarter-property-cache'
 
 jest.mock('~/api/v2/client', () =>
   jest.requireActual('~/__mocks__/api/v2/client')

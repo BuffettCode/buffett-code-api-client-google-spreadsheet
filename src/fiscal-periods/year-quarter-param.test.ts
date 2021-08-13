@@ -1,10 +1,10 @@
-import { YearQuarter } from '~/fiscal-periods/year-quarter'
-import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import {
   InvalidLYLQError,
   InvalidYearError,
   InvalidQuarterError
 } from '~/fiscal-periods/error'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
 test('constructor', () => {
   expect(() => new YearQuarterParam(0, 3)).toThrow(InvalidYearError)

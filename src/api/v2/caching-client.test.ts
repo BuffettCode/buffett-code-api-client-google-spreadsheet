@@ -1,9 +1,9 @@
+import { CompanyCache } from '~/__mocks__/services/company-cache'
+import { QuarterCache } from '~/__mocks__/services/quarter-cache'
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
-import { CompanyCache } from '~/__mocks__/services/company-cache'
 import { IndicatorCache } from '~/services/indicator-cache'
-import { QuarterCache } from '~/__mocks__/services/quarter-cache'
 
 jest.mock('~/api/v2/client', () =>
   jest.requireActual('~/__mocks__/api/v2/client')
