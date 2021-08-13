@@ -1,6 +1,6 @@
-import { IndicatorCache } from './indicator-cache'
-import * as indicatorFixture from '../__mocks__/fixtures/v2/indicator'
-import { getMock, putMock } from './cache-test-helper'
+import { IndicatorCache } from '~/services/indicator-cache'
+import * as indicatorFixture from '~/__mocks__/fixtures/v2/indicator'
+import { getMock, putMock } from '~/services/cache-test-helper'
 
 test('key', () => {
   expect(IndicatorCache.key('6501')).toBe('indicator-6501')

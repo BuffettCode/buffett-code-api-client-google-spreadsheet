@@ -1,9 +1,9 @@
-import { YearQuarter } from './year-quarter'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import {
   InvalidLYLQError,
   InvalidYearError,
   InvalidQuarterError
-} from './error'
+} from '~/fiscal-periods/error'
 
 export class YearQuarterParam {
   constructor(public year: number | 'LY', public quarter: number | 'LQ') {

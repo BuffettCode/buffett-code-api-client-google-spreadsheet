@@ -4,7 +4,11 @@
     "target": "es5",
     "module": "es2015",
     "esModuleInterop": true,
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    }
   },
   "include": ["./src"]
 }

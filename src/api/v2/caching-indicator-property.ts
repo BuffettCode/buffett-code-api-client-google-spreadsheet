@@ -1,5 +1,5 @@
-import { IndicatorProperty } from './indicator-property'
-import { IndicatorPropertyCache } from '../../services/indicator-property-cache'
+import { IndicatorProperty } from '~/api/v2/indicator-property'
+import { IndicatorPropertyCache } from '~/services/indicator-property-cache'
 
 export class CachingIndicatorProperty extends IndicatorProperty {
   static fetch(): object {

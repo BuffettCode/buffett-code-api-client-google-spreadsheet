@@ -1,7 +1,7 @@
-import { ApiResponseError } from './error'
-import { CachingBuffettCodeApiClientV2 } from '../api/v2/caching-client'
-import { CachingIndicatorProperty } from '../api/v2/caching-indicator-property'
-import { BcodeResult } from './bcode-result'
+import { ApiResponseError } from '~/custom-functions/error'
+import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
+import { CachingIndicatorProperty } from '~/api/v2/caching-indicator-property'
+import { BcodeResult } from '~/custom-functions/bcode-result'
 
 export function bcodeIndicator(
   client: CachingBuffettCodeApiClientV2,

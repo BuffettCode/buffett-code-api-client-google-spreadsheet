@@ -1,6 +1,6 @@
-import { YearQuarterParam } from '../../fiscal-periods/year-quarter-param'
-import { UrlBuilder } from '../url-builder'
-import { HttpError } from '../http-error'
+import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
+import { UrlBuilder } from '~/api/url-builder'
+import { HttpError } from '~/api/http-error'
 
 export class BuffettCodeApiClientV2 {
   static readonly baseUrl = 'https://api.buffett-code.com/api/v2'

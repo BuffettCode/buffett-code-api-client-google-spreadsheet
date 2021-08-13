@@ -1,4 +1,4 @@
-import { BcodeResult } from './bcode-result'
+import { BcodeResult } from '~/custom-functions/bcode-result'
 
 test('format', () => {
   expect(new BcodeResult(1234.5678, '日').format(false, false)).toBe(1234.6)

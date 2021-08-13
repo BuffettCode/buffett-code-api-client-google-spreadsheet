@@ -1,6 +1,6 @@
-import { CompanyCache } from './company-cache'
-import * as companyFixture from '../__mocks__/fixtures/v2/company'
-import { getMock, putMock } from './cache-test-helper'
+import { CompanyCache } from '~/services/company-cache'
+import * as companyFixture from '~/__mocks__/fixtures/v2/company'
+import { getMock, putMock } from '~/services/cache-test-helper'
 
 const companies = companyFixture.default
 const company = companies['2371'][0]

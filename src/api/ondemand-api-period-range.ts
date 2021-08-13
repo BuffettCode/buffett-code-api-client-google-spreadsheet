@@ -1,6 +1,6 @@
-import { YearQuarter } from '../fiscal-periods/year-quarter'
-import { YearQuarterRange } from '../fiscal-periods/year-quarter-range'
-import { CompanyService } from './company-service'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
+import { CompanyService } from '~/api/company-service'
 
 export class OndemandApiPeriodRange {
   constructor(public companyService: CompanyService) {}

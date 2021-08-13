@@ -1,4 +1,4 @@
-import { YearQuarter } from './year-quarter'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
 
 export class YearQuarterRange {
   constructor(readonly from: YearQuarter, readonly to: YearQuarter) {
