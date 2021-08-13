@@ -1,7 +1,7 @@
 import { IndicatorProperty } from './indicator-property'
-import { useMockedUrlFetchApp } from './test-helper'
+import { useMockedUrlFetchApp } from '../test-helper'
 
-import { default as indicator } from '../__mocks__/fixtures/indicator-property'
+import { default as indicator } from '../../__mocks__/fixtures/v2/indicator-property'
 
 test('isIndicatorProperty', () => {
   useMockedUrlFetchApp(200, JSON.stringify(indicator))

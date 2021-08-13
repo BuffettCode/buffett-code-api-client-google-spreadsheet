@@ -1,8 +1,8 @@
 import { BuffettCodeApiClientV2 } from './client'
-import { YearQuarterParam } from '../fiscal-periods/year-quarter-param'
-import { CompanyCache } from '../services/company-cache'
-import { IndicatorCache } from '../services/indicator-cache'
-import { QuarterCache } from '../services/quarter-cache'
+import { YearQuarterParam } from '../../fiscal-periods/year-quarter-param'
+import { CompanyCache } from '../../services/company-cache'
+import { IndicatorCache } from '../../services/indicator-cache'
+import { QuarterCache } from '../../services/quarter-cache'
 
 export class CachingBuffettCodeApiClientV2 extends BuffettCodeApiClientV2 {
   constructor(token: string) {

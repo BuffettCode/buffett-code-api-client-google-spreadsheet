@@ -1,5 +1,5 @@
 import { IndicatorPropertyCache } from './indicator-property-cache'
-import * as indicatorProperty from '../__mocks__/fixtures/indicator-property'
+import * as indicatorProperty from '../__mocks__/fixtures/v2/indicator-property'
 import { getMock, putMock } from './cache-test-helper'
 
 test('get', () => {

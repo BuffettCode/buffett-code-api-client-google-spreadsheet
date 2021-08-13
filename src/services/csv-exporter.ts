@@ -1,9 +1,9 @@
-import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
+import { CachingBuffettCodeApiClientV2 } from '../api/v2/caching-client'
 import { Setting } from '../setting'
 import { YearQuarter } from '../fiscal-periods/year-quarter'
 import { YearQuarterRange } from '../fiscal-periods/year-quarter-range'
 import { YearQuarterParam } from '../fiscal-periods/year-quarter-param'
-import { CachingQuarterProperty } from '../api/caching-quarter-property'
+import { CachingQuarterProperty } from '../api/v2/caching-quarter-property'
 import { OndemandApiPeriodRange } from '../api/ondemand-api-period-range'
 import { CompanyService } from '../api/company-service'
 
