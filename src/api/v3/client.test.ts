@@ -4,6 +4,7 @@ import * as quarter from '~/__mocks__/fixtures/v3/quarter'
 import { HttpError } from '~/api/http-error'
 import { useMockedUrlFetchApp } from '~/api/test-helper'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
+import { DateParam } from '~/fiscal-periods/date-param'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
 describe('BuffettCodeApiClientV3', () => {
@@ -132,7 +133,7 @@ describe('BuffettCodeApiClientV3', () => {
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
-    const date = new Date('2021-08-11')
+    const date = new DateParam(new Date('2021-08-11'))
     expect(client.daily(ticker, date)).toEqual(daily['data'])
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
@@ -150,7 +151,7 @@ describe('BuffettCodeApiClientV3', () => {
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
-    const date = new Date('2021-08-11')
+    const date = new DateParam(new Date('2021-08-11'))
     expect(client.ondemandDaily(ticker, date)).toEqual(daily['data'])
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)

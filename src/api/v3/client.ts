@@ -1,5 +1,6 @@
 import { HttpError } from '~/api/http-error'
 import { UrlBuilder } from '~/api/url-builder'
+import { DateParam } from '~/fiscal-periods/date-param'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
 export class BuffettCodeApiClientV3 {
@@ -82,12 +83,11 @@ export class BuffettCodeApiClientV3 {
     return res['data']
   }
 
-  // TODO: latestのサポート
-  public daily(ticker: string, date: Date): object {
+  public daily(ticker: string, date: DateParam): object {
     const endpoint = BuffettCodeApiClientV3.baseUrl + '/daily'
     const builder = new UrlBuilder(endpoint, {
       ticker,
-      date: date.toISOString().substring(0, 10)
+      date: date.toString()
     })
     const url = builder.toString()
     const options = this.defaultOptions()
@@ -96,12 +96,11 @@ export class BuffettCodeApiClientV3 {
     return res['data']
   }
 
-  // TODO: latestのサポート
-  public ondemandDaily(ticker: string, date: Date): object {
+  public ondemandDaily(ticker: string, date: DateParam): object {
     const endpoint = BuffettCodeApiClientV3.baseUrl + '/ondemand/daily'
     const builder = new UrlBuilder(endpoint, {
       ticker,
-      date: date.toISOString().substring(0, 10)
+      date: date.toString()
     })
     const url = builder.toString()
     const options = this.defaultOptions()
