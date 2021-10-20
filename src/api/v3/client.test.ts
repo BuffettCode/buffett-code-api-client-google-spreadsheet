@@ -5,6 +5,7 @@ import { HttpError } from '~/api/http-error'
 import { useMockedUrlFetchApp } from '~/api/test-helper'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
 import { DateParam } from '~/fiscal-periods/date-param'
+import { DateRange } from '~/fiscal-periods/date-range'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
@@ -162,6 +163,24 @@ describe('BuffettCodeApiClientV3', () => {
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
       'https://api.buffett-code.com/api/v3/daily?ticker=2371&date=2021-08-11'
+    )
+    expect(mockFetch.mock.calls[0][1]).toEqual({
+      headers: { 'x-api-key': 'foo' },
+      muteHttpExceptions: true
+    })
+  })
+
+  test('bulkDaily', () => {
+    const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(daily))
+
+    const client = new BuffettCodeApiClientV3('foo')
+    const ticker = '2371'
+    const range = new DateRange(new Date('2021-08-11'), new Date('2021-08-17'))
+    expect(client.bulkDaily(ticker, range)).toEqual(daily['data'])
+    expect(mockFetch.mock.calls.length).toBe(1)
+    expect(mockFetch.mock.calls[0].length).toBe(2)
+    expect(mockFetch.mock.calls[0][0]).toBe(
+      'https://api.buffett-code.com/api/v3/bulk/daily?ticker=2371&from=2021-08-11&to=2021-08-17'
     )
     expect(mockFetch.mock.calls[0][1]).toEqual({
       headers: { 'x-api-key': 'foo' },
