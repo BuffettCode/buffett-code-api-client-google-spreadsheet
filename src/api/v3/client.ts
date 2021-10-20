@@ -2,6 +2,7 @@ import { HttpError } from '~/api/http-error'
 import { UrlBuilder } from '~/api/url-builder'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
+import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
 export class BuffettCodeApiClientV3 {
   static readonly baseUrl = 'https://api.buffett-code.com/api/v3'
@@ -61,6 +62,20 @@ export class BuffettCodeApiClientV3 {
       ticker,
       fy: period.year,
       fq: period.quarter
+    })
+    const url = builder.toString()
+    const options = this.defaultOptions()
+
+    const res = BuffettCodeApiClientV3.request(url, options)
+    return res['data']
+  }
+
+  public bulkQuarter(ticker: string, range: YearQuarterRange): object[] {
+    const endpoint = BuffettCodeApiClientV3.baseUrl + '/bulk/quarter'
+    const builder = new UrlBuilder(endpoint, {
+      ticker,
+      from: range.from.toString(),
+      to: range.to.toString()
     })
     const url = builder.toString()
     const options = this.defaultOptions()

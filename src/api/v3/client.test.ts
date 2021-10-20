@@ -5,7 +5,9 @@ import { HttpError } from '~/api/http-error'
 import { useMockedUrlFetchApp } from '~/api/test-helper'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
 import { DateParam } from '~/fiscal-periods/date-param'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
+import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
 describe('BuffettCodeApiClientV3', () => {
   test('HttpError#isInvalidTestingRequest', () => {
@@ -103,6 +105,27 @@ describe('BuffettCodeApiClientV3', () => {
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
       'https://api.buffett-code.com/api/v3/quarter?ticker=2371&fy=2018&fq=1'
+    )
+    expect(mockFetch.mock.calls[0][1]).toEqual({
+      headers: { 'x-api-key': 'foo' },
+      muteHttpExceptions: true
+    })
+  })
+
+  test('bulkQuarter', () => {
+    const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(quarter))
+
+    const client = new BuffettCodeApiClientV3('foo')
+    const ticker = '2371'
+    const range = new YearQuarterRange(
+      new YearQuarter(2018, 1),
+      new YearQuarter(2018, 4)
+    )
+    expect(client.bulkQuarter(ticker, range)).toEqual(quarter['data'])
+    expect(mockFetch.mock.calls.length).toBe(1)
+    expect(mockFetch.mock.calls[0].length).toBe(2)
+    expect(mockFetch.mock.calls[0][0]).toBe(
+      'https://api.buffett-code.com/api/v3/bulk/quarter?ticker=2371&from=2018Q1&to=2018Q4'
     )
     expect(mockFetch.mock.calls[0][1]).toEqual({
       headers: { 'x-api-key': 'foo' },
