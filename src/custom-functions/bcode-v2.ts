@@ -100,10 +100,12 @@ export function bcodeV2(
       } else if (code === 429) {
         throw new Error('<<APIの実行回数が上限に達しました>>')
       } else if (Math.floor(code / 100) === 4) {
-        throw new Error('<<無効なリクエストです>>')
+        throw new Error(`<<無効なリクエストです。${e.name}: ${e.message}>>`)
       } else {
         console.error('システムエラー', e.name, e.message)
-        throw new Error('<<システムエラーが発生しました>>')
+        throw new Error(
+          `<<システムエラーが発生しました。${e.name}: ${e.message}>>`
+        )
       }
     } else if (e instanceof InvalidLYLQError) {
       throw new Error('<<LYとLQは同時に指定する必要があります>>')
@@ -113,7 +115,9 @@ export function bcodeV2(
       throw new Error(`<<無効な四半期が指定されています: ${fiscalQuarter}>>`)
     } else {
       console.error('未定義のエラー', e.name, e.message)
-      throw new Error(`<<未定義のエラー: ${e.name}: ${e.message}>>`)
+      throw new Error(
+        `<<未定義のエラーが発生しました。${e.name}: ${e.message}>>`
+      )
     }
   }
 }
