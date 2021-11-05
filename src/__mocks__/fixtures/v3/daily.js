@@ -82,6 +82,7 @@ module.exports = {
     }
   },
   data: {
+    day: '2020-09-06',
     cash_market_capital_ratio: 4.98944759676063,
     debt_market_capital_ratio: 1.48298604408628,
     dividend_yield_actual: 1.40154169586545,
