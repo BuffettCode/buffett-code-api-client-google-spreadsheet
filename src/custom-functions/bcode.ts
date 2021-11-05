@@ -1,4 +1,4 @@
-import { bcodeV2 } from '~/custom-functions/bcode-v2'
+import { bcode as bcodeV2 } from '~/custom-functions/v2/bcode'
 
 export function castStringAsBoolean(bool: string | boolean): boolean {
   return typeof bool === 'string' ? bool.toLowerCase() === 'true' : bool

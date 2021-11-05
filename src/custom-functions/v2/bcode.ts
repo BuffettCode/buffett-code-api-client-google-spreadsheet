@@ -2,14 +2,14 @@ import { HttpError } from '~/api/http-error'
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { CachingIndicatorProperty } from '~/api/v2/caching-indicator-property'
 import { QuarterProperty } from '~/api/v2/quarter-property'
-import { bcodeIndicator } from '~/custom-functions/bcode-indicator'
-import { bcodeQuarter } from '~/custom-functions/bcode-quarter'
 import { BcodeResult } from '~/custom-functions/bcode-result'
 import {
   ApiResponseError,
   OndemandApiNotEnabledError,
   UnsupportedTickerError
 } from '~/custom-functions/error'
+import { bcodeIndicator } from '~/custom-functions/v2/bcode-indicator'
+import { bcodeQuarter } from '~/custom-functions/v2/bcode-quarter'
 import {
   InvalidLYLQError,
   InvalidYearError,
@@ -43,7 +43,7 @@ function validate(
 
 // TODO: エラーハンドリングの改善
 // TODO: fiscalYearとfiscalQuarterの型をstringではなく'LY'と'LQ'に変更する
-export function bcodeV2(
+export function bcode(
   ticker: string,
   fiscalYear: string | number,
   fiscalQuarter: string | number,
