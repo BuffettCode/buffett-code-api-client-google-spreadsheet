@@ -1,7 +1,7 @@
 import { QuarterCache } from '~/__mocks__/services/quarter-cache'
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
-import { bcodeQuarter } from '~/custom-functions/bcode-quarter'
 import { BcodeResult } from '~/custom-functions/bcode-result'
+import { bcodeQuarter } from '~/custom-functions/v2/bcode-quarter'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { QuarterPropertyCache } from '~/services/quarter-property-cache'
 

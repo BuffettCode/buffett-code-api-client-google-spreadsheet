@@ -1,6 +1,6 @@
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
-import { bcodeIndicator } from '~/custom-functions/bcode-indicator'
 import { BcodeResult } from '~/custom-functions/bcode-result'
+import { bcodeIndicator } from '~/custom-functions/v2/bcode-indicator'
 import { IndicatorCache } from '~/services/indicator-cache'
 import { IndicatorPropertyCache } from '~/services/indicator-property-cache'
 
