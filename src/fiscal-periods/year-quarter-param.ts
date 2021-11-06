@@ -1,7 +1,8 @@
 import {
   InvalidLYLQError,
   InvalidYearError,
-  InvalidQuarterError
+  InvalidQuarterError,
+  ParseError
 } from '~/fiscal-periods/error'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 
@@ -42,6 +43,20 @@ export class YearQuarterParam {
 
   public isLatestQuarter(): boolean {
     return this.quarter === 'LQ'
+  }
+
+  // XXX: LYLQの同時指定や-1などの相対値指定をどうするか確認する
+  static parse(str: string): YearQuarterParam {
+    str = str.toUpperCase()
+    const matches = str.match(/^(?<year>\d{4}|LY)(?<quarter>Q\d|LQ)$/)
+    if (matches == undefined) {
+      throw new ParseError(`Invalid year-quarter format: ${str}`)
+    }
+
+    const year = matches[1] === 'LY' ? 'LY' : parseInt(matches[1], 10)
+    const quarter =
+      matches[2] === 'LQ' ? 'LQ' : parseInt(matches[2].substring(1), 10)
+    return new YearQuarterParam(year, quarter)
   }
 
   static fromYearQuarter(period: YearQuarter): YearQuarterParam {
