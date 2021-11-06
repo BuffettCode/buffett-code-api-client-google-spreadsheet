@@ -48,7 +48,7 @@ export class YearQuarterParam {
   // XXX: LYLQの同時指定や-1などの相対値指定をどうするか確認する
   static parse(str: string): YearQuarterParam {
     str = str.toUpperCase()
-    const matches = str.match(/^(?<year>\d{4}|LY)(?<quarter>Q\d|LQ)$/)
+    const matches = str.match(/^(\d{4}|LY)(Q\d|LQ)$/)
     if (matches == undefined) {
       throw new ParseError(`Invalid year-quarter format: ${str}`)
     }
