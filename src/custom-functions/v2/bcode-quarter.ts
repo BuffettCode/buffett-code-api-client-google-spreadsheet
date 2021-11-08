@@ -1,13 +1,13 @@
+import { CompanyService } from '~/api/company-service'
+import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
+import { CachingQuarterProperty } from '~/api/v2/caching-quarter-property'
+import { BcodeResult } from '~/custom-functions/bcode-result'
 import {
   ApiResponseError,
   OndemandApiNotEnabledError,
   UnsupportedTickerError
-} from './error'
-import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
-import { CachingQuarterProperty } from '../api/caching-quarter-property'
-import { CompanyService } from '../api/company-service'
-import { BcodeResult } from './bcode-result'
-import { YearQuarterParam } from '../fiscal-periods/year-quarter-param'
+} from '~/custom-functions/error'
+import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
 export function bcodeQuarter(
   client: CachingBuffettCodeApiClientV2,

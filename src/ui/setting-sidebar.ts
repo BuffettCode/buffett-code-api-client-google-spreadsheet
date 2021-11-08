@@ -1,4 +1,4 @@
-import { Setting } from '../setting'
+import { Setting } from '~/setting'
 
 export function loadSetting(): object {
   return Setting.load().toObject()

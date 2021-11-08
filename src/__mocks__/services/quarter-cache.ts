@@ -1,4 +1,4 @@
-import { YearQuarter } from '../../fiscal-periods/year-quarter'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
 
 export class QuarterCache {
   static readonly cache = {}

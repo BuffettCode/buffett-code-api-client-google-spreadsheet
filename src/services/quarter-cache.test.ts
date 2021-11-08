@@ -1,7 +1,7 @@
-import { QuarterCache } from './quarter-cache'
-import { YearQuarter } from '../fiscal-periods/year-quarter'
-import * as quarterFixture from '../__mocks__/fixtures/quarter'
-import { getMock, putMock } from './cache-test-helper'
+import * as quarterFixture from '~/__mocks__/fixtures/v2/quarter'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { getMock, putMock } from '~/services/cache-test-helper'
+import { QuarterCache } from '~/services/quarter-cache'
 
 test('key', () => {
   expect(QuarterCache.key('6501', new YearQuarter(2019, 4))).toBe(

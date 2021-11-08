@@ -1,4 +1,4 @@
-import { Formatter } from '../services/formatter'
+import { Formatter } from '~/services/formatter'
 
 export class BcodeResult {
   constructor(public value: number | string | null, public unit: string) {}
@@ -7,7 +7,7 @@ export class BcodeResult {
     let value = this.value
 
     if (value === null) {
-      return 'N/A'
+      return ''
     }
 
     if (typeof value === 'number' && this.unit === '百万円') {

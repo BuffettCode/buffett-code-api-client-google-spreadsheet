@@ -1,5 +1,5 @@
-import { HttpError } from './http-error'
-import { useMockedUrlFetchApp } from './test-helper'
+import { HttpError } from '~/api/http-error'
+import { useMockedUrlFetchApp } from '~/api/test-helper'
 
 test('HttpError', () => {
   const res = useMockedUrlFetchApp(403, '{"message": "Forbidden"}')()

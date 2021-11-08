@@ -1,22 +1,24 @@
-import { bcodeQuarter } from './bcode-quarter'
-import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
-import { QuarterCache } from '../__mocks__/services/quarter-cache'
-import { QuarterPropertyCache } from '../services/quarter-property-cache'
-import { BcodeResult } from './bcode-result'
-import { YearQuarter } from '../fiscal-periods/year-quarter'
+import { QuarterCache } from '~/__mocks__/services/quarter-cache'
+import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
+import { BcodeResult } from '~/custom-functions/bcode-result'
+import { bcodeQuarter } from '~/custom-functions/v2/bcode-quarter'
+import { YearQuarter } from '~/fiscal-periods/year-quarter'
+import { QuarterPropertyCache } from '~/services/quarter-property-cache'
 
-jest.mock('../api/client', () => jest.requireActual('../__mocks__/api/client'))
-jest.mock('../api/quarter-property', () =>
-  jest.requireActual('../__mocks__/api/quarter-property')
+jest.mock('~/api/v2/client', () =>
+  jest.requireActual('~/__mocks__/api/v2/client')
 )
-jest.mock('../services/company-cache', () =>
-  jest.requireActual('../__mocks__/services/company-cache')
+jest.mock('~/api/v2/quarter-property', () =>
+  jest.requireActual('~/__mocks__/api/v2/quarter-property')
 )
-jest.mock('../services/quarter-cache', () =>
-  jest.requireActual('../__mocks__/services/quarter-cache')
+jest.mock('~/services/company-cache', () =>
+  jest.requireActual('~/__mocks__/services/company-cache')
 )
-jest.mock('../services/quarter-property-cache', () =>
-  jest.requireActual('../__mocks__/services/quarter-property-cache')
+jest.mock('~/services/quarter-cache', () =>
+  jest.requireActual('~/__mocks__/services/quarter-cache')
+)
+jest.mock('~/services/quarter-property-cache', () =>
+  jest.requireActual('~/__mocks__/services/quarter-property-cache')
 )
 
 // TODO: ondemand apiのテスト

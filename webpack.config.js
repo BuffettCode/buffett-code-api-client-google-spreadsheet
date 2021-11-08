@@ -1,5 +1,6 @@
 /* eslint @typescript-eslint/no-var-requires: 0 */
 const GasPlugin = require('gas-webpack-plugin')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -21,7 +22,8 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.ts']
+    extensions: ['.ts'],
+    plugins: [new TsconfigPathsPlugin()]
   },
   plugins: [new GasPlugin()]
 }

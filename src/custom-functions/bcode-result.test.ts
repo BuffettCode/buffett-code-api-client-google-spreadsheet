@@ -1,4 +1,4 @@
-import { BcodeResult } from './bcode-result'
+import { BcodeResult } from '~/custom-functions/bcode-result'
 
 test('format', () => {
   expect(new BcodeResult(1234.5678, '日').format(false, false)).toBe(1234.6)
@@ -34,6 +34,6 @@ test('format', () => {
     '430,602,000,000円'
   )
 
-  expect(new BcodeResult(null, '百万円').format(true, false)).toBe('N/A')
-  expect(new BcodeResult(null, '百万円').format(true, true)).toBe('N/A')
+  expect(new BcodeResult(null, '百万円').format(true, false)).toBe('')
+  expect(new BcodeResult(null, '百万円').format(true, true)).toBe('')
 })

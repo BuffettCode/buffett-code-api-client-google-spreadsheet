@@ -1,5 +1,5 @@
-import { version } from '../version'
-import { CellRecalculator } from '../services/cell-recalculator'
+import { CellRecalculator } from '~/services/cell-recalculator'
+import { version } from '~/version'
 
 export function createAddonMenu(): void {
   const menu = SpreadsheetApp.getUi().createAddonMenu()

@@ -1,18 +1,20 @@
-import { bcodeIndicator } from './bcode-indicator'
-import { CachingBuffettCodeApiClientV2 } from '../api/caching-client'
-import { IndicatorCache } from '../services/indicator-cache'
-import { IndicatorPropertyCache } from '../services/indicator-property-cache'
-import { BcodeResult } from './bcode-result'
+import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
+import { BcodeResult } from '~/custom-functions/bcode-result'
+import { bcodeIndicator } from '~/custom-functions/v2/bcode-indicator'
+import { IndicatorCache } from '~/services/indicator-cache'
+import { IndicatorPropertyCache } from '~/services/indicator-property-cache'
 
-jest.mock('../api/client', () => jest.requireActual('../__mocks__/api/client'))
-jest.mock('../api/indicator-property', () =>
-  jest.requireActual('../__mocks__/api/indicator-property')
+jest.mock('~/api/v2/client', () =>
+  jest.requireActual('~/__mocks__/api/v2/client')
 )
-jest.mock('../services/indicator-cache', () =>
-  jest.requireActual('../__mocks__/services/indicator-cache')
+jest.mock('~/api/v2/indicator-property', () =>
+  jest.requireActual('~/__mocks__/api/v2/indicator-property')
 )
-jest.mock('../services/indicator-property-cache', () =>
-  jest.requireActual('../__mocks__/services/indicator-property-cache')
+jest.mock('~/services/indicator-cache', () =>
+  jest.requireActual('~/__mocks__/services/indicator-cache')
+)
+jest.mock('~/services/indicator-property-cache', () =>
+  jest.requireActual('~/__mocks__/services/indicator-property-cache')
 )
 
 test('bcodeIndicator (uncached)', () => {

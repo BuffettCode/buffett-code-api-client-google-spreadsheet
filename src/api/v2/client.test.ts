@@ -1,10 +1,10 @@
-import { BuffettCodeApiClientV2 } from './client'
-import { HttpError } from './http-error'
-import { YearQuarterParam } from '../fiscal-periods/year-quarter-param'
-import { useMockedUrlFetchApp } from './test-helper'
-import * as company from '../__mocks__/fixtures/company'
-import * as indicator from '../__mocks__/fixtures/indicator'
-import * as quarter from '../__mocks__/fixtures/quarter'
+import * as company from '~/__mocks__/fixtures/v2/company'
+import * as indicator from '~/__mocks__/fixtures/v2/indicator'
+import * as quarter from '~/__mocks__/fixtures/v2/quarter'
+import { HttpError } from '~/api/http-error'
+import { useMockedUrlFetchApp } from '~/api/test-helper'
+import { BuffettCodeApiClientV2 } from '~/api/v2/client'
+import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
 test('HttpError#isInvalidTestingRequest', () => {
   const res1 = useMockedUrlFetchApp(
