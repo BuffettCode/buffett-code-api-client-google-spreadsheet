@@ -1,7 +1,8 @@
 import {
   InvalidLYLQError,
   InvalidYearError,
-  InvalidQuarterError
+  InvalidQuarterError,
+  ParseError
 } from '~/fiscal-periods/error'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
@@ -49,4 +50,23 @@ test('fromYearQuarter', () => {
   expect(YearQuarterParam.fromYearQuarter(new YearQuarter(2018, 1))).toEqual(
     new YearQuarterParam(2018, 1)
   )
+})
+
+test('parse', () => {
+  expect(YearQuarterParam.parse('2020Q3')).toEqual(
+    new YearQuarterParam(2020, 3)
+  )
+  expect(YearQuarterParam.parse('2020q3')).toEqual(
+    new YearQuarterParam(2020, 3)
+  )
+  expect(YearQuarterParam.parse('LYLQ')).toEqual(
+    new YearQuarterParam('LY', 'LQ')
+  )
+  expect(YearQuarterParam.parse('lylq')).toEqual(
+    new YearQuarterParam('LY', 'LQ')
+  )
+  expect(() => YearQuarterParam.parse('20Q3')).toThrow(ParseError)
+  expect(() => YearQuarterParam.parse('LYQ3')).toThrow(InvalidLYLQError)
+  expect(() => YearQuarterParam.parse('2020LQ')).toThrow(InvalidLYLQError)
+  expect(() => YearQuarterParam.parse('foo')).toThrow(ParseError)
 })

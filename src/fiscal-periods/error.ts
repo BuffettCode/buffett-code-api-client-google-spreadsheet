@@ -24,3 +24,12 @@ export class InvalidLYLQError implements Error {
     this.message = message
   }
 }
+
+export class ParseError implements Error {
+  public name = 'ParseError'
+  public message: string
+
+  constructor(message = '') {
+    this.message = message
+  }
+}
