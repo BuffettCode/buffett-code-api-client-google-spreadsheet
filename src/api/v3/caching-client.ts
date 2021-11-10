@@ -1,4 +1,5 @@
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
+import { Daily } from '~/entities/v3/daily'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { CompanyCache } from '~/services/company-cache'
@@ -22,17 +23,13 @@ export class CachingBuffettCodeApiClientV3 extends BuffettCodeApiClientV3 {
     return company
   }
 
-  daily(ticker: string, date: DateParam): object | null {
+  daily(ticker: string, date: DateParam): Daily {
     const cached = DailyCache.get(ticker, date)
     if (cached) {
       return cached
     }
 
     const daily = super.daily(ticker, date)
-    if (!daily) {
-      return null
-    }
-
     DailyCache.put(ticker, daily)
 
     return daily
@@ -56,17 +53,13 @@ export class CachingBuffettCodeApiClientV3 extends BuffettCodeApiClientV3 {
     return quarter
   }
 
-  ondemandDaily(ticker: string, date: DateParam): object | null {
+  ondemandDaily(ticker: string, date: DateParam): Daily {
     const cached = DailyCache.get(ticker, date)
     if (cached) {
       return cached
     }
 
     const daily = super.ondemandDaily(ticker, date)
-    if (!daily) {
-      return null
-    }
-
     DailyCache.put(ticker, daily)
 
     return daily

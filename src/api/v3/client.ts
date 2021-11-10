@@ -1,5 +1,6 @@
 import { HttpError } from '~/api/http-error'
 import { UrlBuilder } from '~/api/url-builder'
+import { Daily } from '~/entities/v3/daily'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { DateRange } from '~/fiscal-periods/date-range'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
@@ -99,7 +100,7 @@ export class BuffettCodeApiClientV3 {
     return res['data']
   }
 
-  public daily(ticker: string, date: DateParam): object {
+  public daily(ticker: string, date: DateParam): Daily {
     const endpoint = BuffettCodeApiClientV3.baseUrl + '/daily'
     const builder = new UrlBuilder(endpoint, {
       ticker,
@@ -109,10 +110,10 @@ export class BuffettCodeApiClientV3 {
     const options = this.defaultOptions()
 
     const res = BuffettCodeApiClientV3.request(url, options)
-    return res['data']
+    return Daily.fromResponse(res)
   }
 
-  public bulkDaily(ticker: string, range: DateRange): object[] {
+  public bulkDaily(ticker: string, range: DateRange): Daily[] {
     const endpoint = BuffettCodeApiClientV3.baseUrl + '/bulk/daily'
     const builder = new UrlBuilder(endpoint, {
       ticker,
@@ -123,10 +124,10 @@ export class BuffettCodeApiClientV3 {
     const options = this.defaultOptions()
 
     const res = BuffettCodeApiClientV3.request(url, options)
-    return res['data']
+    return Daily.fromBulkResponse(res)
   }
 
-  public ondemandDaily(ticker: string, date: DateParam): object {
+  public ondemandDaily(ticker: string, date: DateParam): Daily {
     const endpoint = BuffettCodeApiClientV3.baseUrl + '/ondemand/daily'
     const builder = new UrlBuilder(endpoint, {
       ticker,
@@ -136,6 +137,6 @@ export class BuffettCodeApiClientV3 {
     const options = this.defaultOptions()
 
     const res = BuffettCodeApiClientV3.request(url, options)
-    return res['data']
+    return Daily.fromResponse(res)
   }
 }

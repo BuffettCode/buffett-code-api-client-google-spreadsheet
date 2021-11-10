@@ -18,30 +18,57 @@ test('key', () => {
   )
 })
 
-const daily = dailyFixture['data']
+test('columnDescriptionKey', () => {
+  expect(DailyCache.columnDescriptionKey()).toBe('daily-column-description')
+})
+
 const date = new Date('2020-09-06')
 
 beforeEach(() => {
   jest.clearAllMocks()
 })
 
-test('get', () => {
-  getMock.mockReturnValueOnce(JSON.stringify(daily))
-  expect(DailyCache.get('2371', date)).toEqual(daily)
-  expect(DailyCache.get('9999', date)).toBeNull()
+test('getData', () => {
+  getMock.mockReturnValueOnce(JSON.stringify(dailyFixture['data']))
+  expect(DailyCache.getData('2371', date)).toEqual(dailyFixture['data'])
+  expect(DailyCache.getData('9999', date)).toBeNull()
 
   expect(getMock).toBeCalledTimes(2)
   expect(getMock).nthCalledWith(1, 'daily-2371-2020-09-06')
   expect(getMock).nthCalledWith(2, 'daily-9999-2020-09-06')
 })
 
-test('put', () => {
-  DailyCache.put('2371', daily)
+test('getColumnDescription', () => {
+  getMock.mockReturnValueOnce(
+    JSON.stringify(dailyFixture['column_description'])
+  )
+
+  expect(DailyCache.getColumnDescription()).toEqual(
+    dailyFixture['column_description']
+  )
+
+  expect(getMock).toBeCalledTimes(1)
+  expect(getMock).toBeCalledWith('daily-column-description')
+})
+
+test('putData', () => {
+  DailyCache.putData('2371', dailyFixture['data'])
 
   expect(putMock).toBeCalledTimes(1)
   expect(putMock).toBeCalledWith(
     'daily-2371-2020-09-06',
-    JSON.stringify(daily),
+    JSON.stringify(dailyFixture['data']),
+    21600
+  )
+})
+
+test('putColumnDescription', () => {
+  DailyCache.putColumnDescription(dailyFixture['column_description'])
+
+  expect(putMock).toBeCalledTimes(1)
+  expect(putMock).toBeCalledWith(
+    'daily-column-description',
+    JSON.stringify(dailyFixture['column_description']),
     21600
   )
 })
