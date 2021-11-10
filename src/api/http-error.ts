@@ -12,7 +12,9 @@ export class HttpError implements Error {
     return (
       content ===
         '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}' ||
-      content === '{"message":"Testing apikey is not allowed"}'
+      content === '{"message":"Testing apikey is not allowed"}' ||
+      content ===
+        '{"message":"Trial request only supports ticker ending \'01\'"}'
     )
   }
 
