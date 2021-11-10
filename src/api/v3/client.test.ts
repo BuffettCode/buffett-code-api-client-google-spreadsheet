@@ -4,6 +4,7 @@ import * as quarter from '~/__mocks__/fixtures/v3/quarter'
 import { HttpError } from '~/api/http-error'
 import { useMockedUrlFetchApp } from '~/api/test-helper'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
+import { Daily } from '~/entities/v3/daily'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { DateRange } from '~/fiscal-periods/date-range'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
@@ -158,7 +159,7 @@ describe('BuffettCodeApiClientV3', () => {
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const date = new DateParam(new Date('2021-08-11'))
-    expect(client.daily(ticker, date)).toEqual(daily['data'])
+    expect(client.daily(ticker, date)).toEqual(Daily.fromResponse(daily))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
@@ -171,12 +172,20 @@ describe('BuffettCodeApiClientV3', () => {
   })
 
   test('bulkDaily', () => {
-    const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(daily))
+    const bulkDaily = {
+      data: {
+        '2020-09-06': daily['data']
+      },
+      column_description: daily['column_description'] // eslint-disable-line @typescript-eslint/camelcase
+    }
+    const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(bulkDaily))
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const range = new DateRange(new Date('2021-08-11'), new Date('2021-08-17'))
-    expect(client.bulkDaily(ticker, range)).toEqual(daily['data'])
+    expect(client.bulkDaily(ticker, range)).toEqual(
+      Daily.fromBulkResponse(bulkDaily)
+    )
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
@@ -194,7 +203,9 @@ describe('BuffettCodeApiClientV3', () => {
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const date = new DateParam(new Date('2021-08-11'))
-    expect(client.ondemandDaily(ticker, date)).toEqual(daily['data'])
+    expect(client.ondemandDaily(ticker, date)).toEqual(
+      Daily.fromResponse(daily)
+    )
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
