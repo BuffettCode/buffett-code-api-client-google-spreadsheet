@@ -95,8 +95,10 @@ export function bcode(
 
       if (e.isInvalidTestingRequest()) {
         throw new Error('<<テスト用のAPIキーでは取得できないデータです>>')
-      } else if (code === 403) {
+      } else if (e.isInvalidTokenRequest()) {
         throw new Error('<<APIキーが有効ではありません>>')
+      } else if (code === 403) {
+        throw new Error('<<月間リクエスト制限に達しています>>')
       } else if (code === 429) {
         throw new Error('<<APIの実行回数が上限に達しました>>')
       } else if (Math.floor(code / 100) === 4) {

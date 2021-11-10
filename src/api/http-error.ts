@@ -18,6 +18,11 @@ export class HttpError implements Error {
     )
   }
 
+  public isInvalidTokenRequest(): boolean {
+    const content = this.response.getContentText()
+    return content === '{"message":"Forbidden"}'
+  }
+
   public toString(): string {
     return this.message
   }
