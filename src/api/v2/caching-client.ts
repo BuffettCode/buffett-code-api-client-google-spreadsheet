@@ -39,7 +39,7 @@ export class CachingBuffettCodeApiClientV2 extends BuffettCodeApiClientV2 {
 
   quarter(ticker: string, period: YearQuarterParam): object | null {
     if (period.convertibleToYearQuarter()) {
-      const cached = QuarterCache.get(ticker, period.toYearQuarter())
+      const cached = QuarterCache.getData(ticker, period.toYearQuarter())
       if (cached) {
         return cached
       }
@@ -50,14 +50,14 @@ export class CachingBuffettCodeApiClientV2 extends BuffettCodeApiClientV2 {
       return null
     }
 
-    QuarterCache.put(ticker, quarter)
+    QuarterCache.putData(ticker, quarter)
 
     return quarter
   }
 
   ondemandQuarter(ticker: string, period: YearQuarterParam): object | null {
     if (period.convertibleToYearQuarter()) {
-      const cached = QuarterCache.get(ticker, period.toYearQuarter())
+      const cached = QuarterCache.getData(ticker, period.toYearQuarter())
       if (cached) {
         return cached
       }
@@ -68,7 +68,7 @@ export class CachingBuffettCodeApiClientV2 extends BuffettCodeApiClientV2 {
       return null
     }
 
-    QuarterCache.put(ticker, quarter)
+    QuarterCache.putData(ticker, quarter)
 
     return quarter
   }

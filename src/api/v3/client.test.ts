@@ -5,6 +5,7 @@ import { HttpError } from '~/api/http-error'
 import { useMockedUrlFetchApp } from '~/api/test-helper'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
 import { Daily } from '~/entities/v3/daily'
+import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { DateRange } from '~/fiscal-periods/date-range'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
@@ -102,7 +103,9 @@ describe('BuffettCodeApiClientV3', () => {
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const period = new YearQuarterParam(2018, 1)
-    expect(client.quarter(ticker, period)).toEqual(quarter['data'])
+    expect(client.quarter(ticker, period)).toEqual(
+      Quarter.fromResponse(quarter)
+    )
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
@@ -115,7 +118,13 @@ describe('BuffettCodeApiClientV3', () => {
   })
 
   test('bulkQuarter', () => {
-    const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(quarter))
+    const bulkQuarter = {
+      data: {
+        '2020-09-06': quarter['data']
+      },
+      column_description: quarter['column_description'] // eslint-disable-line @typescript-eslint/camelcase
+    }
+    const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(bulkQuarter))
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
@@ -123,7 +132,9 @@ describe('BuffettCodeApiClientV3', () => {
       new YearQuarter(2018, 1),
       new YearQuarter(2018, 4)
     )
-    expect(client.bulkQuarter(ticker, range)).toEqual(quarter['data'])
+    expect(client.bulkQuarter(ticker, range)).toEqual(
+      Quarter.fromBulkResponse(bulkQuarter)
+    )
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
@@ -141,7 +152,9 @@ describe('BuffettCodeApiClientV3', () => {
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const period = new YearQuarterParam(2018, 1)
-    expect(client.ondemandQuarter(ticker, period)).toEqual(quarter['data'])
+    expect(client.ondemandQuarter(ticker, period)).toEqual(
+      Quarter.fromResponse(quarter)
+    )
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(

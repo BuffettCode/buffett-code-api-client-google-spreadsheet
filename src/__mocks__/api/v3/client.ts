@@ -2,6 +2,7 @@ import { default as company } from '~/__mocks__/fixtures/v3/company.js'
 import { default as daily } from '~/__mocks__/fixtures/v3/daily.js'
 import { default as quarter } from '~/__mocks__/fixtures/v3/quarter.js'
 import { Daily } from '~/entities/v3/daily'
+import { Quarter } from '~/entities/v3/quarter'
 
 export class BuffettCodeApiClientV3 {
   public mockCompany = jest.fn()
@@ -18,9 +19,8 @@ export class BuffettCodeApiClientV3 {
     return this.mockCompany()['data']
   }
 
-  quarter(): object | null {
-    const quarter = this.mockQuarter()['data']
-    return quarter ? quarter : null
+  quarter(): Quarter {
+    return Quarter.fromResponse(this.mockQuarter())
   }
 
   daily(): Daily {
@@ -31,8 +31,7 @@ export class BuffettCodeApiClientV3 {
     return Daily.fromResponse(this.mockDaily())
   }
 
-  ondemandQuarter(): object | null {
-    const quarter = this.mockQuarter()['data']
-    return quarter ? quarter : null
+  ondemandQuarter(): Quarter {
+    return Quarter.fromResponse(this.mockQuarter())
   }
 }

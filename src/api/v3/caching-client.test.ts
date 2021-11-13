@@ -87,8 +87,8 @@ describe('quarter', () => {
       const client = new CachingBuffettCodeApiClientV3('token')
       const res = client.quarter(ticker, period)
       expect(res).not.toBeNull()
-      expect(res['fiscal_year']).toBe(period.year)
-      expect(res['fiscal_quarter']).toBe(period.quarter)
+      expect(res.data['fiscal_year']).toBe(period.year)
+      expect(res.data['fiscal_quarter']).toBe(period.quarter)
 
       expect(QuarterCache.get(ticker, period.toYearQuarter())).toEqual(res)
     })
@@ -100,8 +100,8 @@ describe('quarter', () => {
       const client = new CachingBuffettCodeApiClientV3('token')
       const res = client.quarter(ticker, period)
       expect(res).toEqual(cached)
-      expect(res['fiscal_year']).toBe(period.year)
-      expect(res['fiscal_quarter']).toBe(period.quarter)
+      expect(res.data['fiscal_year']).toBe(period.year)
+      expect(res.data['fiscal_quarter']).toBe(period.quarter)
 
       expect(QuarterCache.get(ticker, period.toYearQuarter())).toEqual(cached)
     })
@@ -120,8 +120,8 @@ describe('quarter', () => {
       const client = new CachingBuffettCodeApiClientV3('token')
       const res = client.quarter(ticker, period)
       expect(res).not.toBeNull()
-      expect(res['fiscal_year']).toBe(2018)
-      expect(res['fiscal_quarter']).toBe(1)
+      expect(res.data['fiscal_year']).toBe(2018)
+      expect(res.data['fiscal_quarter']).toBe(1)
 
       expect(QuarterCache.get(ticker, new YearQuarter(2018, 1))).toEqual(res)
     })
@@ -173,8 +173,8 @@ describe('ondemandQuarter', () => {
       const client = new CachingBuffettCodeApiClientV3('token')
       const res = client.ondemandQuarter(ticker, period)
       expect(res).not.toBeNull()
-      expect(res['fiscal_year']).toBe(2018)
-      expect(res['fiscal_quarter']).toBe(1)
+      expect(res.data['fiscal_year']).toBe(2018)
+      expect(res.data['fiscal_quarter']).toBe(1)
 
       expect(QuarterCache.get(ticker, new YearQuarter(2018, 1))).toEqual(res)
     })
