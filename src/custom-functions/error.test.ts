@@ -1,6 +1,7 @@
 import {
   ApiResponseError,
-  OndemandApiNotEnabledError
+  OndemandApiNotEnabledError,
+  PropertyNotFoundError
 } from '~/custom-functions/error'
 
 test('ApiResponseError', () => {
@@ -11,4 +12,9 @@ test('ApiResponseError', () => {
 test('OndemandApiNotEnabledError', () => {
   const error = new OndemandApiNotEnabledError()
   expect(error instanceof OndemandApiNotEnabledError).toBeTruthy()
+})
+
+test('PropertyNotFoundError', () => {
+  const error = new PropertyNotFoundError()
+  expect(error instanceof PropertyNotFoundError).toBeTruthy()
 })
