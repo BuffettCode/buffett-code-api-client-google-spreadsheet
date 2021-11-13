@@ -19,20 +19,22 @@ test('selectOndemandQuarterApiPeriod', () => {
     companyService
   )
 
-  const from = new YearQuarter(2013, 1)
-  const to = new YearQuarter(2016, 4)
+  const from = new YearQuarter(2014, 1)
+  const to = new YearQuarter(2017, 4)
   const range = new YearQuarterRange(from, to)
   expect(
     ondemandQuarterApiPeriodRange.selectOndemandQuarterApiPeriod(ticker, range)
   ).toEqual([
-    new YearQuarter(2013, 1),
-    new YearQuarter(2013, 2),
-    new YearQuarter(2013, 3),
-    new YearQuarter(2013, 4),
     new YearQuarter(2014, 1),
     new YearQuarter(2014, 2),
     new YearQuarter(2014, 3),
-    new YearQuarter(2014, 4)
+    new YearQuarter(2014, 4),
+    new YearQuarter(2015, 1),
+    new YearQuarter(2015, 2),
+    new YearQuarter(2015, 3),
+    new YearQuarter(2015, 4),
+    new YearQuarter(2016, 1),
+    new YearQuarter(2016, 2)
   ])
 })
 
@@ -44,19 +46,17 @@ test('filterOndemandQuarterApiPeriod', () => {
     companyService
   )
 
-  const from = new YearQuarter(2013, 1)
-  const to = new YearQuarter(2016, 4)
+  const from = new YearQuarter(2014, 1)
+  const to = new YearQuarter(2017, 4)
   const range = new YearQuarterRange(from, to)
   expect(
     ondemandQuarterApiPeriodRange.filterOndemandQuarterApiPeriod(ticker, range)
   ).toEqual([
-    new YearQuarter(2015, 1),
-    new YearQuarter(2015, 2),
-    new YearQuarter(2015, 3),
-    new YearQuarter(2015, 4),
-    new YearQuarter(2016, 1),
-    new YearQuarter(2016, 2),
     new YearQuarter(2016, 3),
-    new YearQuarter(2016, 4)
+    new YearQuarter(2016, 4),
+    new YearQuarter(2017, 1),
+    new YearQuarter(2017, 2),
+    new YearQuarter(2017, 3),
+    new YearQuarter(2017, 4)
   ])
 })
