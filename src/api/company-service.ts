@@ -1,4 +1,6 @@
 import { BuffettCodeApiClientV2 } from '~/api/v2/client'
+import { BuffettCodeApiClientV3 } from '~/api/v3/client'
+import { DateParam } from '~/fiscal-periods/date-param'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
@@ -7,7 +9,7 @@ export class CompanyService {
 
   constructor(
     public ticker: string,
-    client: BuffettCodeApiClientV2,
+    client: BuffettCodeApiClientV2 | BuffettCodeApiClientV3,
     private today: Date = new Date()
   ) {
     this.company = client.company(ticker)
@@ -41,5 +43,16 @@ export class CompanyService {
       fixedTierRange['oldest_fiscal_quarter']
     )
     return !period.isAfterOrEqual(fixedTierOldestPeriod)
+  }
+
+  public isOndemandDailyApiPeriod(date: DateParam): boolean {
+    if (date.isLatest()) {
+      return false
+    }
+
+    const fixedTierRange = this.company['fixed_tier_range']
+    const fixedTierOldestDate = new Date(fixedTierRange['oldest_date'])
+
+    return date.toDate().valueOf() < fixedTierOldestDate.valueOf()
   }
 }

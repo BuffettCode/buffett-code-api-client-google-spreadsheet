@@ -16,6 +16,15 @@ export class OndemandApiNotEnabledError implements Error {
   }
 }
 
+export class PropertyNotFoundError implements Error {
+  public name = 'PropertyNotFoundError'
+  public message: string
+
+  constructor(message = '') {
+    this.message = message
+  }
+}
+
 export class UnsupportedTickerError implements Error {
   public name = 'UnsupportedTickerError'
   public message: string
