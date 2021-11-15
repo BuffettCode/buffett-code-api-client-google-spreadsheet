@@ -30,7 +30,7 @@ describe('generateData', () => {
     const from = '2018Q1'
     const to = '2018Q1'
     const today = new Date('2020-09-23')
-    expect(QuarterCache.get(ticker, new YearQuarter(2018, 1))).toBeNull()
+    expect(QuarterCache.getData(ticker, new YearQuarter(2018, 1))).toBeNull()
 
     const data = CsvExporter.generateData(ticker, from, to, today)
 
@@ -50,7 +50,7 @@ describe('generateData', () => {
       1.0
     ])
     expect(
-      QuarterCache.get(ticker, new YearQuarter(2018, 1))['net_sales']
+      QuarterCache.getData(ticker, new YearQuarter(2018, 1))['net_sales']
     ).toBe(12513000000.0)
   })
 
@@ -59,7 +59,9 @@ describe('generateData', () => {
     const from = '2018Q1'
     const to = '2018Q1'
     const today = new Date('2020-09-23')
-    expect(QuarterCache.get(ticker, new YearQuarter(2018, 1))).not.toBeNull()
+    expect(
+      QuarterCache.getData(ticker, new YearQuarter(2018, 1))
+    ).not.toBeNull()
 
     const data = CsvExporter.generateData(ticker, from, to, today)
 
@@ -79,7 +81,7 @@ describe('generateData', () => {
       1.0
     ])
     expect(
-      QuarterCache.get(ticker, new YearQuarter(2018, 1))['net_sales']
+      QuarterCache.getData(ticker, new YearQuarter(2018, 1))['net_sales']
     ).toBe(12513000000.0)
   })
 })

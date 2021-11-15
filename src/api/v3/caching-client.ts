@@ -1,5 +1,6 @@
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
 import { Daily } from '~/entities/v3/daily'
+import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { CompanyCache } from '~/services/company-cache'
@@ -35,7 +36,7 @@ export class CachingBuffettCodeApiClientV3 extends BuffettCodeApiClientV3 {
     return daily
   }
 
-  quarter(ticker: string, period: YearQuarterParam): object | null {
+  quarter(ticker: string, period: YearQuarterParam): Quarter {
     if (period.convertibleToYearQuarter()) {
       const cached = QuarterCache.get(ticker, period.toYearQuarter())
       if (cached) {
@@ -44,10 +45,6 @@ export class CachingBuffettCodeApiClientV3 extends BuffettCodeApiClientV3 {
     }
 
     const quarter = super.quarter(ticker, period)
-    if (!quarter) {
-      return null
-    }
-
     QuarterCache.put(ticker, quarter)
 
     return quarter
@@ -65,7 +62,7 @@ export class CachingBuffettCodeApiClientV3 extends BuffettCodeApiClientV3 {
     return daily
   }
 
-  ondemandQuarter(ticker: string, period: YearQuarterParam): object | null {
+  ondemandQuarter(ticker: string, period: YearQuarterParam): Quarter {
     if (period.convertibleToYearQuarter()) {
       const cached = QuarterCache.get(ticker, period.toYearQuarter())
       if (cached) {
@@ -74,10 +71,6 @@ export class CachingBuffettCodeApiClientV3 extends BuffettCodeApiClientV3 {
     }
 
     const quarter = super.ondemandQuarter(ticker, period)
-    if (!quarter) {
-      return null
-    }
-
     QuarterCache.put(ticker, quarter)
 
     return quarter

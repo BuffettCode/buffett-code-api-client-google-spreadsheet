@@ -31,14 +31,14 @@ describe('bcodeQuarter', () => {
   test('(quarter, FY, FQ)', () => {
     const ticker = '2371'
     const yearQuarter = new YearQuarter(2018, 1)
-    expect(QuarterCache.get(ticker, yearQuarter)).toBeNull()
+    expect(QuarterCache.getData(ticker, yearQuarter)).toBeNull()
     expect(QuarterPropertyCache.get()).toBeNull()
 
     const client = new CachingBuffettCodeApiClientV2('token')
     const result = bcodeQuarter(client, ticker, 2018, 1, 'net_sales', false)
 
     expect(result).toEqual(new BcodeResult(12513000000.0, '百万円'))
-    expect(QuarterCache.get(ticker, yearQuarter)['net_sales']).toBe(
+    expect(QuarterCache.getData(ticker, yearQuarter)['net_sales']).toBe(
       12513000000.0
     )
     expect(QuarterPropertyCache.get()).not.toBeNull()
@@ -47,14 +47,16 @@ describe('bcodeQuarter', () => {
   test('(quarter, LY, LQ)', () => {
     const ticker = '2371'
     const period = new YearQuarter(2018, 1)
-    expect(QuarterCache.get(ticker, period)).toBeNull()
+    expect(QuarterCache.getData(ticker, period)).toBeNull()
     expect(QuarterPropertyCache.get()).toBeNull()
 
     const client = new CachingBuffettCodeApiClientV2('token')
     const result = bcodeQuarter(client, ticker, 'LY', 'LQ', 'net_sales', false)
 
     expect(result).toEqual(new BcodeResult(12513000000.0, '百万円'))
-    expect(QuarterCache.get(ticker, period)['net_sales']).toBe(12513000000.0)
+    expect(QuarterCache.getData(ticker, period)['net_sales']).toBe(
+      12513000000.0
+    )
     expect(QuarterPropertyCache.get()).not.toBeNull()
   })
 })
