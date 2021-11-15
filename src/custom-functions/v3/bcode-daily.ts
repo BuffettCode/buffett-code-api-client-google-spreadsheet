@@ -4,6 +4,7 @@ import { BcodeResult } from '~/custom-functions/bcode-result'
 import {
   ApiResponseError,
   OndemandApiNotEnabledError,
+  PropertyNotFoundError,
   UnsupportedTickerError
 } from '~/custom-functions/error'
 import { Daily } from '~/entities/v3/daily'
@@ -36,7 +37,15 @@ export function bcodeDaily(
     throw new ApiResponseError()
   }
 
+  const property = daily.columnDescription[propertyName]
+  if (property == undefined) {
+    throw new PropertyNotFoundError(
+      `propetyName '${propertyName}' is not found.`
+    )
+  }
+
   const value = daily.data[propertyName]
-  const unit = daily.columnDescription[propertyName]['unit']
+  const unit = property['unit']
+
   return new BcodeResult(value, unit)
 }
