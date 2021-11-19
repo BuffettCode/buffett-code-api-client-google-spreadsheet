@@ -1,4 +1,5 @@
 import { bcode as bcodeV2 } from '~/custom-functions/v2/bcode'
+import { bcode as bcodeV3 } from '~/custom-functions/v3/bcode'
 
 export function castStringAsBoolean(bool: string | boolean): boolean {
   return typeof bool === 'string' ? bool.toLowerCase() === 'true' : bool
@@ -30,8 +31,20 @@ export function bcode(
   param5: string | boolean = false
 ): number | string {
   if (param1 instanceof Date || isV3Call(param1, param2)) {
-    throw new Error(
-      `<<引数が不正な形式です。param1: ${param1} (${typeof param1}), param2: ${param2} (${typeof param2})>>`
+    if (typeof param1 === 'number') {
+      param1 = param1.toString()
+    }
+
+    if (typeof param2 === 'number') {
+      param2 = param2.toString()
+    }
+
+    return bcodeV3(
+      ticker,
+      param1,
+      param2,
+      castStringAsBoolean(param3),
+      castStringAsBoolean(param4)
     )
   } else {
     return bcodeV2(
