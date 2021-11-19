@@ -42,30 +42,27 @@ global.exportCsv = exportCsv
  * @param {"net_sales"} propertyName 項目名
  * @param {TRUE} isRawValue (オプション) 数値をRAWデータで表示するかどうか (デフォルト値: FALSE)
  * @param {TRUE} isWithUnits (オプション) 単位を末尾に付加するかどうか (デフォルト値: FALSE)
+ * @param {TRUE} param5 (オプション) 廃止予定のオプション
  * @return 指定した銘柄の財務数字または指標
  * @customfunction
  */
 global.BCODE = (
   ticker,
-  fiscalYear,
-  fiscalQuarter,
+  period,
   propertyName,
   isRawValue = false,
-  isWithUnits = false
+  isWithUnits = false,
+  param5 = false
 ): number | string => {
-  return bcode(
-    ticker,
-    fiscalYear,
-    fiscalQuarter,
-    propertyName,
-    isRawValue,
-    isWithUnits
-  )
+  return bcode(ticker, period, propertyName, isRawValue, isWithUnits, param5)
 }
 
 /**
+ * 近日廃止予定です。
+ *
  * 指定した項目の名称を日本語で取得します。
  *
+ * @deprecated 近日廃止予定です
  * @param {"net_sales"} propertyName 項目名
  * @return 指定した項目の名称
  * @customfunction
@@ -75,8 +72,11 @@ global.BCODE_LABEL = (propertyName: string): string => {
 }
 
 /**
+ * 近日廃止予定です。
+ *
  * 指定した項目の単位を取得します。
  *
+ * @deprecated 近日廃止予定です
  * @param {"net_sales"} propertyName 項目名
  * @return 指定した項目の単位
  * @customfunction
