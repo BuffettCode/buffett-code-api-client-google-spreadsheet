@@ -9,7 +9,9 @@ export function isV3Call(
   param1: string | number,
   param2: string | number
 ): boolean {
-  if (typeof param1 === 'number' || typeof param2 === 'number') {
+  if (param1 == undefined || param2 == undefined) {
+    throw new Error('引数が正しくありません')
+  } else if (typeof param1 === 'number' || typeof param2 === 'number') {
     return false
   } else if (param1 === '' || param2 === '') {
     return false
