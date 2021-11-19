@@ -14,11 +14,11 @@ module.exports = {
     },
     market_capital: {
       name_jp: '時価総額',
-      unit: '百万円'
+      unit: '円'
     },
     enterprise_value: {
       name_jp: '企業価値',
-      unit: '百万円'
+      unit: '円'
     },
     eps_forecast: {
       name_jp: 'EPS（会社予想）',
@@ -38,7 +38,7 @@ module.exports = {
     },
     ebitda_forecast: {
       name_jp: 'EBITDA（会社予想）',
-      unit: '百万円'
+      unit: '円'
     },
     ev_ebitda_forecast: {
       name_jp: 'EV/EBITDA（会社予想）',
