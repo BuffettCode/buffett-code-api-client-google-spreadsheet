@@ -1,12 +1,12 @@
 import { CompanyService } from '~/api/company-service'
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { CachingQuarterProperty } from '~/api/v2/caching-quarter-property'
-import { BcodeResult } from '~/custom-functions/bcode-result'
 import {
   ApiResponseError,
   OndemandApiNotEnabledError,
   UnsupportedTickerError
 } from '~/custom-functions/error'
+import { BcodeResult } from '~/custom-functions/v2/bcode-result'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
 export function bcodeQuarter(

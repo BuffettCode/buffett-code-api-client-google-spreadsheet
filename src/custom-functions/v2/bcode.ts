@@ -2,7 +2,6 @@ import { HttpError } from '~/api/http-error'
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { CachingIndicatorProperty } from '~/api/v2/caching-indicator-property'
 import { QuarterProperty } from '~/api/v2/quarter-property'
-import { BcodeResult } from '~/custom-functions/bcode-result'
 import {
   ApiResponseError,
   OndemandApiNotEnabledError,
@@ -10,6 +9,7 @@ import {
 } from '~/custom-functions/error'
 import { bcodeIndicator } from '~/custom-functions/v2/bcode-indicator'
 import { bcodeQuarter } from '~/custom-functions/v2/bcode-quarter'
+import { BcodeResult } from '~/custom-functions/v2/bcode-result'
 import {
   InvalidLYLQError,
   InvalidYearError,
@@ -95,8 +95,10 @@ export function bcode(
 
       if (e.isInvalidTestingRequest()) {
         throw new Error('<<テスト用のAPIキーでは取得できないデータです>>')
-      } else if (code === 403) {
+      } else if (e.isInvalidTokenRequest()) {
         throw new Error('<<APIキーが有効ではありません>>')
+      } else if (code === 403) {
+        throw new Error('<<月間リクエスト制限に達しています>>')
       } else if (code === 429) {
         throw new Error('<<APIの実行回数が上限に達しました>>')
       } else if (Math.floor(code / 100) === 4) {
