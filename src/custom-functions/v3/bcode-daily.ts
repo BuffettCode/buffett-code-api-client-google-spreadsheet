@@ -1,12 +1,12 @@
 import { CompanyService } from '~/api/company-service'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
-import { BcodeResult } from '~/custom-functions/bcode-result'
 import {
   ApiResponseError,
   OndemandApiNotEnabledError,
   PropertyNotFoundError,
   UnsupportedTickerError
 } from '~/custom-functions/error'
+import { BcodeResult } from '~/custom-functions/v3/bcode-result'
 import { Daily } from '~/entities/v3/daily'
 import { DateParam } from '~/fiscal-periods/date-param'
 
@@ -47,5 +47,5 @@ export function bcodeDaily(
   const value = daily.data[propertyName]
   const unit = property['unit']
 
-  return new BcodeResult(value, unit)
+  return new BcodeResult(propertyName, value, unit)
 }

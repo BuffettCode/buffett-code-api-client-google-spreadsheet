@@ -1,12 +1,12 @@
 import { CompanyService } from '~/api/company-service'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
-import { BcodeResult } from '~/custom-functions/bcode-result'
 import {
   ApiResponseError,
   OndemandApiNotEnabledError,
   PropertyNotFoundError,
   UnsupportedTickerError
 } from '~/custom-functions/error'
+import { BcodeResult } from '~/custom-functions/v3/bcode-result'
 import { Quarter } from '~/entities/v3/quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
@@ -47,5 +47,5 @@ export function bcodeQuarter(
   const value = quarter.data[propertyName]
   const unit = property['unit']
 
-  return new BcodeResult(value, unit)
+  return new BcodeResult(propertyName, value, unit)
 }

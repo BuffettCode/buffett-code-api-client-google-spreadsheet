@@ -1,6 +1,5 @@
 import { HttpError } from '~/api/http-error'
 import { CachingBuffettCodeApiClientV3 } from '~/api/v3/caching-client'
-import { BcodeResult } from '~/custom-functions/bcode-result'
 import {
   ApiResponseError,
   OndemandApiNotEnabledError,
@@ -8,6 +7,7 @@ import {
 } from '~/custom-functions/error'
 import { bcodeDaily } from '~/custom-functions/v3/bcode-daily'
 import { bcodeQuarter } from '~/custom-functions/v3/bcode-quarter'
+import { BcodeResult } from '~/custom-functions/v3/bcode-result'
 import { DateParam } from '~/fiscal-periods/date-param'
 import {
   InvalidLYLQError,
