@@ -21,6 +21,7 @@ const columnDescription = quarter['column_description']
 const propertyNames = Object.keys(columnDescription)
 const fiscalYearIndex = propertyNames.indexOf('fiscal_year')
 const fiscalQuarterIndex = propertyNames.indexOf('fiscal_quarter')
+const segmentMemberIndex = propertyNames.indexOf('segment_member')
 
 describe('generateData', () => {
   test('uncached', () => {
@@ -46,6 +47,12 @@ describe('generateData', () => {
       '四半期',
       'なし',
       1.0
+    ])
+    expect(data[segmentMemberIndex + 1]).toEqual([
+      'segment_member',
+      'セグメント情報',
+      'なし',
+      JSON.stringify(quarter['data']['segment_member'])
     ])
     expect(
       QuarterCache.getData(ticker, new YearQuarter(2018, 1))['net_sales']
@@ -77,6 +84,12 @@ describe('generateData', () => {
       '四半期',
       'なし',
       1.0
+    ])
+    expect(data[segmentMemberIndex + 1]).toEqual([
+      'segment_member',
+      'セグメント情報',
+      'なし',
+      JSON.stringify(quarter['data']['segment_member'])
     ])
     expect(
       QuarterCache.getData(ticker, new YearQuarter(2018, 1))['net_sales']
