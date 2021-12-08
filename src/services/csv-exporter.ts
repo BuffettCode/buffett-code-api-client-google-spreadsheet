@@ -1,7 +1,6 @@
 import { CompanyService } from '~/api/company-service'
 import { OndemandApiPeriodRange } from '~/api/ondemand-api-period-range'
-import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
-import { CachingQuarterProperty } from '~/api/v2/caching-quarter-property'
+import { CachingBuffettCodeApiClientV3 } from '~/api/v3/caching-client'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
@@ -23,7 +22,7 @@ export class CsvExporter {
     const range = new YearQuarterRange(fromYearQuarter, toYearQuarter)
 
     const setting = Setting.load()
-    const client = new CachingBuffettCodeApiClientV2(setting.token)
+    const client = new CachingBuffettCodeApiClientV3(setting.token)
     const companyService = new CompanyService(ticker, client, today)
     if (!companyService.isSupportedTicker()) {
       throw new Error('<<サポートされていないtickerです>>')
@@ -65,8 +64,8 @@ export class CsvExporter {
     }
 
     const sortedQuarters = quarters.slice().sort((a, b) => {
-      const labelA = `${a['fiscal_year']}Q${a['fiscal_quarter']}`
-      const labelB = `${b['fiscal_year']}Q${b['fiscal_quarter']}`
+      const labelA = a.period().toString()
+      const labelB = b.period().toString()
       if (labelA > labelB) {
         return 1
       } else if (labelA < labelB) {
@@ -76,18 +75,14 @@ export class CsvExporter {
       }
     })
 
-    const quarterLabels = sortedQuarters.map(
-      quarter => `${quarter['fiscal_year']}Q${quarter['fiscal_quarter']}`
+    const quarter = quarters[0]
+    const quarterLabels = sortedQuarters.map(quarter =>
+      quarter.period().toString()
     )
     const header = [['キー', '項目名', '単位', ...quarterLabels]]
-    const values = CachingQuarterProperty.names().map(name => {
-      const data = sortedQuarters.map(quarter => quarter[name])
-      return [
-        name,
-        CachingQuarterProperty.labelOf(name),
-        CachingQuarterProperty.unitOf(name),
-        ...data
-      ]
+    const values = quarter.propertyNames().map(name => {
+      const data = sortedQuarters.map(quarter => quarter.data[name])
+      return [name, quarter.labelOf(name), quarter.unitOf(name), ...data]
     })
 
     return [...header, ...values]
