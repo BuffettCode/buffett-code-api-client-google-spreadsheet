@@ -1,5 +1,4 @@
 import {
-  InvalidLYLQError,
   InvalidYearError,
   InvalidQuarterError,
   ParseError
@@ -8,14 +7,6 @@ import { YearQuarter } from '~/fiscal-periods/year-quarter'
 
 export class YearQuarterParam {
   constructor(public year: number | 'LY', public quarter: number | 'LQ') {
-    if (
-      (!this.isLatestYear() && this.isLatestQuarter()) ||
-      (this.isLatestYear() && !this.isLatestQuarter())
-    ) {
-      // NOTE: 現状ではLY/LQの同時指定しかサポートしない
-      throw new InvalidLYLQError()
-    }
-
     if (!this.isLatestYear() && year < 1) {
       throw new InvalidYearError()
     }
@@ -45,7 +36,6 @@ export class YearQuarterParam {
     return this.quarter === 'LQ'
   }
 
-  // XXX: LYLQの同時指定や-1などの相対値指定をどうするか確認する
   static parse(str: string): YearQuarterParam {
     str = str.toUpperCase()
     const matches = str.match(/^(\d{4}|LY)(Q\d|LQ)$/)
