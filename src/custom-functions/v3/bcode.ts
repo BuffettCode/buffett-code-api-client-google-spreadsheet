@@ -78,9 +78,23 @@ export function bcode(
     const parsedPeriod = PeriodParser.parse(period)
     let result: BcodeResult
     if (parsedPeriod instanceof DateParam) {
-      result = bcodeDaily(client, ticker, parsedPeriod, propertyName, setting.ondemandApiEnabled)
+      result = bcodeDaily(
+        client,
+        ticker,
+        parsedPeriod,
+        propertyName,
+        setting.ondemandApiEnabled,
+        setting.forceOndemandApiEnabled
+      )
     } else {
-      result = bcodeQuarter(client, ticker, parsedPeriod, propertyName, setting.ondemandApiEnabled)
+      result = bcodeQuarter(
+        client,
+        ticker,
+        parsedPeriod,
+        propertyName,
+        setting.ondemandApiEnabled,
+        setting.forceOndemandApiEnabled
+      )
     }
 
     return result.format(isRawValue, isWithUnits)

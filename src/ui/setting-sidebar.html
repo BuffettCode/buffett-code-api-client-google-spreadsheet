@@ -24,6 +24,9 @@
             if (setting.ondemandApiEnabled) {
               document.getElementById('ondemand-api-check').checked = setting.ondemandApiEnabled
             }
+            if (setting.forceOndemandApiEnabled) {
+              document.getElementById('force-ondemand-api-check').checked = setting.forceOndemandApiEnabled
+            }
           })
           .loadSetting()
       }
@@ -31,6 +34,7 @@
       function saveSetting() {
         const token = document.getElementById('token-input').value
         const ondemandApiEnabled = document.getElementById('ondemand-api-check').checked
+        const forceOndemandApiEnabled = document.getElementById('force-ondemand-api-check').checked
 
         google.script.run
           .withFailureHandler(onSaveSettingError)
@@ -38,7 +42,7 @@
             alert('設定を保存しました')
             google.script.host.close()
           })
-          .saveSetting(token, ondemandApiEnabled)
+          .saveSetting(token, ondemandApiEnabled, forceOndemandApiEnabled)
       }
     </script>
   </head>
@@ -76,8 +80,16 @@
             </ul>
           </p>
         </div>
-        <label for="ondemand-api-check"><b>同意して従量課金APIを利用する</b></label>
-        <input id="ondemand-api-check" type="checkbox">
+        <ul style="padding-left: 20px;">
+          <li>
+            <label for="ondemand-api-check"><b>同意して従量課金APIを利用する</b></label>
+            <input id="ondemand-api-check" type="checkbox">
+          </li>
+          <li>
+            <label for="force-ondemand-api-check"><b>常に従量課金APIを利用する (制限回避モード)</b></label>
+            <input id="force-ondemand-api-check" type="checkbox">
+          </li>
+        </ul>
       </div>
       <div class="block">
         <button class="action" onclick="saveSetting()">保存</button>

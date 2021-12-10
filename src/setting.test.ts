@@ -5,7 +5,10 @@ declare const global: any
 
 test('load', () => {
   const mockGetProperty = jest.fn()
-  mockGetProperty.mockReturnValueOnce('foo').mockReturnValueOnce('true')
+  mockGetProperty
+    .mockReturnValueOnce('foo')
+    .mockReturnValueOnce('true')
+    .mockReturnValueOnce('true')
 
   global.PropertiesService = {
     getUserProperties: (): object => {
@@ -16,9 +19,10 @@ test('load', () => {
   }
 
   const setting = Setting.load()
-  expect(mockGetProperty.mock.calls.length).toBe(2)
+  expect(mockGetProperty.mock.calls.length).toBe(3)
   expect(setting.token).toBe('foo')
   expect(setting.ondemandApiEnabled).toBe(true)
+  expect(setting.forceOndemandApiEnabled).toBe(true)
 })
 
 test('load__ondemandApiEnabledCasting', () => {
@@ -53,11 +57,13 @@ test('save', () => {
   const setting = Setting.load()
   setting.token = 'bar'
   setting.ondemandApiEnabled = true
+  setting.forceOndemandApiEnabled = true
   setting.save()
 
-  expect(mockSetProperty.mock.calls.length).toBe(2)
+  expect(mockSetProperty.mock.calls.length).toBe(3)
   expect(mockSetProperty.mock.calls[0]).toEqual([Setting.tokenProperty, 'bar'])
   expect(mockSetProperty.mock.calls[1]).toEqual([Setting.ondemandApiEnabledProperty, true])
+  expect(mockSetProperty.mock.calls[2]).toEqual([Setting.forceOndemandApiEnabledProperty, true])
 })
 
 test('setDefaultToken', () => {
@@ -94,9 +100,11 @@ test('toObject', () => {
   const setting = Setting.load()
   setting.setDefaultToken()
   setting.setDefaultOndemandApiEnabled()
+  setting.setDefaultForceOndemandApiEnabled()
 
   expect(setting.toObject()).toStrictEqual({
     token: Setting.defaultToken,
-    ondemandApiEnabled: Setting.defaultOndemandApiEnabled
+    ondemandApiEnabled: Setting.defaultOndemandApiEnabled,
+    forceOndemandApiEnabled: Setting.defaultForceOndemandApiEnabled
   })
 })
