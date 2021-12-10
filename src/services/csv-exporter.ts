@@ -11,6 +11,16 @@ export class CsvExporter {
     //
   }
 
+  static format(
+    value: number | string | object | null
+  ): number | string | null {
+    if (typeof value == 'object') {
+      value = JSON.stringify(value)
+    }
+
+    return value
+  }
+
   static generateData(
     ticker,
     from: string,
@@ -81,7 +91,9 @@ export class CsvExporter {
     )
     const header = [['キー', '項目名', '単位', ...quarterLabels]]
     const values = quarter.propertyNames().map(name => {
-      const data = sortedQuarters.map(quarter => quarter.data[name])
+      const data = sortedQuarters.map(quarter =>
+        this.format(quarter.data[name])
+      )
       return [name, quarter.labelOf(name), quarter.unitOf(name), ...data]
     })
 

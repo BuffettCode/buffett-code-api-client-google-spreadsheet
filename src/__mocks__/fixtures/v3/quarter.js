@@ -182,7 +182,7 @@ module.exports = {
     employee_num: null,
     net_sales_per_employee: null,
     operating_income_per_employee: null,
-    segment_member: null,
+    segment_member: {"segments":[],"periods":[],"values":[]},
     increase_in_properties: 346000000,
     r_and_d_expenses: 35000000,
     defined_benefit_asset: null,

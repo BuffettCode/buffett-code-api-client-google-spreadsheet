@@ -4,7 +4,7 @@ import { Formatter } from '~/services/formatter'
 export class BcodeResult {
   constructor(
     public name: string,
-    public value: number | string | null,
+    public value: number | string | object | null,
     public unit: string
   ) {}
 
@@ -27,6 +27,10 @@ export class BcodeResult {
       } else {
         value = Formatter.round(value, 1) // 小数点第1位までに丸める
       }
+    }
+
+    if (typeof value === 'object') {
+      value = JSON.stringify(value)
     }
 
     if (isWithUnits) {
