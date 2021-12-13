@@ -85,7 +85,7 @@ describe('BuffettCodeApiClientV3', () => {
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
-    expect(client.company(ticker)).toEqual(company[ticker])
+    expect(client.company(ticker)).toEqual(company['data'])
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(

@@ -56,7 +56,7 @@ export class BuffettCodeApiClientV3 {
     const options = this.defaultOptions()
 
     const res = BuffettCodeApiClientV3.request(url, options)
-    return res[ticker]
+    return res['data']
   }
 
   public quarter(ticker: string, period: YearQuarterParam): Quarter {
