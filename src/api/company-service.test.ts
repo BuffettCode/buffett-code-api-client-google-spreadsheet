@@ -21,6 +21,24 @@ test('isSupportedTicker', () => {
   expect(new CompanyService('9999', client).isSupportedTicker()).toBe(false)
 })
 
+test('convertYearQuarterParamToYearQuarter', () => {
+  const client = new CachingBuffettCodeApiClientV2('token')
+  const service = new CompanyService('2371', client)
+  expect(
+    service.convertYearQuarterParamToYearQuarter(new YearQuarterParam('LY', 3))
+  ).toEqual(new YearQuarter(2021, 3))
+  expect(
+    service.convertYearQuarterParamToYearQuarter(
+      new YearQuarterParam(2016, 'LQ')
+    )
+  ).toEqual(new YearQuarter(2016, 2))
+  expect(
+    service.convertYearQuarterParamToYearQuarter(
+      new YearQuarterParam('LY', 'LQ')
+    )
+  ).toEqual(new YearQuarter(2021, 2))
+})
+
 test('isOndemandQuarterApiPeriod', () => {
   const client = new CachingBuffettCodeApiClientV2('token')
   const service = new CompanyService('2371', client)
@@ -34,6 +52,12 @@ test('isOndemandQuarterApiPeriod', () => {
   expect(service.isOndemandQuarterApiPeriod(new YearQuarter(2016, 3))).toBe(
     false
   )
+  expect(
+    service.isOndemandQuarterApiPeriod(new YearQuarterParam('LY', 3))
+  ).toBe(false)
+  expect(
+    service.isOndemandQuarterApiPeriod(new YearQuarterParam(2016, 'LQ'))
+  ).toBe(true)
   expect(
     service.isOndemandQuarterApiPeriod(new YearQuarterParam('LY', 'LQ'))
   ).toBe(false)
