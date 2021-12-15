@@ -19,6 +19,20 @@ export class CompanyService {
     return !!this.company
   }
 
+  public convertYearQuarterParamToYearQuarter(
+    period: YearQuarterParam
+  ): YearQuarter {
+    if (period.isLatestYear()) {
+      period.year = this.company['latest_fiscal_year']
+    }
+
+    if (period.isLatestQuarter()) {
+      period.quarter = this.company['latest_fiscal_quarter']
+    }
+
+    return period.toYearQuarter()
+  }
+
   public isOndemandQuarterApiPeriod(
     _period: YearQuarter | YearQuarterParam
   ): boolean {
@@ -26,13 +40,9 @@ export class CompanyService {
       throw new Error('unsupported ticker')
     }
 
-    let period
+    let period: YearQuarter
     if (_period instanceof YearQuarterParam) {
-      if (_period.isLatestYear() && _period.isLatestQuarter()) {
-        return false
-      }
-
-      period = _period.toYearQuarter()
+      period = this.convertYearQuarterParamToYearQuarter(_period)
     } else {
       period = _period
     }
