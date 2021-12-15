@@ -7,13 +7,15 @@ import {
   UnsupportedTickerError
 } from '~/custom-functions/error'
 import { BcodeResult } from '~/custom-functions/v2/bcode-result'
+import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
+import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
 export function bcodeQuarter(
   client: CachingBuffettCodeApiClientV2,
   ticker: string,
-  fiscalYear: number | 'LY',
-  fiscalQuarter: number | 'LQ',
+  fiscalYear: number | LyWithOffset,
+  fiscalQuarter: number | LqWithOffset,
   propertyName: string,
   ondemandApiEnabled: boolean
 ): BcodeResult {

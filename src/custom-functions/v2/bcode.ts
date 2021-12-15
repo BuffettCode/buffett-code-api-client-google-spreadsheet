@@ -15,6 +15,8 @@ import {
   InvalidYearError,
   InvalidQuarterError
 } from '~/fiscal-periods/error'
+import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
+import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { Setting } from '~/setting'
 
 function validate(
@@ -42,7 +44,6 @@ function validate(
 }
 
 // TODO: エラーハンドリングの改善
-// TODO: fiscalYearとfiscalQuarterの型をstringではなく'LY'と'LQ'に変更する
 export function bcode(
   ticker: string,
   fiscalYear: string | number,
@@ -68,13 +69,21 @@ export function bcode(
   try {
     let result: BcodeResult
     if (fiscalYear && fiscalQuarter) {
+      const fy =
+        typeof fiscalYear === 'string' && fiscalYear.substring(0, 2) === 'LY'
+          ? LyWithOffset.parse(fiscalYear)
+          : parseInt(fiscalYear.toString(), 10)
+      const fq =
+        typeof fiscalQuarter === 'string' &&
+        fiscalQuarter.substring(0, 2) === 'LQ'
+          ? LqWithOffset.parse(fiscalQuarter)
+          : parseInt(fiscalQuarter.toString(), 10)
+
       result = bcodeQuarter(
         client,
         ticker,
-        fiscalYear === 'LY' ? fiscalYear : parseInt(fiscalYear.toString(), 10),
-        fiscalQuarter === 'LQ'
-          ? fiscalQuarter
-          : parseInt(fiscalQuarter.toString(), 10),
+        fy,
+        fq,
         propertyName,
         setting.ondemandApiEnabled
       )

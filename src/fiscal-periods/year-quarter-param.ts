@@ -3,15 +3,20 @@ import {
   InvalidQuarterError,
   ParseError
 } from '~/fiscal-periods/error'
+import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
+import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 
 export class YearQuarterParam {
-  constructor(public year: number | 'LY', public quarter: number | 'LQ') {
-    if (!this.isLatestYear() && year < 1) {
+  constructor(
+    public year: number | LyWithOffset,
+    public quarter: number | LqWithOffset
+  ) {
+    if (typeof year === 'number' && year < 1) {
       throw new InvalidYearError(`Invalid year value: ${year}`)
     }
 
-    if (!this.isLatestQuarter() && (quarter < 1 || quarter > 4)) {
+    if (typeof quarter === 'number' && (quarter < 1 || quarter > 4)) {
       throw new InvalidQuarterError(`Invalid quarter value: ${quarter}`)
     }
   }
@@ -21,7 +26,10 @@ export class YearQuarterParam {
   }
 
   public toYearQuarter(): YearQuarter {
-    if (this.year === 'LY' || this.quarter === 'LQ') {
+    if (
+      this.year instanceof LyWithOffset ||
+      this.quarter instanceof LqWithOffset
+    ) {
       throw new Error('This cannot convert to YearQuarter')
     } else {
       return new YearQuarter(this.year, this.quarter)
@@ -29,23 +37,28 @@ export class YearQuarterParam {
   }
 
   public isLatestYear(): boolean {
-    return this.year === 'LY'
+    return this.year instanceof LyWithOffset
   }
 
   public isLatestQuarter(): boolean {
-    return this.quarter === 'LQ'
+    return this.quarter instanceof LqWithOffset
   }
 
   static parse(str: string): YearQuarterParam {
     str = str.toUpperCase()
-    const matches = str.match(/^(\d{4}|LY)(Q\d|LQ)$/)
+    const matches = str.match(/^(\d{4}|LY(-[1-9]\d*)?)(Q\d|LQ(-[1-9]\d*)?)$/)
     if (matches == undefined) {
       throw new ParseError(`Invalid year-quarter format: ${str}`)
     }
 
-    const year = matches[1] === 'LY' ? 'LY' : parseInt(matches[1], 10)
+    const year =
+      matches[1].substring(0, 2) === 'LY'
+        ? LyWithOffset.parse(matches[1])
+        : parseInt(matches[1], 10)
     const quarter =
-      matches[2] === 'LQ' ? 'LQ' : parseInt(matches[2].substring(1), 10)
+      matches[3].substring(0, 2) === 'LQ'
+        ? LqWithOffset.parse(matches[3])
+        : parseInt(matches[3].substring(1), 10)
     return new YearQuarterParam(year, quarter)
   }
 

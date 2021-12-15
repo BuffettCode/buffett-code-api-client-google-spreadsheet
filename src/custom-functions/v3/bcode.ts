@@ -44,7 +44,7 @@ function handleError(e): void {
       )
     }
   } else if (e instanceof InvalidLYLQError) {
-    throw new Error('<<LYとLQは同時に指定する必要があります>>')
+    throw new Error('<<無効なLY・LQが指定されています>>')
   } else if (e instanceof InvalidYearError) {
     throw new Error(`<<無効な決算年度が指定されています>>`)
   } else if (e instanceof InvalidQuarterError) {

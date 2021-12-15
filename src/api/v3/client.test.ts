@@ -8,6 +8,8 @@ import { Daily } from '~/entities/v3/daily'
 import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { DateRange } from '~/fiscal-periods/date-range'
+import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
+import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
@@ -97,7 +99,7 @@ describe('BuffettCodeApiClientV3', () => {
     })
   })
 
-  test('quarter', () => {
+  test('quarter (FY/FQ)', () => {
     const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(quarter))
 
     const client = new BuffettCodeApiClientV3('foo')
@@ -110,6 +112,28 @@ describe('BuffettCodeApiClientV3', () => {
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
       'https://api.buffett-code.com/api/v3/quarter?ticker=2371&fy=2018&fq=1'
+    )
+    expect(mockFetch.mock.calls[0][1]).toEqual({
+      headers: { 'x-api-key': 'foo' },
+      muteHttpExceptions: true
+    })
+  })
+
+  test('quarter (LY/LQ)', () => {
+    const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(quarter))
+
+    const LY = new LyWithOffset()
+    const LQ = new LqWithOffset()
+    const client = new BuffettCodeApiClientV3('foo')
+    const ticker = '2371'
+    const period = new YearQuarterParam(LY, LQ)
+    expect(client.quarter(ticker, period)).toEqual(
+      Quarter.fromResponse(quarter)
+    )
+    expect(mockFetch.mock.calls.length).toBe(1)
+    expect(mockFetch.mock.calls[0].length).toBe(2)
+    expect(mockFetch.mock.calls[0][0]).toBe(
+      'https://api.buffett-code.com/api/v3/quarter?ticker=2371&fy=LY&fq=LQ'
     )
     expect(mockFetch.mock.calls[0][1]).toEqual({
       headers: { 'x-api-key': 'foo' },
