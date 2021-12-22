@@ -2,9 +2,11 @@ export class HttpError implements Error {
   public name = 'HttpError'
   public message: string
 
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  constructor(public response: GoogleAppsScript.URL_Fetch.HTTPResponse) {
-    this.message = `${response.getResponseCode()}: ${response.getContentText()}`
+  constructor(
+    public url: string,
+    public response: GoogleAppsScript.URL_Fetch.HTTPResponse // eslint-disable-line @typescript-eslint/camelcase
+  ) {
+    this.message = `${url} - ${response.getResponseCode()}: ${response.getContentText()}`
   }
 
   public isInvalidTestingRequest(): boolean {
