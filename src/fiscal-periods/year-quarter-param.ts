@@ -8,11 +8,11 @@ import { YearQuarter } from '~/fiscal-periods/year-quarter'
 export class YearQuarterParam {
   constructor(public year: number | 'LY', public quarter: number | 'LQ') {
     if (!this.isLatestYear() && year < 1) {
-      throw new InvalidYearError()
+      throw new InvalidYearError(`Invalid year value: ${year}`)
     }
 
     if (!this.isLatestQuarter() && (quarter < 1 || quarter > 4)) {
-      throw new InvalidQuarterError()
+      throw new InvalidQuarterError(`Invalid quarter value: ${quarter}`)
     }
   }
 

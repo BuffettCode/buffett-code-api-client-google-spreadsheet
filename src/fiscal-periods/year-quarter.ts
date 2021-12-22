@@ -3,11 +3,11 @@ import { InvalidYearError, InvalidQuarterError } from '~/fiscal-periods/error'
 export class YearQuarter {
   constructor(public year: number, public quarter: number) {
     if (year < 1) {
-      throw new InvalidYearError()
+      throw new InvalidYearError(`Invalid year value: ${year}`)
     }
 
     if (quarter < 1 || quarter > 4) {
-      throw new InvalidQuarterError()
+      throw new InvalidQuarterError(`Invalid quarter value: ${quarter}`)
     }
   }
 
