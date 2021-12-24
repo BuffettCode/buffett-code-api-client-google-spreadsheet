@@ -18,11 +18,11 @@ describe('BuffettCodeApiClientV3', () => {
       200,
       '{"message":"Testing apikey is not allowed"}'
     )()
-    const error1 = new HttpError(res1)
+    const error1 = new HttpError('https://example.com', res1)
     expect(error1.isInvalidTestingRequest()).toBeTruthy()
 
     const res2 = useMockedUrlFetchApp(403, '{"message": "Forbidden"}')()
-    const error2 = new HttpError(res2)
+    const error2 = new HttpError('https://example.com', res2)
     expect(error2.isInvalidTestingRequest()).toBeFalsy()
   })
 
