@@ -64,4 +64,5 @@ npm run deploy:prod
 1. Edit `src/version.ts`.
 2. Merge development branch into master.
 3. Create a release on github.
-3. Create Deployments from `Publish` -> `Deploy from manifest` in script editor for prodcution.
+4. Run `git checkout master && npm run deploy:prod` to deploy master branch.
+5. Create Deployments from `Publish` -> `Deploy from manifest` in script editor for prodcution.
