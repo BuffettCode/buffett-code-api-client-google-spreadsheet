@@ -1,5 +1,7 @@
 import { bcode as bcodeV2 } from '~/custom-functions/v2/bcode'
 import { bcode as bcodeV3 } from '~/custom-functions/v3/bcode'
+import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
+import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 
 export function castStringAsBoolean(bool: string | boolean): boolean {
   return typeof bool === 'string' ? bool.toLowerCase() === 'true' : bool
@@ -15,7 +17,10 @@ export function isV3Call(
     return false
   } else if (param1 === '' || param2 === '') {
     return false
-  } else if (param1.toUpperCase() === 'LY' || param2.toUpperCase() === 'LQ') {
+  } else if (
+    LyWithOffset.isValidFormat(param1) ||
+    LqWithOffset.isValidFormat(param2)
+  ) {
     return false
   } else if (param1.match(/^\d+$/) || param1.match(/^\d+$/)) {
     return false
