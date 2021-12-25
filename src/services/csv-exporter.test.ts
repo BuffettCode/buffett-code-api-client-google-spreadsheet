@@ -23,6 +23,17 @@ const fiscalYearIndex = propertyNames.indexOf('fiscal_year')
 const fiscalQuarterIndex = propertyNames.indexOf('fiscal_quarter')
 const segmentMemberIndex = propertyNames.indexOf('segment_member')
 
+test('format', () => {
+  expect(CsvExporter.format(null)).toEqual('')
+  expect(CsvExporter.format('')).toEqual('')
+  expect(CsvExporter.format('foo')).toEqual('foo')
+  expect(CsvExporter.format(0)).toBe(0)
+  expect(CsvExporter.format(123456789)).toBe(123456789)
+  expect(CsvExporter.format(0.0)).toBe(0.0)
+  expect(CsvExporter.format(123456789.0)).toBe(123456789.0)
+  expect(CsvExporter.format({ foo: 'bar' })).toBe('{"foo":"bar"}')
+})
+
 describe('generateData', () => {
   test('uncached', () => {
     const ticker = '2371'
