@@ -22,9 +22,5 @@ test('put', () => {
   IndicatorCache.put('2371', indicator)
 
   expect(putMock).toBeCalledTimes(1)
-  expect(putMock).toBeCalledWith(
-    'indicator-2371',
-    JSON.stringify(indicator),
-    21600
-  )
+  expect(putMock).toBeCalledWith('indicator-2371', JSON.stringify(indicator), 21600)
 })

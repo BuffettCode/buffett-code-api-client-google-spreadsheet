@@ -7,10 +7,7 @@ export class Quarter implements HasColumnDescription, HasPeriod<YearQuarter> {
   }
 
   period(): YearQuarter {
-    return new YearQuarter(
-      this.data['fiscal_year'],
-      this.data['fiscal_quarter']
-    )
+    return new YearQuarter(this.data['fiscal_year'], this.data['fiscal_quarter'])
   }
 
   propertyNames(): string[] {

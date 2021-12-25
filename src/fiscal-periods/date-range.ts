@@ -4,8 +4,6 @@ export class DateRange {
   }
 
   diff(): number {
-    return Math.round(
-      (this.to.getTime() - this.from.getTime()) / (1000 * 60 * 60 * 24)
-    )
+    return Math.round((this.to.getTime() - this.from.getTime()) / (1000 * 60 * 60 * 24))
   }
 }

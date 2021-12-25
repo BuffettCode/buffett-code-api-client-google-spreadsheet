@@ -47,37 +47,19 @@ export class QuarterCache {
     return new Quarter(cachedData, cachedColumnDescription)
   }
 
-  static putData(
-    ticker: string,
-    quarter: object,
-    expirationInSeconds = 21600
-  ): void {
+  static putData(ticker: string, quarter: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
-    const yearQuarter = new YearQuarter(
-      quarter['fiscal_year'],
-      quarter['fiscal_quarter']
-    )
+    const yearQuarter = new YearQuarter(quarter['fiscal_year'], quarter['fiscal_quarter'])
     const key = this.key(ticker, yearQuarter)
     cache.put(key, JSON.stringify(quarter), expirationInSeconds)
   }
 
-  static putColumnDescription(
-    columnDescription: object,
-    expirationInSeconds = 21600
-  ): void {
+  static putColumnDescription(columnDescription: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
-    cache.put(
-      this.columnDescriptionKey(),
-      JSON.stringify(columnDescription),
-      expirationInSeconds
-    )
+    cache.put(this.columnDescriptionKey(), JSON.stringify(columnDescription), expirationInSeconds)
   }
 
-  static put(
-    ticker: string,
-    quarter: Quarter,
-    expirationInSeconds = 21600
-  ): void {
+  static put(ticker: string, quarter: Quarter, expirationInSeconds = 21600): void {
     this.putData(ticker, quarter.data, expirationInSeconds)
     this.putColumnDescription(quarter.columnDescription, expirationInSeconds)
   }

@@ -8,9 +8,7 @@ test('period', () => {
 })
 
 test('propertyNames', () => {
-  expect(daily.propertyNames()).toEqual(
-    Object.keys(response['column_description'])
-  )
+  expect(daily.propertyNames()).toEqual(Object.keys(response['column_description']))
 })
 
 test('labelOf', () => {

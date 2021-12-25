@@ -14,9 +14,5 @@ test('put', () => {
   QuarterPropertyCache.put(quarterProperty)
 
   expect(putMock).toBeCalledTimes(1)
-  expect(putMock).toBeCalledWith(
-    'quarter-property',
-    JSON.stringify(quarterProperty),
-    21600
-  )
+  expect(putMock).toBeCalledWith('quarter-property', JSON.stringify(quarterProperty), 21600)
 })

@@ -22,11 +22,7 @@ export class BuffettCodeApiClientV3 {
     const code = res.getResponseCode()
     const content = res.getContentText()
     const error = new HttpError(url, res)
-    if (
-      Math.floor(code / 100) === 4 ||
-      Math.floor(code / 100) === 5 ||
-      error.isInvalidTestingRequest()
-    ) {
+    if (Math.floor(code / 100) === 4 || Math.floor(code / 100) === 5 || error.isInvalidTestingRequest()) {
       throw error
     }
 

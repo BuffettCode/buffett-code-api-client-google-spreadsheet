@@ -4,9 +4,7 @@ import { getMock, putMock } from '~/services/cache-test-helper'
 import { QuarterCache } from '~/services/quarter-cache'
 
 test('key', () => {
-  expect(QuarterCache.key('6501', new YearQuarter(2019, 4))).toBe(
-    'quarter-6501-2019Q4'
-  )
+  expect(QuarterCache.key('6501', new YearQuarter(2019, 4))).toBe('quarter-6501-2019Q4')
 })
 
 const quarter = quarterFixture['2371'][0]
@@ -39,20 +37,12 @@ test('putData', () => {
   QuarterCache.putData('2371', quarter)
 
   expect(putMock).toBeCalledTimes(1)
-  expect(putMock).toBeCalledWith(
-    'quarter-2371-2018Q1',
-    JSON.stringify(quarter),
-    21600
-  )
+  expect(putMock).toBeCalledWith('quarter-2371-2018Q1', JSON.stringify(quarter), 21600)
 })
 
 test('putColumnDescription', () => {
   QuarterCache.putColumnDescription(columnDescription)
 
   expect(putMock).toBeCalledTimes(1)
-  expect(putMock).toBeCalledWith(
-    'quarter-column-description',
-    JSON.stringify(columnDescription),
-    21600
-  )
+  expect(putMock).toBeCalledWith('quarter-column-description', JSON.stringify(columnDescription), 21600)
 })

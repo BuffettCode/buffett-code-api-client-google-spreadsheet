@@ -1,17 +1,10 @@
-import {
-  InvalidYearError,
-  InvalidQuarterError,
-  ParseError
-} from '~/fiscal-periods/error'
+import { InvalidYearError, InvalidQuarterError, ParseError } from '~/fiscal-periods/error'
 import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
 import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 
 export class YearQuarterParam {
-  constructor(
-    public year: number | LyWithOffset,
-    public quarter: number | LqWithOffset
-  ) {
+  constructor(public year: number | LyWithOffset, public quarter: number | LqWithOffset) {
     if (typeof year === 'number' && year < 1) {
       throw new InvalidYearError(`Invalid year value: ${year}`)
     }
@@ -26,10 +19,7 @@ export class YearQuarterParam {
   }
 
   public toYearQuarter(): YearQuarter {
-    if (
-      this.year instanceof LyWithOffset ||
-      this.quarter instanceof LqWithOffset
-    ) {
+    if (this.year instanceof LyWithOffset || this.quarter instanceof LqWithOffset) {
       throw new Error('This cannot convert to YearQuarter')
     } else {
       return new YearQuarter(this.year, this.quarter)
@@ -51,14 +41,9 @@ export class YearQuarterParam {
       throw new ParseError(`Invalid year-quarter format: ${str}`)
     }
 
-    const year =
-      matches[1].substring(0, 2) === 'LY'
-        ? LyWithOffset.parse(matches[1])
-        : parseInt(matches[1], 10)
+    const year = matches[1].substring(0, 2) === 'LY' ? LyWithOffset.parse(matches[1]) : parseInt(matches[1], 10)
     const quarter =
-      matches[3].substring(0, 2) === 'LQ'
-        ? LqWithOffset.parse(matches[3])
-        : parseInt(matches[3].substring(1), 10)
+      matches[3].substring(0, 2) === 'LQ' ? LqWithOffset.parse(matches[3]) : parseInt(matches[3].substring(1), 10)
     return new YearQuarterParam(year, quarter)
   }
 

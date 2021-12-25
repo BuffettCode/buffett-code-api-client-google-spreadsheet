@@ -6,12 +6,8 @@ export function bcodeUnit(propertyName: string): string {
     throw new Error('<<propertyNameが有効ではありません>>')
   }
 
-  const isQuarterProperty = CachingQuarterProperty.isQuarterProperty(
-    propertyName
-  )
-  const isIndicatorProperty = CachingIndicatorProperty.isIndicatorProperty(
-    propertyName
-  )
+  const isQuarterProperty = CachingQuarterProperty.isQuarterProperty(propertyName)
+  const isIndicatorProperty = CachingIndicatorProperty.isIndicatorProperty(propertyName)
 
   if (!isQuarterProperty && !isIndicatorProperty) {
     throw new Error(`<<指定された項目が見つかりません: ${propertyName}>>`)

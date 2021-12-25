@@ -2,11 +2,7 @@ import * as unitConversion from '~/custom-functions/v3/unit-conversion.js'
 import { Formatter } from '~/services/formatter'
 
 export class BcodeResult {
-  constructor(
-    public name: string,
-    public value: number | string | object | null,
-    public unit: string
-  ) {}
+  constructor(public name: string, public value: number | string | object | null, public unit: string) {}
 
   private isMillionYenProperty(): boolean {
     return unitConversion.millionYen.includes(this.name)

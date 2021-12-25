@@ -7,15 +7,9 @@ test('key', () => {
   expect(DailyCache.key('6501', new DateParam('latest'))).toBe(
     `daily-6501-${new Date().toISOString().substring(0, 10)}`
   )
-  expect(DailyCache.key('6501', new Date())).toBe(
-    `daily-6501-${new Date().toISOString().substring(0, 10)}`
-  )
-  expect(DailyCache.key('6501', new DateParam(new Date('2020-09-06')))).toBe(
-    `daily-6501-2020-09-06`
-  )
-  expect(DailyCache.key('6501', new Date('2020-09-06'))).toBe(
-    `daily-6501-2020-09-06`
-  )
+  expect(DailyCache.key('6501', new Date())).toBe(`daily-6501-${new Date().toISOString().substring(0, 10)}`)
+  expect(DailyCache.key('6501', new DateParam(new Date('2020-09-06')))).toBe(`daily-6501-2020-09-06`)
+  expect(DailyCache.key('6501', new Date('2020-09-06'))).toBe(`daily-6501-2020-09-06`)
 })
 
 test('columnDescriptionKey', () => {
@@ -39,13 +33,9 @@ test('getData', () => {
 })
 
 test('getColumnDescription', () => {
-  getMock.mockReturnValueOnce(
-    JSON.stringify(dailyFixture['column_description'])
-  )
+  getMock.mockReturnValueOnce(JSON.stringify(dailyFixture['column_description']))
 
-  expect(DailyCache.getColumnDescription()).toEqual(
-    dailyFixture['column_description']
-  )
+  expect(DailyCache.getColumnDescription()).toEqual(dailyFixture['column_description'])
 
   expect(getMock).toBeCalledTimes(1)
   expect(getMock).toBeCalledWith('daily-column-description')
@@ -55,20 +45,12 @@ test('putData', () => {
   DailyCache.putData('2371', dailyFixture['data'])
 
   expect(putMock).toBeCalledTimes(1)
-  expect(putMock).toBeCalledWith(
-    'daily-2371-2020-09-06',
-    JSON.stringify(dailyFixture['data']),
-    21600
-  )
+  expect(putMock).toBeCalledWith('daily-2371-2020-09-06', JSON.stringify(dailyFixture['data']), 21600)
 })
 
 test('putColumnDescription', () => {
   DailyCache.putColumnDescription(dailyFixture['column_description'])
 
   expect(putMock).toBeCalledTimes(1)
-  expect(putMock).toBeCalledWith(
-    'daily-column-description',
-    JSON.stringify(dailyFixture['column_description']),
-    21600
-  )
+  expect(putMock).toBeCalledWith('daily-column-description', JSON.stringify(dailyFixture['column_description']), 21600)
 })

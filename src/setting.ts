@@ -40,17 +40,13 @@ export class Setting {
   public save(): void {
     const props = PropertiesService.getUserProperties()
     props.setProperty(Setting.tokenProperty, this._token)
-    props.setProperty(
-      Setting.ondemandApiEnabledProperty,
-      this._ondemandApiEnabled
-    )
+    props.setProperty(Setting.ondemandApiEnabledProperty, this._ondemandApiEnabled)
   }
 
   public static load(): Setting {
     const props = PropertiesService.getUserProperties()
     const token = props.getProperty(this.tokenProperty)
-    const ondemandApiEnabled =
-      props.getProperty(this.ondemandApiEnabledProperty) == 'true'
+    const ondemandApiEnabled = props.getProperty(this.ondemandApiEnabledProperty) == 'true'
     const setting = new Setting(token, ondemandApiEnabled)
     return setting
   }

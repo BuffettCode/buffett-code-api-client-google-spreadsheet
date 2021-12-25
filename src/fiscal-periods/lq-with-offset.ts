@@ -5,9 +5,7 @@ export class LqWithOffset {
 
   constructor(public offset: number = 0) {
     if (offset > 0) {
-      throw new InvalidLYLQError(
-        `LQ offset must be negative but ${offset} given.`
-      )
+      throw new InvalidLYLQError(`LQ offset must be negative but ${offset} given.`)
     }
   }
 

@@ -8,9 +8,7 @@ test('toString', () => {
 
 test('toDate', () => {
   expect(() => new DateParam('latest').toDate()).toThrow(Error)
-  expect(new DateParam(new Date('2020-09-06')).toDate()).toEqual(
-    new Date('2020-09-06')
-  )
+  expect(new DateParam(new Date('2020-09-06')).toDate()).toEqual(new Date('2020-09-06'))
 })
 
 test('isLatest', () => {
@@ -19,9 +17,7 @@ test('isLatest', () => {
 })
 
 test('parse', () => {
-  expect(DateParam.parse('2020-09-06')).toEqual(
-    new DateParam(new Date(2020, 9, 6))
-  )
+  expect(DateParam.parse('2020-09-06')).toEqual(new DateParam(new Date(2020, 9, 6)))
   expect(DateParam.parse('latest')).toEqual(new DateParam('latest'))
   expect(DateParam.parse('Latest')).toEqual(new DateParam('latest'))
   expect(() => DateParam.parse('foo')).toThrow(ParseError)

@@ -17,10 +17,6 @@ export class IndicatorPropertyCache {
 
   static put(indicatorProperty: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
-    cache.put(
-      IndicatorPropertyCache.key,
-      JSON.stringify(indicatorProperty),
-      expirationInSeconds
-    )
+    cache.put(IndicatorPropertyCache.key, JSON.stringify(indicatorProperty), expirationInSeconds)
   }
 }

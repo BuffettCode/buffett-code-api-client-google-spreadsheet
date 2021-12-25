@@ -19,11 +19,7 @@ export class CompanyCache {
     return JSON.parse(cached)
   }
 
-  static put(
-    ticker: string,
-    company: object,
-    expirationInSeconds = 21600
-  ): void {
+  static put(ticker: string, company: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
     cache.put(this.key(ticker), JSON.stringify(company), expirationInSeconds)
   }

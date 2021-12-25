@@ -7,21 +7,11 @@ import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { QuarterPropertyCache } from '~/services/quarter-property-cache'
 
-jest.mock('~/api/v2/client', () =>
-  jest.requireActual('~/__mocks__/api/v2/client')
-)
-jest.mock('~/api/v2/quarter-property', () =>
-  jest.requireActual('~/__mocks__/api/v2/quarter-property')
-)
-jest.mock('~/services/company-cache', () =>
-  jest.requireActual('~/__mocks__/services/company-cache')
-)
-jest.mock('~/services/quarter-cache', () =>
-  jest.requireActual('~/__mocks__/services/quarter-cache')
-)
-jest.mock('~/services/quarter-property-cache', () =>
-  jest.requireActual('~/__mocks__/services/quarter-property-cache')
-)
+jest.mock('~/api/v2/client', () => jest.requireActual('~/__mocks__/api/v2/client'))
+jest.mock('~/api/v2/quarter-property', () => jest.requireActual('~/__mocks__/api/v2/quarter-property'))
+jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
+jest.mock('~/services/quarter-cache', () => jest.requireActual('~/__mocks__/services/quarter-cache'))
+jest.mock('~/services/quarter-property-cache', () => jest.requireActual('~/__mocks__/services/quarter-property-cache'))
 
 // TODO: ondemand apiのテスト
 describe('bcodeQuarter', () => {
@@ -40,9 +30,7 @@ describe('bcodeQuarter', () => {
     const result = bcodeQuarter(client, ticker, 2018, 1, 'net_sales', false)
 
     expect(result).toEqual(new BcodeResult(12513000000.0, '百万円'))
-    expect(QuarterCache.getData(ticker, yearQuarter)['net_sales']).toBe(
-      12513000000.0
-    )
+    expect(QuarterCache.getData(ticker, yearQuarter)['net_sales']).toBe(12513000000.0)
     expect(QuarterPropertyCache.get()).not.toBeNull()
   })
 
@@ -58,9 +46,7 @@ describe('bcodeQuarter', () => {
     const result = bcodeQuarter(client, ticker, LY, LQ, 'net_sales', false)
 
     expect(result).toEqual(new BcodeResult(12513000000.0, '百万円'))
-    expect(QuarterCache.getData(ticker, period)['net_sales']).toBe(
-      12513000000.0
-    )
+    expect(QuarterCache.getData(ticker, period)['net_sales']).toBe(12513000000.0)
     expect(QuarterPropertyCache.get()).not.toBeNull()
   })
 })

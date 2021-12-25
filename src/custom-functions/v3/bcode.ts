@@ -1,19 +1,11 @@
 import { HttpError } from '~/api/http-error'
 import { CachingBuffettCodeApiClientV3 } from '~/api/v3/caching-client'
-import {
-  ApiResponseError,
-  OndemandApiNotEnabledError,
-  UnsupportedTickerError
-} from '~/custom-functions/error'
+import { ApiResponseError, OndemandApiNotEnabledError, UnsupportedTickerError } from '~/custom-functions/error'
 import { bcodeDaily } from '~/custom-functions/v3/bcode-daily'
 import { bcodeQuarter } from '~/custom-functions/v3/bcode-quarter'
 import { BcodeResult } from '~/custom-functions/v3/bcode-result'
 import { DateParam } from '~/fiscal-periods/date-param'
-import {
-  InvalidLYLQError,
-  InvalidYearError,
-  InvalidQuarterError
-} from '~/fiscal-periods/error'
+import { InvalidLYLQError, InvalidYearError, InvalidQuarterError } from '~/fiscal-periods/error'
 import { PeriodParser } from '~/fiscal-periods/period-parser'
 import { Setting } from '~/setting'
 
@@ -39,9 +31,7 @@ function handleError(e): void {
       throw new Error(`<<無効なリクエストです。${e.name}: ${e.message}>>`)
     } else {
       console.error('システムエラー', e.name, e.message)
-      throw new Error(
-        `<<システムエラーが発生しました。${e.name}: ${e.message}>>`
-      )
+      throw new Error(`<<システムエラーが発生しました。${e.name}: ${e.message}>>`)
     }
   } else if (e instanceof InvalidLYLQError) {
     throw new Error('<<無効なLY・LQが指定されています>>')
@@ -88,21 +78,9 @@ export function bcode(
     const parsedPeriod = PeriodParser.parse(period)
     let result: BcodeResult
     if (parsedPeriod instanceof DateParam) {
-      result = bcodeDaily(
-        client,
-        ticker,
-        parsedPeriod,
-        propertyName,
-        setting.ondemandApiEnabled
-      )
+      result = bcodeDaily(client, ticker, parsedPeriod, propertyName, setting.ondemandApiEnabled)
     } else {
-      result = bcodeQuarter(
-        client,
-        ticker,
-        parsedPeriod,
-        propertyName,
-        setting.ondemandApiEnabled
-      )
+      result = bcodeQuarter(client, ticker, parsedPeriod, propertyName, setting.ondemandApiEnabled)
     }
 
     return result.format(isRawValue, isWithUnits)
