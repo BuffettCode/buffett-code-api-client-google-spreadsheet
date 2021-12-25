@@ -9,8 +9,7 @@ jest.mock('~/services/quarter-property-cache', () => jest.requireActual('~/__moc
 jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
 jest.mock('~/services/quarter-cache', () => jest.requireActual('~/__mocks__/services/quarter-cache'))
 
-const columnDescription = quarter['column_description']
-const propertyNames = Object.keys(columnDescription)
+const propertyNames = Object.keys(quarter['data'])
 const fiscalYearIndex = propertyNames.indexOf('fiscal_year')
 const fiscalQuarterIndex = propertyNames.indexOf('fiscal_quarter')
 const segmentMemberIndex = propertyNames.indexOf('segment_member')

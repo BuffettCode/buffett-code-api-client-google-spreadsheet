@@ -11,7 +11,7 @@ export class Quarter implements HasColumnDescription, HasPeriod<YearQuarter> {
   }
 
   propertyNames(): string[] {
-    return Object.keys(this.columnDescription)
+    return Object.keys(this.data)
   }
 
   labelOf(propertyName: string): string | null {
