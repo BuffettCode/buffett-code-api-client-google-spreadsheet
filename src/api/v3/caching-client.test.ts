@@ -3,6 +3,8 @@ import { DailyCache } from '~/__mocks__/services/daily-cache'
 import { QuarterCache } from '~/__mocks__/services/quarter-cache'
 import { CachingBuffettCodeApiClientV3 } from '~/api/v3/caching-client'
 import { DateParam } from '~/fiscal-periods/date-param'
+import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
+import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
@@ -18,6 +20,9 @@ jest.mock('~/services/daily-cache', () =>
 jest.mock('~/services/quarter-cache', () =>
   jest.requireActual('~/__mocks__/services/quarter-cache')
 )
+
+const LY = new LyWithOffset()
+const LQ = new LqWithOffset()
 
 describe('company', () => {
   const ticker = '2371'
@@ -112,7 +117,7 @@ describe('quarter', () => {
       QuarterCache.clearAll()
     })
 
-    const period = new YearQuarterParam('LY', 'LQ')
+    const period = new YearQuarterParam(LY, LQ)
 
     test('(uncached)', () => {
       expect(QuarterCache.get(ticker, new YearQuarter(2018, 1))).toBeNull()
@@ -165,7 +170,7 @@ describe('ondemandQuarter', () => {
       QuarterCache.clearAll()
     })
 
-    const period = new YearQuarterParam('LY', 'LQ')
+    const period = new YearQuarterParam(LY, LQ)
 
     test('(uncached)', () => {
       expect(QuarterCache.get(ticker, new YearQuarter(2018, 1))).toBeNull()

@@ -16,7 +16,7 @@ export class BuffettCodeApiClientV2 {
 
     const code = res.getResponseCode()
     const content = res.getContentText()
-    const error = new HttpError(res)
+    const error = new HttpError(url, res)
     if (
       Math.floor(code / 100) === 4 ||
       Math.floor(code / 100) === 5 ||
@@ -29,8 +29,8 @@ export class BuffettCodeApiClientV2 {
     try {
       json = JSON.parse(content)
     } catch (e) {
-      console.error('JSON parsing error', code, content)
-      throw new HttpError(res)
+      console.error('JSON parsing error', url, code, content)
+      throw new HttpError(url, res)
     }
 
     return json

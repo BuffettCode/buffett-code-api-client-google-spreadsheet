@@ -50,3 +50,21 @@ test('format (null)', () => {
   expect(new BcodeResult('net_sales', null, '円').format(true, false)).toBe('')
   expect(new BcodeResult('net_sales', null, '円').format(true, true)).toBe('')
 })
+
+test('format (object)', () => {
+  const segmentMember = {
+    segments: [],
+    periods: [],
+    values: []
+  }
+  const result = new BcodeResult('segment_member', segmentMember, 'なし')
+
+  expect(result.format(false, false)).toEqual(JSON.stringify(segmentMember))
+  expect(result.format(true, false)).toEqual(JSON.stringify(segmentMember))
+  expect(result.format(false, true)).toEqual(
+    JSON.stringify(segmentMember) + 'なし'
+  )
+  expect(result.format(true, true)).toEqual(
+    JSON.stringify(segmentMember) + 'なし'
+  )
+})

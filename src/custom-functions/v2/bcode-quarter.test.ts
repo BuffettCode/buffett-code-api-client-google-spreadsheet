@@ -2,6 +2,8 @@ import { QuarterCache } from '~/__mocks__/services/quarter-cache'
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { bcodeQuarter } from '~/custom-functions/v2/bcode-quarter'
 import { BcodeResult } from '~/custom-functions/v2/bcode-result'
+import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
+import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { QuarterPropertyCache } from '~/services/quarter-property-cache'
 
@@ -45,13 +47,15 @@ describe('bcodeQuarter', () => {
   })
 
   test('(quarter, LY, LQ)', () => {
+    const LY = new LyWithOffset()
+    const LQ = new LqWithOffset()
     const ticker = '2371'
     const period = new YearQuarter(2018, 1)
     expect(QuarterCache.getData(ticker, period)).toBeNull()
     expect(QuarterPropertyCache.get()).toBeNull()
 
     const client = new CachingBuffettCodeApiClientV2('token')
-    const result = bcodeQuarter(client, ticker, 'LY', 'LQ', 'net_sales', false)
+    const result = bcodeQuarter(client, ticker, LY, LQ, 'net_sales', false)
 
     expect(result).toEqual(new BcodeResult(12513000000.0, '百万円'))
     expect(QuarterCache.getData(ticker, period)['net_sales']).toBe(
