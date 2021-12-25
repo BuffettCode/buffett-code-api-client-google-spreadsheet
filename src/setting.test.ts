@@ -57,10 +57,7 @@ test('save', () => {
 
   expect(mockSetProperty.mock.calls.length).toBe(2)
   expect(mockSetProperty.mock.calls[0]).toEqual([Setting.tokenProperty, 'bar'])
-  expect(mockSetProperty.mock.calls[1]).toEqual([
-    Setting.ondemandApiEnabledProperty,
-    true
-  ])
+  expect(mockSetProperty.mock.calls[1]).toEqual([Setting.ondemandApiEnabledProperty, true])
 })
 
 test('setDefaultToken', () => {

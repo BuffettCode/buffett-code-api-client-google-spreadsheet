@@ -30,9 +30,7 @@ export class QuarterCache {
   }
 
   static putData(ticker: string, quarter: object): void {
-    this.cache[
-      `${ticker}-${quarter['fiscal_year']}Q${quarter['fiscal_quarter']}`
-    ] = quarter
+    this.cache[`${ticker}-${quarter['fiscal_year']}Q${quarter['fiscal_quarter']}`] = quarter
   }
 
   static putColumnDescription(columnDescription: object): void {

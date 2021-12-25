@@ -2,29 +2,16 @@ import { HttpError } from '~/api/http-error'
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { CachingIndicatorProperty } from '~/api/v2/caching-indicator-property'
 import { QuarterProperty } from '~/api/v2/quarter-property'
-import {
-  ApiResponseError,
-  OndemandApiNotEnabledError,
-  UnsupportedTickerError
-} from '~/custom-functions/error'
+import { ApiResponseError, OndemandApiNotEnabledError, UnsupportedTickerError } from '~/custom-functions/error'
 import { bcodeIndicator } from '~/custom-functions/v2/bcode-indicator'
 import { bcodeQuarter } from '~/custom-functions/v2/bcode-quarter'
 import { BcodeResult } from '~/custom-functions/v2/bcode-result'
-import {
-  InvalidLYLQError,
-  InvalidYearError,
-  InvalidQuarterError
-} from '~/fiscal-periods/error'
+import { InvalidLYLQError, InvalidYearError, InvalidQuarterError } from '~/fiscal-periods/error'
 import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
 import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { Setting } from '~/setting'
 
-function validate(
-  ticker: string,
-  fiscalYear: string,
-  fiscalQuarter: string,
-  propertyName: string
-): void {
+function validate(ticker: string, fiscalYear: string, fiscalQuarter: string, propertyName: string): void {
   if (!ticker) {
     throw new Error('<<tickerが有効ではありません>>')
   }
@@ -34,9 +21,7 @@ function validate(
   }
 
   const isQuarterProperty = QuarterProperty.isQuarterProperty(propertyName)
-  const isIndicatorProperty = CachingIndicatorProperty.isIndicatorProperty(
-    propertyName
-  )
+  const isIndicatorProperty = CachingIndicatorProperty.isIndicatorProperty(propertyName)
 
   if (!isQuarterProperty && !isIndicatorProperty) {
     throw new Error(`<<指定された項目が見つかりません: ${propertyName}>>`)
@@ -52,12 +37,7 @@ export function bcode(
   isRawValue = false,
   isWithUnits = false
 ): number | string {
-  validate(
-    ticker,
-    fiscalYear.toString(),
-    fiscalQuarter.toString(),
-    propertyName
-  )
+  validate(ticker, fiscalYear.toString(), fiscalQuarter.toString(), propertyName)
 
   const setting = Setting.load()
   if (!setting.token) {
@@ -74,19 +54,11 @@ export function bcode(
           ? LyWithOffset.parse(fiscalYear)
           : parseInt(fiscalYear.toString(), 10)
       const fq =
-        typeof fiscalQuarter === 'string' &&
-        fiscalQuarter.substring(0, 2) === 'LQ'
+        typeof fiscalQuarter === 'string' && fiscalQuarter.substring(0, 2) === 'LQ'
           ? LqWithOffset.parse(fiscalQuarter)
           : parseInt(fiscalQuarter.toString(), 10)
 
-      result = bcodeQuarter(
-        client,
-        ticker,
-        fy,
-        fq,
-        propertyName,
-        setting.ondemandApiEnabled
-      )
+      result = bcodeQuarter(client, ticker, fy, fq, propertyName, setting.ondemandApiEnabled)
     } else {
       result = bcodeIndicator(client, ticker, propertyName)
     }
@@ -114,9 +86,7 @@ export function bcode(
         throw new Error(`<<無効なリクエストです。${e.name}: ${e.message}>>`)
       } else {
         console.error('システムエラー', e.name, e.message)
-        throw new Error(
-          `<<システムエラーが発生しました。${e.name}: ${e.message}>>`
-        )
+        throw new Error(`<<システムエラーが発生しました。${e.name}: ${e.message}>>`)
       }
     } else if (e instanceof InvalidLYLQError) {
       throw new Error('<<LYとLQは同時に指定する必要があります>>')
@@ -126,9 +96,7 @@ export function bcode(
       throw new Error(`<<無効な四半期が指定されています: ${fiscalQuarter}>>`)
     } else {
       console.error('未定義のエラー', e.name, e.message)
-      throw new Error(
-        `<<未定義のエラーが発生しました。${e.name}: ${e.message}>>`
-      )
+      throw new Error(`<<未定義のエラーが発生しました。${e.name}: ${e.message}>>`)
     }
   }
 }

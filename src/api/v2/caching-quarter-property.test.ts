@@ -1,13 +1,9 @@
 import { CachingQuarterProperty } from '~/api/v2/caching-quarter-property'
 import { QuarterPropertyCache } from '~/services/quarter-property-cache'
 
-jest.mock('~/api/v2/quarter-property', () =>
-  jest.requireActual('~/__mocks__/api/v2/quarter-property')
-)
+jest.mock('~/api/v2/quarter-property', () => jest.requireActual('~/__mocks__/api/v2/quarter-property'))
 
-jest.mock('~/services/quarter-property-cache', () =>
-  jest.requireActual('~/__mocks__/services/quarter-property-cache')
-)
+jest.mock('~/services/quarter-property-cache', () => jest.requireActual('~/__mocks__/services/quarter-property-cache'))
 
 describe('fetch', () => {
   test('(uncached)', () => {

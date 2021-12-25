@@ -2,72 +2,27 @@ import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
 test('diff', () => {
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2018, 1),
-      new YearQuarter(2018, 1)
-    ).diff()
-  ).toBe(0)
+  expect(new YearQuarterRange(new YearQuarter(2018, 1), new YearQuarter(2018, 1)).diff()).toBe(0)
 
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2018, 1),
-      new YearQuarter(2018, 2)
-    ).diff()
-  ).toBe(1)
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2018, 1),
-      new YearQuarter(2019, 2)
-    ).diff()
-  ).toBe(5)
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2016, 3),
-      new YearQuarter(2019, 2)
-    ).diff()
-  ).toBe(11)
+  expect(new YearQuarterRange(new YearQuarter(2018, 1), new YearQuarter(2018, 2)).diff()).toBe(1)
+  expect(new YearQuarterRange(new YearQuarter(2018, 1), new YearQuarter(2019, 2)).diff()).toBe(5)
+  expect(new YearQuarterRange(new YearQuarter(2016, 3), new YearQuarter(2019, 2)).diff()).toBe(11)
 
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2018, 2),
-      new YearQuarter(2018, 1)
-    ).diff()
-  ).toBe(-1)
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2019, 2),
-      new YearQuarter(2018, 1)
-    ).diff()
-  ).toBe(-5)
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2019, 2),
-      new YearQuarter(2016, 3)
-    ).diff()
-  ).toBe(-11)
+  expect(new YearQuarterRange(new YearQuarter(2018, 2), new YearQuarter(2018, 1)).diff()).toBe(-1)
+  expect(new YearQuarterRange(new YearQuarter(2019, 2), new YearQuarter(2018, 1)).diff()).toBe(-5)
+  expect(new YearQuarterRange(new YearQuarter(2019, 2), new YearQuarter(2016, 3)).diff()).toBe(-11)
 })
 
 test('range', () => {
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2018, 1),
-      new YearQuarter(2018, 1)
-    ).range()
-  ).toEqual([new YearQuarter(2018, 1)])
+  expect(new YearQuarterRange(new YearQuarter(2018, 1), new YearQuarter(2018, 1)).range()).toEqual([
+    new YearQuarter(2018, 1)
+  ])
 
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2018, 1),
-      new YearQuarter(2018, 2)
-    ).range()
-  ).toEqual([new YearQuarter(2018, 1), new YearQuarter(2018, 2)])
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2018, 1),
-      new YearQuarter(2019, 2)
-    ).range()
-  ).toEqual([
+  expect(new YearQuarterRange(new YearQuarter(2018, 1), new YearQuarter(2018, 2)).range()).toEqual([
+    new YearQuarter(2018, 1),
+    new YearQuarter(2018, 2)
+  ])
+  expect(new YearQuarterRange(new YearQuarter(2018, 1), new YearQuarter(2019, 2)).range()).toEqual([
     new YearQuarter(2018, 1),
     new YearQuarter(2018, 2),
     new YearQuarter(2018, 3),
@@ -75,12 +30,7 @@ test('range', () => {
     new YearQuarter(2019, 1),
     new YearQuarter(2019, 2)
   ])
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2016, 3),
-      new YearQuarter(2019, 2)
-    ).range()
-  ).toEqual([
+  expect(new YearQuarterRange(new YearQuarter(2016, 3), new YearQuarter(2019, 2)).range()).toEqual([
     new YearQuarter(2016, 3),
     new YearQuarter(2016, 4),
     new YearQuarter(2017, 1),
@@ -95,18 +45,11 @@ test('range', () => {
     new YearQuarter(2019, 2)
   ])
 
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2018, 2),
-      new YearQuarter(2018, 1)
-    ).range()
-  ).toEqual([new YearQuarter(2018, 2), new YearQuarter(2018, 1)])
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2019, 2),
-      new YearQuarter(2018, 1)
-    ).range()
-  ).toEqual([
+  expect(new YearQuarterRange(new YearQuarter(2018, 2), new YearQuarter(2018, 1)).range()).toEqual([
+    new YearQuarter(2018, 2),
+    new YearQuarter(2018, 1)
+  ])
+  expect(new YearQuarterRange(new YearQuarter(2019, 2), new YearQuarter(2018, 1)).range()).toEqual([
     new YearQuarter(2019, 2),
     new YearQuarter(2019, 1),
     new YearQuarter(2018, 4),
@@ -114,12 +57,7 @@ test('range', () => {
     new YearQuarter(2018, 2),
     new YearQuarter(2018, 1)
   ])
-  expect(
-    new YearQuarterRange(
-      new YearQuarter(2019, 2),
-      new YearQuarter(2016, 3)
-    ).range()
-  ).toEqual([
+  expect(new YearQuarterRange(new YearQuarter(2019, 2), new YearQuarter(2016, 3)).range()).toEqual([
     new YearQuarter(2019, 2),
     new YearQuarter(2019, 1),
     new YearQuarter(2018, 4),

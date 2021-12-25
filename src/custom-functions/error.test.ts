@@ -1,8 +1,4 @@
-import {
-  ApiResponseError,
-  OndemandApiNotEnabledError,
-  PropertyNotFoundError
-} from '~/custom-functions/error'
+import { ApiResponseError, OndemandApiNotEnabledError, PropertyNotFoundError } from '~/custom-functions/error'
 
 test('ApiResponseError', () => {
   const error = new ApiResponseError()

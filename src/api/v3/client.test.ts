@@ -16,10 +16,7 @@ import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
 describe('BuffettCodeApiClientV3', () => {
   test('HttpError#isInvalidTestingRequest', () => {
-    const res1 = useMockedUrlFetchApp(
-      200,
-      '{"message":"Testing apikey is not allowed"}'
-    )()
+    const res1 = useMockedUrlFetchApp(200, '{"message":"Testing apikey is not allowed"}')()
     const error1 = new HttpError('https://example.com', res1)
     expect(error1.isInvalidTestingRequest()).toBeTruthy()
 
@@ -29,10 +26,7 @@ describe('BuffettCodeApiClientV3', () => {
   })
 
   test('request', () => {
-    const mockFetch = useMockedUrlFetchApp(
-      200,
-      '{"message": "this is a message"}'
-    )
+    const mockFetch = useMockedUrlFetchApp(200, '{"message": "this is a message"}')
 
     expect(
       BuffettCodeApiClientV3['request']('http://example.com', {
@@ -51,10 +45,7 @@ describe('BuffettCodeApiClientV3', () => {
   })
 
   test('request when testing apikey error', () => {
-    useMockedUrlFetchApp(
-      200,
-      '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}'
-    )
+    useMockedUrlFetchApp(200, '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}')
 
     const request = BuffettCodeApiClientV3['request']
     expect(() => request('http://example.com')).toThrow(HttpError)
@@ -76,9 +67,7 @@ describe('BuffettCodeApiClientV3', () => {
       request('http://example.com')
     } catch (e) {
       expect(e.response.getResponseCode()).toBe(503)
-      expect(e.response.getContentText()).toBe(
-        '{"message": "Service Unavailable"}'
-      )
+      expect(e.response.getContentText()).toBe('{"message": "Service Unavailable"}')
     }
   })
 
@@ -90,9 +79,7 @@ describe('BuffettCodeApiClientV3', () => {
     expect(client.company(ticker)).toEqual(company['data'])
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
-    expect(mockFetch.mock.calls[0][0]).toBe(
-      `https://api.buffett-code.com/api/v3/company?ticker=${ticker}`
-    )
+    expect(mockFetch.mock.calls[0][0]).toBe(`https://api.buffett-code.com/api/v3/company?ticker=${ticker}`)
     expect(mockFetch.mock.calls[0][1]).toEqual({
       headers: { 'x-api-key': 'foo' },
       muteHttpExceptions: true
@@ -105,14 +92,10 @@ describe('BuffettCodeApiClientV3', () => {
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const period = new YearQuarterParam(2018, 1)
-    expect(client.quarter(ticker, period)).toEqual(
-      Quarter.fromResponse(quarter)
-    )
+    expect(client.quarter(ticker, period)).toEqual(Quarter.fromResponse(quarter))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
-    expect(mockFetch.mock.calls[0][0]).toBe(
-      'https://api.buffett-code.com/api/v3/quarter?ticker=2371&fy=2018&fq=1'
-    )
+    expect(mockFetch.mock.calls[0][0]).toBe('https://api.buffett-code.com/api/v3/quarter?ticker=2371&fy=2018&fq=1')
     expect(mockFetch.mock.calls[0][1]).toEqual({
       headers: { 'x-api-key': 'foo' },
       muteHttpExceptions: true
@@ -127,14 +110,10 @@ describe('BuffettCodeApiClientV3', () => {
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const period = new YearQuarterParam(LY, LQ)
-    expect(client.quarter(ticker, period)).toEqual(
-      Quarter.fromResponse(quarter)
-    )
+    expect(client.quarter(ticker, period)).toEqual(Quarter.fromResponse(quarter))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
-    expect(mockFetch.mock.calls[0][0]).toBe(
-      'https://api.buffett-code.com/api/v3/quarter?ticker=2371&fy=LY&fq=LQ'
-    )
+    expect(mockFetch.mock.calls[0][0]).toBe('https://api.buffett-code.com/api/v3/quarter?ticker=2371&fy=LY&fq=LQ')
     expect(mockFetch.mock.calls[0][1]).toEqual({
       headers: { 'x-api-key': 'foo' },
       muteHttpExceptions: true
@@ -152,13 +131,8 @@ describe('BuffettCodeApiClientV3', () => {
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
-    const range = new YearQuarterRange(
-      new YearQuarter(2018, 1),
-      new YearQuarter(2018, 4)
-    )
-    expect(client.bulkQuarter(ticker, range)).toEqual(
-      Quarter.fromBulkResponse(bulkQuarter)
-    )
+    const range = new YearQuarterRange(new YearQuarter(2018, 1), new YearQuarter(2018, 4))
+    expect(client.bulkQuarter(ticker, range)).toEqual(Quarter.fromBulkResponse(bulkQuarter))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
@@ -176,9 +150,7 @@ describe('BuffettCodeApiClientV3', () => {
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const period = new YearQuarterParam(2018, 1)
-    expect(client.ondemandQuarter(ticker, period)).toEqual(
-      Quarter.fromResponse(quarter)
-    )
+    expect(client.ondemandQuarter(ticker, period)).toEqual(Quarter.fromResponse(quarter))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
@@ -199,9 +171,7 @@ describe('BuffettCodeApiClientV3', () => {
     expect(client.daily(ticker, date)).toEqual(Daily.fromResponse(daily))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
-    expect(mockFetch.mock.calls[0][0]).toBe(
-      'https://api.buffett-code.com/api/v3/daily?ticker=2371&date=2021-08-11'
-    )
+    expect(mockFetch.mock.calls[0][0]).toBe('https://api.buffett-code.com/api/v3/daily?ticker=2371&date=2021-08-11')
     expect(mockFetch.mock.calls[0][1]).toEqual({
       headers: { 'x-api-key': 'foo' },
       muteHttpExceptions: true
@@ -220,9 +190,7 @@ describe('BuffettCodeApiClientV3', () => {
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const range = new DateRange(new Date('2021-08-11'), new Date('2021-08-17'))
-    expect(client.bulkDaily(ticker, range)).toEqual(
-      Daily.fromBulkResponse(bulkDaily)
-    )
+    expect(client.bulkDaily(ticker, range)).toEqual(Daily.fromBulkResponse(bulkDaily))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(
@@ -240,9 +208,7 @@ describe('BuffettCodeApiClientV3', () => {
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
     const date = new DateParam(new Date('2021-08-11'))
-    expect(client.ondemandDaily(ticker, date)).toEqual(
-      Daily.fromResponse(daily)
-    )
+    expect(client.ondemandDaily(ticker, date)).toEqual(Daily.fromResponse(daily))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(

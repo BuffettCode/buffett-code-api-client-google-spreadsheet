@@ -53,27 +53,16 @@ export class DailyCache {
     return new Daily(cachedData, cachedColumnDescription)
   }
 
-  static putData(
-    ticker: string,
-    data: object,
-    expirationInSeconds = 21600
-  ): void {
+  static putData(ticker: string, data: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
     const date = new Date(data['day'])
     const key = this.key(ticker, date)
     cache.put(key, JSON.stringify(data), expirationInSeconds)
   }
 
-  static putColumnDescription(
-    columnDescription: object,
-    expirationInSeconds = 21600
-  ): void {
+  static putColumnDescription(columnDescription: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
-    cache.put(
-      this.columnDescriptionKey(),
-      JSON.stringify(columnDescription),
-      expirationInSeconds
-    )
+    cache.put(this.columnDescriptionKey(), JSON.stringify(columnDescription), expirationInSeconds)
   }
 
   static put(ticker: string, daily: Daily, expirationInSeconds = 21600): void {

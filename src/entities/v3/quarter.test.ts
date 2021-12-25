@@ -9,9 +9,7 @@ test('period', () => {
 })
 
 test('propertyNames', () => {
-  expect(quarter.propertyNames()).toEqual(
-    Object.keys(response['column_description'])
-  )
+  expect(quarter.propertyNames()).toEqual(Object.keys(response['column_description']))
 })
 
 test('labelOf', () => {

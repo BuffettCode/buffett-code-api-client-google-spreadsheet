@@ -14,9 +14,5 @@ test('put', () => {
   IndicatorPropertyCache.put(indicatorProperty)
 
   expect(putMock).toBeCalledTimes(1)
-  expect(putMock).toBeCalledWith(
-    'indicator-property',
-    JSON.stringify(indicatorProperty),
-    21600
-  )
+  expect(putMock).toBeCalledWith('indicator-property', JSON.stringify(indicatorProperty), 21600)
 })

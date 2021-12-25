@@ -17,11 +17,7 @@ export class BuffettCodeApiClientV2 {
     const code = res.getResponseCode()
     const content = res.getContentText()
     const error = new HttpError(url, res)
-    if (
-      Math.floor(code / 100) === 4 ||
-      Math.floor(code / 100) === 5 ||
-      error.isInvalidTestingRequest()
-    ) {
+    if (Math.floor(code / 100) === 4 || Math.floor(code / 100) === 5 || error.isInvalidTestingRequest()) {
       throw error
     }
 
@@ -91,10 +87,7 @@ export class BuffettCodeApiClientV2 {
     return res[ticker][0] // NOTE: indicatorは常に1つ
   }
 
-  public ondemandQuarter(
-    ticker: string,
-    period: YearQuarterParam
-  ): object | null {
+  public ondemandQuarter(ticker: string, period: YearQuarterParam): object | null {
     const endpoint = BuffettCodeApiClientV2.baseUrl + '/ondemand/quarter'
     const builder = new UrlBuilder(endpoint, {
       ticker,

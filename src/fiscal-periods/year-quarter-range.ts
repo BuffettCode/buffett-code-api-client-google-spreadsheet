@@ -6,10 +6,7 @@ export class YearQuarterRange {
   }
 
   diff(): number {
-    return (
-      (this.to.year - this.from.year) * 4 +
-      (this.to.quarter - this.from.quarter)
-    )
+    return (this.to.year - this.from.year) * 4 + (this.to.quarter - this.from.quarter)
   }
 
   range(): YearQuarter[] {
