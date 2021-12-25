@@ -11,10 +11,10 @@ export class CsvExporter {
     //
   }
 
-  static format(
-    value: number | string | object | null
-  ): number | string | null {
-    if (typeof value == 'object') {
+  static format(value: number | string | object | null): number | string {
+    if (value == undefined) {
+      value = ''
+    } else if (typeof value === 'object') {
       value = JSON.stringify(value)
     }
 
