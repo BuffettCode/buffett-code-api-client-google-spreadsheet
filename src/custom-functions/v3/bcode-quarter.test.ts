@@ -5,15 +5,9 @@ import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { QuarterCache } from '~/services/quarter-cache'
 
-jest.mock('~/api/v3/client', () =>
-  jest.requireActual('~/__mocks__/api/v3/client')
-)
-jest.mock('~/services/company-cache', () =>
-  jest.requireActual('~/__mocks__/services/company-cache')
-)
-jest.mock('~/services/quarter-cache', () =>
-  jest.requireActual('~/__mocks__/services/quarter-cache')
-)
+jest.mock('~/api/v3/client', () => jest.requireActual('~/__mocks__/api/v3/client'))
+jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
+jest.mock('~/services/quarter-cache', () => jest.requireActual('~/__mocks__/services/quarter-cache'))
 
 test('bcodeQuarter', () => {
   const ticker = '2371'
@@ -23,13 +17,7 @@ test('bcodeQuarter', () => {
   expect(QuarterCache.get(ticker, period)).toBeNull()
 
   const client = new CachingBuffettCodeApiClientV3('token')
-  const result = bcodeQuarter(
-    client,
-    ticker,
-    YearQuarterParam.fromYearQuarter(period),
-    propertyName,
-    false
-  )
+  const result = bcodeQuarter(client, ticker, YearQuarterParam.fromYearQuarter(period), propertyName, false)
 
   expect(result).toEqual(new BcodeResult(propertyName, 12513000000, '円'))
   expect(QuarterCache.get(ticker, period)).not.toBeNull()

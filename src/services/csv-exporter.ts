@@ -11,22 +11,17 @@ export class CsvExporter {
     //
   }
 
-  static format(
-    value: number | string | object | null
-  ): number | string | null {
-    if (typeof value == 'object') {
+  static format(value: number | string | object | null): number | string {
+    if (value == undefined) {
+      value = ''
+    } else if (typeof value === 'object') {
       value = JSON.stringify(value)
     }
 
     return value
   }
 
-  static generateData(
-    ticker,
-    from: string,
-    to: string,
-    today: Date = new Date()
-  ): object[][] {
+  static generateData(ticker, from: string, to: string, today: Date = new Date()): object[][] {
     const fromYearQuarter = YearQuarter.parse(from)
     const toYearQuarter = YearQuarter.parse(to)
     const range = new YearQuarterRange(fromYearQuarter, toYearQuarter)
@@ -38,18 +33,10 @@ export class CsvExporter {
       throw new Error('<<サポートされていないtickerです>>')
     }
 
-    const ondemandQuarterApiPeriodRange = new OndemandApiPeriodRange(
-      companyService
-    )
+    const ondemandQuarterApiPeriodRange = new OndemandApiPeriodRange(companyService)
 
-    const ondemandQuarterApiPeriods = ondemandQuarterApiPeriodRange.selectOndemandQuarterApiPeriod(
-      ticker,
-      range
-    )
-    const quarterApiPeriods = ondemandQuarterApiPeriodRange.filterOndemandQuarterApiPeriod(
-      ticker,
-      range
-    )
+    const ondemandQuarterApiPeriods = ondemandQuarterApiPeriodRange.selectOndemandQuarterApiPeriod(ticker, range)
+    const quarterApiPeriods = ondemandQuarterApiPeriodRange.filterOndemandQuarterApiPeriod(ticker, range)
 
     if (ondemandQuarterApiPeriods.length > 0 && !setting.ondemandApiEnabled) {
       throw new Error(
@@ -59,14 +46,10 @@ export class CsvExporter {
 
     const quarters = []
     quarterApiPeriods.forEach(period => {
-      quarters.push(
-        client.quarter(ticker, YearQuarterParam.fromYearQuarter(period))
-      )
+      quarters.push(client.quarter(ticker, YearQuarterParam.fromYearQuarter(period)))
     })
     ondemandQuarterApiPeriods.forEach(period => {
-      quarters.push(
-        client.ondemandQuarter(ticker, YearQuarterParam.fromYearQuarter(period))
-      )
+      quarters.push(client.ondemandQuarter(ticker, YearQuarterParam.fromYearQuarter(period)))
     })
 
     if (!quarters.length) {
@@ -86,14 +69,10 @@ export class CsvExporter {
     })
 
     const quarter = quarters[0]
-    const quarterLabels = sortedQuarters.map(quarter =>
-      quarter.period().toString()
-    )
+    const quarterLabels = sortedQuarters.map(quarter => quarter.period().toString())
     const header = [['キー', '項目名', '単位', ...quarterLabels]]
     const values = quarter.propertyNames().map(name => {
-      const data = sortedQuarters.map(quarter =>
-        this.format(quarter.data[name])
-      )
+      const data = sortedQuarters.map(quarter => this.format(quarter.data[name]))
       return [name, quarter.labelOf(name), quarter.unitOf(name), ...data]
     })
 

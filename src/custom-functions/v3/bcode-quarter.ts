@@ -39,9 +39,7 @@ export function bcodeQuarter(
 
   const property = quarter.columnDescription[propertyName]
   if (property == undefined) {
-    throw new PropertyNotFoundError(
-      `propetyName '${propertyName}' is not found.`
-    )
+    throw new PropertyNotFoundError(`propetyName '${propertyName}' is not found.`)
   }
 
   const value = quarter.data[propertyName]

@@ -20,11 +20,7 @@ export class IndicatorCache {
     return JSON.parse(cached)
   }
 
-  static put(
-    ticker: string,
-    indicator: object,
-    expirationInSeconds = 21600
-  ): void {
+  static put(ticker: string, indicator: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
     const key = this.key(ticker)
     cache.put(key, JSON.stringify(indicator), expirationInSeconds)

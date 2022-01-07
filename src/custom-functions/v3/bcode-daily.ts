@@ -39,9 +39,7 @@ export function bcodeDaily(
 
   const property = daily.columnDescription[propertyName]
   if (property == undefined) {
-    throw new PropertyNotFoundError(
-      `propetyName '${propertyName}' is not found.`
-    )
+    throw new PropertyNotFoundError(`propetyName '${propertyName}' is not found.`)
   }
 
   const value = daily.data[propertyName]

@@ -34,9 +34,6 @@ export class DateParam {
       throw new ParseError(`Invalid date format: ${str}`)
     }
 
-    const year = parseInt(matches[1], 10)
-    const month = parseInt(matches[2], 10)
-    const day = parseInt(matches[3], 10)
-    return new DateParam(new Date(year, month, day))
+    return new DateParam(new Date(str))
   }
 }

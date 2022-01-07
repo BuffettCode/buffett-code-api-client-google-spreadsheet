@@ -24,9 +24,7 @@ export function recalculateCustomFunctionCells(): void {
 }
 
 export function showSettingSidebar(): void {
-  const html = HtmlService.createHtmlOutputFromFile('setting-sidebar').setTitle(
-    '設定'
-  )
+  const html = HtmlService.createHtmlOutputFromFile('setting-sidebar').setTitle('設定')
   SpreadsheetApp.getUi().showSidebar(html)
 }
 

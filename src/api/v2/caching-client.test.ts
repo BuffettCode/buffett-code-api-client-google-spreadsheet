@@ -7,18 +7,10 @@ import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { IndicatorCache } from '~/services/indicator-cache'
 
-jest.mock('~/api/v2/client', () =>
-  jest.requireActual('~/__mocks__/api/v2/client')
-)
-jest.mock('~/services/company-cache', () =>
-  jest.requireActual('~/__mocks__/services/company-cache')
-)
-jest.mock('~/services/indicator-cache', () =>
-  jest.requireActual('~/__mocks__/services/indicator-cache')
-)
-jest.mock('~/services/quarter-cache', () =>
-  jest.requireActual('~/__mocks__/services/quarter-cache')
-)
+jest.mock('~/api/v2/client', () => jest.requireActual('~/__mocks__/api/v2/client'))
+jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
+jest.mock('~/services/indicator-cache', () => jest.requireActual('~/__mocks__/services/indicator-cache'))
+jest.mock('~/services/quarter-cache', () => jest.requireActual('~/__mocks__/services/quarter-cache'))
 
 const LY = new LyWithOffset()
 const LQ = new LqWithOffset()
@@ -105,9 +97,7 @@ describe('quarter', () => {
       expect(res['fiscal_year']).toBe(period.year)
       expect(res['fiscal_quarter']).toBe(period.quarter)
 
-      expect(QuarterCache.getData(ticker, period.toYearQuarter())).toEqual(
-        cached
-      )
+      expect(QuarterCache.getData(ticker, period.toYearQuarter())).toEqual(cached)
     })
   })
 
@@ -127,9 +117,7 @@ describe('quarter', () => {
       expect(res['fiscal_year']).toBe(2018)
       expect(res['fiscal_quarter']).toBe(1)
 
-      expect(QuarterCache.getData(ticker, new YearQuarter(2018, 1))).toEqual(
-        res
-      )
+      expect(QuarterCache.getData(ticker, new YearQuarter(2018, 1))).toEqual(res)
     })
   })
 })
@@ -162,9 +150,7 @@ describe('ondemandQuarter', () => {
       const res = client.ondemandQuarter(ticker, period)
       expect(res).toEqual(cached)
 
-      expect(QuarterCache.getData(ticker, period.toYearQuarter())).toEqual(
-        cached
-      )
+      expect(QuarterCache.getData(ticker, period.toYearQuarter())).toEqual(cached)
     })
   })
 
@@ -184,9 +170,7 @@ describe('ondemandQuarter', () => {
       expect(res['fiscal_year']).toBe(2018)
       expect(res['fiscal_quarter']).toBe(1)
 
-      expect(QuarterCache.getData(ticker, new YearQuarter(2018, 1))).toEqual(
-        res
-      )
+      expect(QuarterCache.getData(ticker, new YearQuarter(2018, 1))).toEqual(res)
     })
   })
 })

@@ -11,9 +11,7 @@ export class CompanyCache {
   }
 
   static putAll(companies: object): void {
-    Object.keys(companies).forEach(ticker =>
-      CompanyCache.put(ticker, companies[ticker][0])
-    )
+    Object.keys(companies).forEach(ticker => CompanyCache.put(ticker, companies[ticker][0]))
   }
 
   // for testing

@@ -7,7 +7,5 @@ test('toString', () => {
     bar: 'baz?'
   }
   const builder = new UrlBuilder(endpoint, params)
-  expect(builder.toString()).toBe(
-    'https://example.com?foo=foo%20bar&bar=baz%3F'
-  )
+  expect(builder.toString()).toBe('https://example.com?foo=foo%20bar&bar=baz%3F')
 })

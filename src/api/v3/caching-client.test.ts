@@ -8,18 +8,10 @@ import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
-jest.mock('~/api/v3/client', () =>
-  jest.requireActual('~/__mocks__/api/v3/client')
-)
-jest.mock('~/services/company-cache', () =>
-  jest.requireActual('~/__mocks__/services/company-cache')
-)
-jest.mock('~/services/daily-cache', () =>
-  jest.requireActual('~/__mocks__/services/daily-cache')
-)
-jest.mock('~/services/quarter-cache', () =>
-  jest.requireActual('~/__mocks__/services/quarter-cache')
-)
+jest.mock('~/api/v3/client', () => jest.requireActual('~/__mocks__/api/v3/client'))
+jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
+jest.mock('~/services/daily-cache', () => jest.requireActual('~/__mocks__/services/daily-cache'))
+jest.mock('~/services/quarter-cache', () => jest.requireActual('~/__mocks__/services/quarter-cache'))
 
 const LY = new LyWithOffset()
 const LQ = new LqWithOffset()

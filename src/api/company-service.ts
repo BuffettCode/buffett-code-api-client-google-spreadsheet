@@ -21,18 +21,14 @@ export class CompanyService {
     return !!this.company
   }
 
-  public convertYearQuarterParamToYearQuarter(
-    period: YearQuarterParam
-  ): YearQuarter {
+  public convertYearQuarterParamToYearQuarter(period: YearQuarterParam): YearQuarter {
     if (period.year instanceof LyWithOffset) {
       period.year = this.company['latest_fiscal_year'] + period.year.offset
     }
 
     if (period.quarter instanceof LqWithOffset) {
-      period.year =
-        (period.year as number) + Math.ceil(period.quarter.offset / 4)
-      period.quarter =
-        this.company['latest_fiscal_quarter'] + (period.quarter.offset % 4)
+      period.year = (period.year as number) + Math.ceil(period.quarter.offset / 4)
+      period.quarter = this.company['latest_fiscal_quarter'] + (period.quarter.offset % 4)
 
       if (period.quarter <= 0) {
         period.year -= 1
@@ -43,9 +39,7 @@ export class CompanyService {
     return period.toYearQuarter()
   }
 
-  public isOndemandQuarterApiPeriod(
-    _period: YearQuarter | YearQuarterParam
-  ): boolean {
+  public isOndemandQuarterApiPeriod(_period: YearQuarter | YearQuarterParam): boolean {
     if (!this.isSupportedTicker()) {
       throw new Error('unsupported ticker')
     }

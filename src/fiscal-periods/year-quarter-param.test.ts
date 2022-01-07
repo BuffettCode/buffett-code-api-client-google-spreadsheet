@@ -1,8 +1,4 @@
-import {
-  InvalidYearError,
-  InvalidQuarterError,
-  ParseError
-} from '~/fiscal-periods/error'
+import { InvalidYearError, InvalidQuarterError, ParseError } from '~/fiscal-periods/error'
 import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
 import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
@@ -38,9 +34,7 @@ test('toYearQuarter', () => {
   expect(() => new YearQuarterParam(LY, 3).toYearQuarter()).toThrow(Error)
   expect(() => new YearQuarterParam(2020, LQ).toYearQuarter()).toThrow(Error)
   expect(() => new YearQuarterParam(LY, LQ).toYearQuarter()).toThrow(Error)
-  expect(new YearQuarterParam(2020, 3).toYearQuarter()).toEqual(
-    new YearQuarter(2020, 3)
-  )
+  expect(new YearQuarterParam(2020, 3).toYearQuarter()).toEqual(new YearQuarter(2020, 3))
 })
 
 test('isLatestYear', () => {
@@ -54,21 +48,13 @@ test('isLatestQuarter', () => {
 })
 
 test('fromYearQuarter', () => {
-  expect(YearQuarterParam.fromYearQuarter(new YearQuarter(2018, 1))).toEqual(
-    new YearQuarterParam(2018, 1)
-  )
+  expect(YearQuarterParam.fromYearQuarter(new YearQuarter(2018, 1))).toEqual(new YearQuarterParam(2018, 1))
 })
 
 test('parse', () => {
-  expect(YearQuarterParam.parse('2020Q3')).toEqual(
-    new YearQuarterParam(2020, 3)
-  )
-  expect(YearQuarterParam.parse('2020q3')).toEqual(
-    new YearQuarterParam(2020, 3)
-  )
-  expect(YearQuarterParam.parse('2020LQ')).toEqual(
-    new YearQuarterParam(2020, LQ)
-  )
+  expect(YearQuarterParam.parse('2020Q3')).toEqual(new YearQuarterParam(2020, 3))
+  expect(YearQuarterParam.parse('2020q3')).toEqual(new YearQuarterParam(2020, 3))
+  expect(YearQuarterParam.parse('2020LQ')).toEqual(new YearQuarterParam(2020, LQ))
   expect(YearQuarterParam.parse('LYQ3')).toEqual(new YearQuarterParam(LY, 3))
   expect(YearQuarterParam.parse('LYLQ')).toEqual(new YearQuarterParam(LY, LQ))
   expect(YearQuarterParam.parse('lylq')).toEqual(new YearQuarterParam(LY, LQ))

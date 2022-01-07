@@ -1,11 +1,7 @@
 import { CompanyService } from '~/api/company-service'
 import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { CachingQuarterProperty } from '~/api/v2/caching-quarter-property'
-import {
-  ApiResponseError,
-  OndemandApiNotEnabledError,
-  UnsupportedTickerError
-} from '~/custom-functions/error'
+import { ApiResponseError, OndemandApiNotEnabledError, UnsupportedTickerError } from '~/custom-functions/error'
 import { BcodeResult } from '~/custom-functions/v2/bcode-result'
 import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
 import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
@@ -26,10 +22,7 @@ export function bcodeQuarter(
   }
 
   let quarter
-  if (
-    (period.isLatestYear() && period.isLatestQuarter()) ||
-    !companyService.isOndemandQuarterApiPeriod(period)
-  ) {
+  if ((period.isLatestYear() && period.isLatestQuarter()) || !companyService.isOndemandQuarterApiPeriod(period)) {
     quarter = client.quarter(ticker, period)
   } else {
     if (!ondemandApiEnabled) {

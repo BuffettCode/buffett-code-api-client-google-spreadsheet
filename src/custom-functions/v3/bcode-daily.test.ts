@@ -4,15 +4,9 @@ import { BcodeResult } from '~/custom-functions/v3/bcode-result'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { DailyCache } from '~/services/daily-cache'
 
-jest.mock('~/api/v3/client', () =>
-  jest.requireActual('~/__mocks__/api/v3/client')
-)
-jest.mock('~/services/company-cache', () =>
-  jest.requireActual('~/__mocks__/services/company-cache')
-)
-jest.mock('~/services/daily-cache', () =>
-  jest.requireActual('~/__mocks__/services/daily-cache')
-)
+jest.mock('~/api/v3/client', () => jest.requireActual('~/__mocks__/api/v3/client'))
+jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
+jest.mock('~/services/daily-cache', () => jest.requireActual('~/__mocks__/services/daily-cache'))
 
 test('bcodeDaily', () => {
   const ticker = '2371'
