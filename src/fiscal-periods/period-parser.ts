@@ -8,8 +8,6 @@ export class PeriodParser {
   }
 
   static parse(str: string): DateParam | YearQuarterParam {
-    str = str.toUpperCase()
-
     try {
       return YearQuarterParam.parse(str)
     } catch {
@@ -17,10 +15,7 @@ export class PeriodParser {
     }
 
     try {
-      const date = DateParam.parse(str)
-      if (!date.isLatest()) {
-        return date
-      }
+      return DateParam.parse(str)
     } catch {
       // noop
     }

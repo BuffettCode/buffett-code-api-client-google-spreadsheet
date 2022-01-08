@@ -29,4 +29,5 @@ test('isV3Call', () => {
   expect(isV3Call('2020Q1', 'net_sales')).toBeTruthy()
   expect(isV3Call('LYLQ', 'net_sales')).toBeTruthy()
   expect(isV3Call('2020-09-06', 'market_capital')).toBeTruthy()
+  expect(isV3Call('latest', 'market_capital')).toBeTruthy()
 })
