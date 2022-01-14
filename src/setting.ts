@@ -52,7 +52,19 @@ export class Setting {
     }
   }
 
+  public isValid(): boolean {
+    if (!this._ondemandApiEnabled && this._forceOndemandApiEnabled) {
+      return false
+    }
+
+    return true
+  }
+
   public save(): void {
+    if (!this.isValid()) {
+      throw new Error('Setting is invalid state')
+    }
+
     const props = PropertiesService.getUserProperties()
     props.setProperty(Setting.tokenProperty, this._token)
     props.setProperty(Setting.ondemandApiEnabledProperty, this._ondemandApiEnabled)
