@@ -35,8 +35,15 @@ export class CsvExporter {
 
     const ondemandQuarterApiPeriodRange = new OndemandApiPeriodRange(companyService)
 
-    const ondemandQuarterApiPeriods = ondemandQuarterApiPeriodRange.selectOndemandQuarterApiPeriod(ticker, range)
-    const quarterApiPeriods = ondemandQuarterApiPeriodRange.filterOndemandQuarterApiPeriod(ticker, range)
+    let ondemandQuarterApiPeriods = []
+    let quarterApiPeriods = []
+
+    if (setting.isOndemandApiCallModeForce()) {
+      ondemandQuarterApiPeriods = range.range()
+    } else {
+      ondemandQuarterApiPeriods = ondemandQuarterApiPeriodRange.selectOndemandQuarterApiPeriod(ticker, range)
+      quarterApiPeriods = ondemandQuarterApiPeriodRange.filterOndemandQuarterApiPeriod(ticker, range)
+    }
 
     if (ondemandQuarterApiPeriods.length > 0 && !setting.ondemandApiEnabled) {
       throw new Error(

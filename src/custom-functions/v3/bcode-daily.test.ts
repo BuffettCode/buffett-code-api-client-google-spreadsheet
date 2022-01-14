@@ -16,7 +16,7 @@ test('bcodeDaily', () => {
   expect(DailyCache.get(ticker, date)).toBeNull()
 
   const client = new CachingBuffettCodeApiClientV3('token')
-  const result = bcodeDaily(client, ticker, date, propertyName, false)
+  const result = bcodeDaily(client, ticker, date, propertyName, false, false)
 
   expect(result).toEqual(new BcodeResult(propertyName, 550294097166, '円'))
   expect(DailyCache.get(ticker, date)).not.toBeNull()

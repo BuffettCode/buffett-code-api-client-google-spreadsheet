@@ -17,7 +17,7 @@ test('bcodeQuarter', () => {
   expect(QuarterCache.get(ticker, period)).toBeNull()
 
   const client = new CachingBuffettCodeApiClientV3('token')
-  const result = bcodeQuarter(client, ticker, YearQuarterParam.fromYearQuarter(period), propertyName, false)
+  const result = bcodeQuarter(client, ticker, YearQuarterParam.fromYearQuarter(period), propertyName, false, false)
 
   expect(result).toEqual(new BcodeResult(propertyName, 12513000000, '円'))
   expect(QuarterCache.get(ticker, period)).not.toBeNull()

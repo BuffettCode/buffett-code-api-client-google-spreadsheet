@@ -17,6 +17,7 @@ global.onInstall = (): void => {
   const setting = Setting.load()
   setting.setDefaultToken()
   setting.setDefaultOndemandApiEnabled()
+  setting.setDefaultOndemandApiCallMode()
   setting.save()
 
   global.onOpen()
