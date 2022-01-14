@@ -84,7 +84,7 @@ export function bcode(
         parsedPeriod,
         propertyName,
         setting.ondemandApiEnabled,
-        setting.forceOndemandApiEnabled
+        setting.isOndemandApiCallModeForce()
       )
     } else {
       result = bcodeQuarter(
@@ -93,7 +93,7 @@ export function bcode(
         parsedPeriod,
         propertyName,
         setting.ondemandApiEnabled,
-        setting.forceOndemandApiEnabled
+        setting.isOndemandApiCallModeForce()
       )
     }
 

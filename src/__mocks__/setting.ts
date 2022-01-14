@@ -4,6 +4,12 @@ export class Setting {
   }
 
   static load(): object {
-    return { token: 'foo' }
+    return {
+      token: 'foo',
+      ondemandApiEnabled: false,
+      ondemandApiCallMode: 'default',
+      isOndemandApiCallModeDefault: (): boolean => true,
+      isOndemandApiCallModeForce: (): boolean => false
+    }
   }
 }

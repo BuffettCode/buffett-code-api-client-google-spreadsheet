@@ -38,7 +38,7 @@ export class CsvExporter {
     let ondemandQuarterApiPeriods = []
     let quarterApiPeriods = []
 
-    if (setting.forceOndemandApiEnabled) {
+    if (setting.isOndemandApiCallModeForce()) {
       ondemandQuarterApiPeriods = range.range()
     } else {
       ondemandQuarterApiPeriods = ondemandQuarterApiPeriodRange.selectOndemandQuarterApiPeriod(ticker, range)

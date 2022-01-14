@@ -8,7 +8,7 @@ test('load', () => {
   mockGetProperty
     .mockReturnValueOnce('foo')
     .mockReturnValueOnce('true')
-    .mockReturnValueOnce('true')
+    .mockReturnValueOnce('force')
 
   global.PropertiesService = {
     getUserProperties: (): object => {
@@ -22,10 +22,10 @@ test('load', () => {
   expect(mockGetProperty.mock.calls.length).toBe(3)
   expect(setting.token).toBe('foo')
   expect(setting.ondemandApiEnabled).toBe(true)
-  expect(setting.forceOndemandApiEnabled).toBe(true)
+  expect(setting.ondemandApiCallMode).toBe('force')
 })
 
-test('load__ondemandApiEnabledCasting', () => {
+test('load (ondemandApiEnabled casting)', () => {
   const mockGetProperty = jest.fn()
   mockGetProperty.mockReturnValue(undefined)
 
@@ -39,6 +39,22 @@ test('load__ondemandApiEnabledCasting', () => {
 
   const setting = Setting.load()
   expect(setting.ondemandApiEnabled).toBe(false)
+})
+
+test('load (ondemandApiCallMode fallback)', () => {
+  const mockGetProperty = jest.fn()
+  mockGetProperty.mockReturnValue(undefined)
+
+  global.PropertiesService = {
+    getUserProperties: (): object => {
+      return {
+        getProperty: mockGetProperty
+      }
+    }
+  }
+
+  const setting = Setting.load()
+  expect(setting.ondemandApiCallMode).toBe(Setting.defaultOndemandApiCallMode)
 })
 
 test('isValid (true)', () => {
@@ -55,11 +71,29 @@ test('isValid (true)', () => {
   const setting = Setting.load()
   setting.token = 'bar'
   setting.ondemandApiEnabled = true
-  setting.forceOndemandApiEnabled = false
+  setting.ondemandApiCallMode = 'force'
   expect(setting.isValid()).toBeTruthy()
 })
 
-test('isValid (false)', () => {
+test('isValid (true)', () => {
+  const mockGetProperty = jest.fn()
+
+  global.PropertiesService = {
+    getUserProperties: (): object => {
+      return {
+        getProperty: mockGetProperty
+      }
+    }
+  }
+
+  const setting = Setting.load()
+  setting.token = 'bar'
+  setting.ondemandApiEnabled = true
+  setting.ondemandApiCallMode = 'foo' as 'default' | 'force'
+  expect(setting.isValid()).toBeFalsy()
+})
+
+test('isValid (ondemandApiEnabled is false but ondemandApiCallMode is changed)', () => {
   const mockGetProperty = jest.fn()
 
   global.PropertiesService = {
@@ -73,7 +107,7 @@ test('isValid (false)', () => {
   const setting = Setting.load()
   setting.token = 'bar'
   setting.ondemandApiEnabled = false
-  setting.forceOndemandApiEnabled = true
+  setting.ondemandApiCallMode = 'force'
   expect(setting.isValid()).toBeFalsy()
 })
 
@@ -93,16 +127,16 @@ test('save', () => {
   const setting = Setting.load()
   setting.token = 'bar'
   setting.ondemandApiEnabled = true
-  setting.forceOndemandApiEnabled = true
+  setting.ondemandApiCallMode = 'default'
   setting.save()
 
   expect(mockSetProperty.mock.calls.length).toBe(3)
   expect(mockSetProperty.mock.calls[0]).toEqual([Setting.tokenProperty, 'bar'])
-  expect(mockSetProperty.mock.calls[1]).toEqual([Setting.ondemandApiEnabledProperty, true])
-  expect(mockSetProperty.mock.calls[2]).toEqual([Setting.forceOndemandApiEnabledProperty, true])
+  expect(mockSetProperty.mock.calls[1]).toEqual([Setting.ondemandApiEnabledProperty, 'true'])
+  expect(mockSetProperty.mock.calls[2]).toEqual([Setting.ondemandApiCallModeProperty, 'default'])
 })
 
-test('save (ondemandApiEnabled is false but forceOndemandApiEnabled is true)', () => {
+test('save (ondemandApiEnabled is false but ondemandApiCallMode is changed)', () => {
   const mockGetProperty = jest.fn()
   const mockSetProperty = jest.fn()
 
@@ -118,7 +152,7 @@ test('save (ondemandApiEnabled is false but forceOndemandApiEnabled is true)', (
   const setting = Setting.load()
   setting.token = 'bar'
   setting.ondemandApiEnabled = false
-  setting.forceOndemandApiEnabled = true
+  setting.ondemandApiCallMode = 'force'
   expect(() => setting.save()).toThrow(Error)
 })
 
@@ -141,6 +175,44 @@ test('setDefaultToken', () => {
   expect(setting.token).toBe(Setting.defaultToken)
 })
 
+test('setDefaultOndemandApiEnabled', () => {
+  const mockGetProperty = jest.fn()
+  mockGetProperty.mockReturnValue(undefined)
+
+  global.PropertiesService = {
+    getUserProperties: (): object => {
+      return {
+        getProperty: mockGetProperty
+      }
+    }
+  }
+
+  const setting = Setting.load()
+  expect(setting.ondemandApiEnabled).toBeFalsy()
+
+  setting.setDefaultToken()
+  expect(setting.ondemandApiEnabled).toBe(Setting.defaultOndemandApiEnabled)
+})
+
+test('setDefaultOndemandApiCallMode', () => {
+  const mockGetProperty = jest.fn()
+  mockGetProperty.mockReturnValue(undefined)
+
+  global.PropertiesService = {
+    getUserProperties: (): object => {
+      return {
+        getProperty: mockGetProperty
+      }
+    }
+  }
+
+  const setting = Setting.load()
+  expect(setting.ondemandApiCallMode).toBe(Setting.defaultOndemandApiCallMode)
+
+  setting.setDefaultToken()
+  expect(setting.ondemandApiCallMode).toBe(Setting.defaultOndemandApiCallMode)
+})
+
 test('toObject', () => {
   const mockGetProperty = jest.fn()
   mockGetProperty.mockReturnValue(undefined)
@@ -156,11 +228,25 @@ test('toObject', () => {
   const setting = Setting.load()
   setting.setDefaultToken()
   setting.setDefaultOndemandApiEnabled()
-  setting.setDefaultForceOndemandApiEnabled()
+  setting.setDefaultOndemandApiCallMode()
 
   expect(setting.toObject()).toStrictEqual({
     token: Setting.defaultToken,
     ondemandApiEnabled: Setting.defaultOndemandApiEnabled,
-    forceOndemandApiEnabled: Setting.defaultForceOndemandApiEnabled
+    ondemandApiCallMode: Setting.defaultOndemandApiCallMode
   })
+})
+
+test('Setting.validOndemanApiCallModes', () => {
+  expect(Setting.validOndemanApiCallModes()).toEqual(['default', 'force'])
+})
+
+test('Setting.castOndemandApiCallModeString', () => {
+  // valid cases
+  expect(Setting.castOndemandApiCallModeString('default')).toEqual('default')
+  expect(Setting.castOndemandApiCallModeString('force')).toEqual('force')
+
+  // invalid cases
+  expect(Setting.castOndemandApiCallModeString('FORCE')).toEqual('default')
+  expect(Setting.castOndemandApiCallModeString('foo')).toEqual('default')
 })
