@@ -15,7 +15,8 @@ export function bcodeDaily(
   ticker: string,
   date: DateParam,
   propertyName: string,
-  ondemandApiEnabled: boolean
+  ondemandApiEnabled: boolean,
+  forceOndemandApiEnabled: boolean
 ): BcodeResult {
   const companyService = new CompanyService(ticker, client)
   if (!companyService.isSupportedTicker()) {
@@ -23,7 +24,7 @@ export function bcodeDaily(
   }
 
   let daily: Daily
-  if (companyService.isOndemandDailyApiPeriod(date)) {
+  if (forceOndemandApiEnabled || companyService.isOndemandDailyApiPeriod(date)) {
     if (!ondemandApiEnabled) {
       throw new OndemandApiNotEnabledError()
     }

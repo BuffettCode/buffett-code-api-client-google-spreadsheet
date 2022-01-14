@@ -15,7 +15,8 @@ export function bcodeQuarter(
   ticker: string,
   period: YearQuarterParam,
   propertyName: string,
-  ondemandApiEnabled: boolean
+  ondemandApiEnabled: boolean,
+  forceOndemandApiEnabled: boolean
 ): BcodeResult {
   const companyService = new CompanyService(ticker, client)
   if (!companyService.isSupportedTicker()) {
@@ -23,7 +24,7 @@ export function bcodeQuarter(
   }
 
   let quarter: Quarter
-  if (companyService.isOndemandQuarterApiPeriod(period)) {
+  if (forceOndemandApiEnabled || companyService.isOndemandQuarterApiPeriod(period)) {
     if (!ondemandApiEnabled) {
       throw new OndemandApiNotEnabledError()
     }

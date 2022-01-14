@@ -3,6 +3,11 @@
   <head>
     <base target="_top">
     <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    <style type="text/css">
+      input[disabled] + label {
+        text-color: #777;
+      }
+    </style>
     <script>
       function onLoadSettingError(e) {
         console.error(e.message, e.stack)
@@ -23,6 +28,10 @@
             }
             if (setting.ondemandApiEnabled) {
               document.getElementById('ondemand-api-check').checked = setting.ondemandApiEnabled
+              document.getElementById('force-ondemand-api-check').disabled = !setting.ondemandApiEnabled
+            }
+            if (setting.forceOndemandApiEnabled) {
+              document.getElementById('force-ondemand-api-check').checked = setting.forceOndemandApiEnabled
             }
           })
           .loadSetting()
@@ -31,6 +40,7 @@
       function saveSetting() {
         const token = document.getElementById('token-input').value
         const ondemandApiEnabled = document.getElementById('ondemand-api-check').checked
+        const forceOndemandApiEnabled = document.getElementById('force-ondemand-api-check').checked
 
         google.script.run
           .withFailureHandler(onSaveSettingError)
@@ -38,7 +48,21 @@
             alert('設定を保存しました')
             google.script.host.close()
           })
-          .saveSetting(token, ondemandApiEnabled)
+          .saveSetting(token, ondemandApiEnabled, forceOndemandApiEnabled)
+      }
+
+      function onOndemandApiCheckChange() {
+        const ondemandApiEnabled = document.getElementById('ondemand-api-check').checked
+        const forceOndemandApiCheck = document.getElementById('force-ondemand-api-check')
+
+        // ondemand-api-checkの変更の都度初期化する
+        forceOndemandApiCheck.checked = false;
+
+        if (ondemandApiEnabled) {
+          forceOndemandApiCheck.disabled = false;
+        } else {
+          forceOndemandApiCheck.disabled = true;
+        }
       }
     </script>
   </head>
@@ -76,8 +100,16 @@
             </ul>
           </p>
         </div>
-        <label for="ondemand-api-check"><b>同意して従量課金APIを利用する</b></label>
-        <input id="ondemand-api-check" type="checkbox">
+        <ul style="padding-left: 0; list-style-type: none;">
+          <li>
+            <input id="ondemand-api-check" type="checkbox" onchange="onOndemandApiCheckChange()">
+            <label for="ondemand-api-check"><b>同意して従量課金APIを利用する</b></label>
+          </li>
+          <li>
+            <input id="force-ondemand-api-check" type="checkbox" disabled="disabled">
+            <label for="force-ondemand-api-check"><b>常に従量課金APIを利用する (制限回避モード)</b></label>
+          </li>
+        </ul>
       </div>
       <div class="block">
         <button class="action" onclick="saveSetting()">保存</button>
