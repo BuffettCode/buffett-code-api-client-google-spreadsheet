@@ -242,11 +242,8 @@ test('Setting.validOndemanApiCallModes', () => {
 })
 
 test('Setting.castOndemandApiCallModeString', () => {
-  // valid cases
   expect(Setting.castOndemandApiCallModeString('default')).toEqual('default')
   expect(Setting.castOndemandApiCallModeString('force')).toEqual('force')
-
-  // invalid cases
-  expect(Setting.castOndemandApiCallModeString('FORCE')).toEqual('default')
-  expect(Setting.castOndemandApiCallModeString('foo')).toEqual('default')
+  expect(() => Setting.castOndemandApiCallModeString('FORCE')).toThrow(TypeError)
+  expect(() => Setting.castOndemandApiCallModeString('foo')).toThrow(TypeError)
 })

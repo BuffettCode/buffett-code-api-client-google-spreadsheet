@@ -96,9 +96,9 @@ export class Setting {
   public static castOndemandApiCallModeString(ondemandApiCallModeString: string): 'default' | 'force' {
     if (ondemandApiCallModeString === 'default' || ondemandApiCallModeString === 'force') {
       return ondemandApiCallModeString
-    } else {
-      return 'default'
     }
+
+    throw new TypeError(`Unsupported ondemandApiCallMode casting: ${ondemandApiCallModeString}`)
   }
 
   public static validOndemanApiCallModes(): string[] {
@@ -109,9 +109,17 @@ export class Setting {
     const props = PropertiesService.getUserProperties()
     const token = props.getProperty(this.tokenProperty)
     const ondemandApiEnabled = props.getProperty(this.ondemandApiEnabledProperty) == 'true'
-    const ondemandApiCallMode = Setting.castOndemandApiCallModeString(
-      props.getProperty(this.ondemandApiCallModeProperty)
-    )
+
+    let ondemandApiCallMode: 'default' | 'force'
+    try {
+      ondemandApiCallMode = Setting.castOndemandApiCallModeString(props.getProperty(this.ondemandApiCallModeProperty))
+    } catch (e) {
+      if (e instanceof TypeError) {
+        ondemandApiCallMode = Setting.defaultOndemandApiCallMode
+      } else {
+        throw e
+      }
+    }
 
     const setting = new Setting(token, ondemandApiEnabled, ondemandApiCallMode)
     return setting
