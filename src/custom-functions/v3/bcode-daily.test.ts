@@ -10,7 +10,7 @@ jest.mock('~/services/daily-cache', () => jest.requireActual('~/__mocks__/servic
 
 test('bcodeDaily', () => {
   const ticker = '2371'
-  const date = new DateParam(new Date('2020-09-06'))
+  const date = DateParam.from(new Date('2020-09-06'))
   const propertyName = 'market_capital'
 
   expect(DailyCache.get(ticker, date)).toBeNull()

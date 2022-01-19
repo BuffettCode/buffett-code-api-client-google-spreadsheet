@@ -1,4 +1,4 @@
-import { DateParam } from '~/fiscal-periods/date-param'
+import { DateParam, DateParamDate, DateParamLatest } from '~/fiscal-periods/date-param'
 import { ParseError } from '~/fiscal-periods/error'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
@@ -21,5 +21,9 @@ export class PeriodParser {
     }
 
     throw new ParseError(`Invalid period format: ${str}`)
+  }
+
+  static isDateParam(period: DateParam | YearQuarterParam): period is DateParam {
+    return period instanceof DateParamDate || period instanceof DateParamLatest
   }
 }

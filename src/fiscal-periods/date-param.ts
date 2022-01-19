@@ -1,32 +1,47 @@
 import { ParseError } from '~/fiscal-periods/error'
 
-export class DateParam {
-  constructor(public date: Date | 'latest') {}
+export class DateParamDate {
+  constructor(readonly date: Date) {}
 
   public toString(): string {
-    if (this.date instanceof Date) {
-      return this.date.toISOString().substring(0, 10)
-    } else {
-      return this.date
-    }
+    return this.date.toISOString().substring(0, 10)
+  }
+
+  public isLatest(): this is DateParamLatest {
+    return false
   }
 
   public toDate(): Date {
-    if (this.date === 'latest') {
-      throw new Error('This cannot convert to Date')
+    return this.date
+  }
+}
+
+export class DateParamLatest {
+  constructor(readonly date: 'latest') {}
+
+  public toString(): string {
+    return this.date
+  }
+
+  public isLatest(): this is DateParamLatest {
+    return true
+  }
+}
+
+export type DateParam = DateParamDate | DateParamLatest
+
+export const DateParam = {
+  from(date: Date | 'latest'): DateParam {
+    if (date === 'latest') {
+      return new DateParamLatest(date)
     } else {
-      return this.date
+      return new DateParamDate(date)
     }
-  }
-
-  public isLatest(): boolean {
-    return this.date === 'latest'
-  }
-
-  static parse(str: string): DateParam {
+  },
+  parse(str: string): DateParam {
     str = str.toLowerCase()
     if (str == 'latest') {
-      return new DateParam(str)
+      return new DateParamLatest(str)
     }
 
     const matches = str.match(/^(\d{4})-(\d{2})-(\d{2})$/)
@@ -34,6 +49,6 @@ export class DateParam {
       throw new ParseError(`Invalid date format: ${str}`)
     }
 
-    return new DateParam(new Date(str))
+    return new DateParamDate(new Date(str))
   }
 }

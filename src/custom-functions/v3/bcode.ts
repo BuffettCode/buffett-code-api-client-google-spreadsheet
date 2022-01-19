@@ -4,7 +4,6 @@ import { ApiResponseError, OndemandApiNotEnabledError, UnsupportedTickerError } 
 import { bcodeDaily } from '~/custom-functions/v3/bcode-daily'
 import { bcodeQuarter } from '~/custom-functions/v3/bcode-quarter'
 import { BcodeResult } from '~/custom-functions/v3/bcode-result'
-import { DateParam } from '~/fiscal-periods/date-param'
 import { InvalidLYLQError, InvalidYearError, InvalidQuarterError } from '~/fiscal-periods/error'
 import { PeriodParser } from '~/fiscal-periods/period-parser'
 import { Setting } from '~/setting'
@@ -77,7 +76,7 @@ export function bcode(
     const client = new CachingBuffettCodeApiClientV3(setting.token)
     const parsedPeriod = PeriodParser.parse(period)
     let result: BcodeResult
-    if (parsedPeriod instanceof DateParam) {
+    if (PeriodParser.isDateParam(parsedPeriod)) {
       result = bcodeDaily(
         client,
         ticker,
