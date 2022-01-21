@@ -4,11 +4,11 @@ import { getMock, putMock } from '~/services/cache-test-helper'
 import { DailyCache } from '~/services/daily-cache'
 
 test('key', () => {
-  expect(DailyCache.key('6501', new DateParam('latest'))).toBe(
+  expect(DailyCache.key('6501', DateParam.from('latest'))).toBe(
     `daily-6501-${new Date().toISOString().substring(0, 10)}`
   )
   expect(DailyCache.key('6501', new Date())).toBe(`daily-6501-${new Date().toISOString().substring(0, 10)}`)
-  expect(DailyCache.key('6501', new DateParam(new Date('2020-09-06')))).toBe(`daily-6501-2020-09-06`)
+  expect(DailyCache.key('6501', DateParam.from(new Date('2020-09-06')))).toBe(`daily-6501-2020-09-06`)
   expect(DailyCache.key('6501', new Date('2020-09-06'))).toBe(`daily-6501-2020-09-06`)
 })
 

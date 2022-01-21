@@ -45,7 +45,7 @@ describe('daily', () => {
   const ticker = '2371'
 
   test('(uncached)', () => {
-    const date = new DateParam(new Date('2020-09-06'))
+    const date = DateParam.from(new Date('2020-09-06'))
     expect(DailyCache.get(ticker, date)).toBeNull()
 
     const client = new CachingBuffettCodeApiClientV3('token')
@@ -56,7 +56,7 @@ describe('daily', () => {
   })
 
   test('(cached)', () => {
-    const date = new DateParam(new Date('2020-09-06'))
+    const date = DateParam.from(new Date('2020-09-06'))
     const cached = DailyCache.get(ticker, date)
     expect(cached).not.toBeNull()
 
@@ -185,7 +185,7 @@ describe('ondemandDaily', () => {
     DailyCache.clearAll()
   })
 
-  const period = new DateParam(new Date('2020-09-06'))
+  const period = DateParam.from(new Date('2020-09-06'))
 
   test('(uncached)', () => {
     expect(DailyCache.get(ticker, period)).toBeNull()

@@ -167,7 +167,7 @@ describe('BuffettCodeApiClientV3', () => {
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
-    const date = new DateParam(new Date('2021-08-11'))
+    const date = DateParam.from(new Date('2021-08-11'))
     expect(client.daily(ticker, date)).toEqual(Daily.fromResponse(daily))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
@@ -207,7 +207,7 @@ describe('BuffettCodeApiClientV3', () => {
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
-    const date = new DateParam(new Date('2021-08-11'))
+    const date = DateParam.from(new Date('2021-08-11'))
     expect(client.ondemandDaily(ticker, date)).toEqual(Daily.fromResponse(daily))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)

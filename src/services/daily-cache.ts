@@ -10,9 +10,9 @@ export class DailyCache {
 
   static key(ticker: string, date: Date | DateParam): string {
     if (date instanceof Date) {
-      date = new DateParam(date)
+      date = DateParam.from(date)
     } else if (date.isLatest()) {
-      date = new DateParam(new Date())
+      date = DateParam.from(new Date())
     }
 
     return `${this.prefix}-${ticker}-${date}`
