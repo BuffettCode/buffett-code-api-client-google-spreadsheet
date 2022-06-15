@@ -29,10 +29,6 @@ export class CsvExporter {
     const setting = Setting.load()
     const client = new CachingBuffettCodeApiClientV3(setting.token)
     const companyService = new CompanyService(ticker, client, today)
-    if (!companyService.isSupportedTicker()) {
-      throw new Error('<<サポートされていないtickerです>>')
-    }
-
     const ondemandQuarterApiPeriodRange = new OndemandApiPeriodRange(companyService)
 
     let ondemandQuarterApiPeriods = []

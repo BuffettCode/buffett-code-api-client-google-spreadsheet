@@ -23,14 +23,4 @@ export class CompanyCache {
     const cache = CacheService.getUserCache()
     cache.put(this.key(ticker), JSON.stringify(company), expirationInSeconds)
   }
-
-  static putAll(companies: object, expirationInSeconds = 21600): void {
-    Object.keys(companies).forEach(ticker => {
-      if (ticker === 'column_description') {
-        return
-      }
-
-      this.put(ticker, companies[ticker][0], expirationInSeconds)
-    })
-  }
 }

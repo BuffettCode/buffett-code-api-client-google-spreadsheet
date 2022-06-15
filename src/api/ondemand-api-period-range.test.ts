@@ -1,15 +1,15 @@
 import { CompanyService } from '~/api/company-service'
 import { OndemandApiPeriodRange } from '~/api/ondemand-api-period-range'
-import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
+import { CachingBuffettCodeApiClientV3 } from '~/api/v3/caching-client'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
-jest.mock('~/api/v2/client', () => jest.requireActual('~/__mocks__/api/v2/client'))
+jest.mock('~/api/v3/client', () => jest.requireActual('~/__mocks__/api/v3/client'))
 jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
 
 test('selectOndemandQuarterApiPeriod', () => {
   const ticker = '2371'
-  const client = new CachingBuffettCodeApiClientV2('token')
+  const client = new CachingBuffettCodeApiClientV3('token')
   const companyService = new CompanyService(ticker, client)
   const ondemandQuarterApiPeriodRange = new OndemandApiPeriodRange(companyService)
 
@@ -32,7 +32,7 @@ test('selectOndemandQuarterApiPeriod', () => {
 
 test('filterOndemandQuarterApiPeriod', () => {
   const ticker = '2371'
-  const client = new CachingBuffettCodeApiClientV2('token')
+  const client = new CachingBuffettCodeApiClientV3('token')
   const companyService = new CompanyService(ticker, client)
   const ondemandQuarterApiPeriodRange = new OndemandApiPeriodRange(companyService)
 
