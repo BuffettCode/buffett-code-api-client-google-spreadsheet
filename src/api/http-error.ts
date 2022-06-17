@@ -23,6 +23,22 @@ export class HttpError implements Error {
     return content === '{"message":"Forbidden"}'
   }
 
+  public isMonthlyLimitExceeded(): boolean {
+    return !this.isInvalidTokenRequest() && this.response.getResponseCode() === 403
+  }
+
+  public isResourceNotFound(): boolean {
+    return this.response.getResponseCode() === 404
+  }
+
+  public isApiQuotaExceeded(): boolean {
+    return this.response.getResponseCode() === 429
+  }
+
+  public isBadRequest(): boolean {
+    return Math.floor(this.response.getResponseCode() / 100) === 4
+  }
+
   public toString(): string {
     return this.message
   }
