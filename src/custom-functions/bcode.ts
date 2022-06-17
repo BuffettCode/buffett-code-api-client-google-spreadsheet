@@ -1,4 +1,3 @@
-import { bcode as bcodeV2 } from '~/custom-functions/v2/bcode'
 import { bcode as bcodeV3 } from '~/custom-functions/v3/bcode'
 import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
 import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
@@ -28,8 +27,7 @@ export function bcode(
   param1: string | number | Date,
   param2: string | number,
   param3: string | boolean = false,
-  param4: string | boolean = false,
-  param5: string | boolean = false
+  param4: string | boolean = false
 ): number | string {
   if (param1 instanceof Date || isV3Call(param1, param2)) {
     if (typeof param1 === 'number') {
@@ -41,7 +39,9 @@ export function bcode(
     }
 
     return bcodeV3(ticker, param1, param2, castStringAsBoolean(param3), castStringAsBoolean(param4))
-  } else {
-    return bcodeV2(ticker, param1, param2, param3.toString(), castStringAsBoolean(param4), castStringAsBoolean(param5))
   }
+
+  const message =
+    'BCODE(ticker, FY, FQ, name)の形式は現在サポートしていません。BCODE(ticker, FYFQ, name)をご利用ください。'
+  throw new Error(message)
 }

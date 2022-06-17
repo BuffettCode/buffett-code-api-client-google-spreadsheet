@@ -1,9 +1,8 @@
-import * as companyFixture from '~/__mocks__/fixtures/v2/company'
+import * as companyFixture from '~/__mocks__/fixtures/v3/company'
 import { getMock, putMock } from '~/services/cache-test-helper'
 import { CompanyCache } from '~/services/company-cache'
 
-const companies = companyFixture.default
-const company = companies['2371'][0]
+const company = companyFixture['data']
 
 test('key', () => {
   expect(CompanyCache.key('2371')).toBe('company-2371')
@@ -25,13 +24,6 @@ test('get', () => {
 
 test('put', () => {
   CompanyCache.put('2371', company)
-
-  expect(putMock).toBeCalledTimes(1)
-  expect(putMock).toBeCalledWith('company-2371', JSON.stringify(company), 21600)
-})
-
-test('putAll', () => {
-  CompanyCache.putAll(companies)
 
   expect(putMock).toBeCalledTimes(1)
   expect(putMock).toBeCalledWith('company-2371', JSON.stringify(company), 21600)

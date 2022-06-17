@@ -1,6 +1,4 @@
 import { bcode } from '~/custom-functions/bcode'
-import { bcodeLabel } from '~/custom-functions/bcode-label'
-import { bcodeUnit } from '~/custom-functions/bcode-unit'
 import { Setting } from '~/setting'
 import { exportCsv } from '~/ui/csv-export-dialog'
 import * as menu from '~/ui/menu'
@@ -47,41 +45,6 @@ global.exportCsv = exportCsv
  * @return 指定した銘柄の財務数字または指標
  * @customfunction
  */
-global.BCODE = (
-  ticker,
-  period,
-  propertyName,
-  isRawValue = false,
-  isWithUnits = false,
-  param5 = false
-): number | string => {
-  return bcode(ticker, period, propertyName, isRawValue, isWithUnits, param5)
-}
-
-/**
- * 近日廃止予定です。
- *
- * 指定した項目の名称を日本語で取得します。
- *
- * @deprecated 近日廃止予定です
- * @param {"net_sales"} propertyName 項目名
- * @return 指定した項目の名称
- * @customfunction
- */
-global.BCODE_LABEL = (propertyName: string): string => {
-  return bcodeLabel(propertyName)
-}
-
-/**
- * 近日廃止予定です。
- *
- * 指定した項目の単位を取得します。
- *
- * @deprecated 近日廃止予定です
- * @param {"net_sales"} propertyName 項目名
- * @return 指定した項目の単位
- * @customfunction
- */
-global.BCODE_UNIT = (propertyName: string): string => {
-  return bcodeUnit(propertyName)
+global.BCODE = (ticker, period, propertyName, isRawValue = false, isWithUnits = false): number | string => {
+  return bcode(ticker, period, propertyName, isRawValue, isWithUnits)
 }
