@@ -1,5 +1,4 @@
 import { CompanyService } from '~/api/company-service'
-import { CachingBuffettCodeApiClientV2 } from '~/api/v2/caching-client'
 import { CachingBuffettCodeApiClientV3 } from '~/api/v3/caching-client'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
@@ -10,18 +9,11 @@ import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 const LY = new LyWithOffset()
 const LQ = new LqWithOffset()
 
-jest.mock('~/api/v2/client', () => jest.requireActual('~/__mocks__/api/v2/client'))
 jest.mock('~/api/v3/client', () => jest.requireActual('~/__mocks__/api/v3/client'))
 jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
 
-test('isSupportedTicker', () => {
-  const client = new CachingBuffettCodeApiClientV2('token')
-  expect(new CompanyService('2371', client).isSupportedTicker()).toBe(true)
-  expect(new CompanyService('9999', client).isSupportedTicker()).toBe(false)
-})
-
 test('convertYearQuarterParamToYearQuarter', () => {
-  const client = new CachingBuffettCodeApiClientV2('token')
+  const client = new CachingBuffettCodeApiClientV3('token')
   const service = new CompanyService('2371', client)
   expect(service.convertYearQuarterParamToYearQuarter(new YearQuarterParam(LY, 3))).toEqual(new YearQuarter(2021, 3))
   expect(service.convertYearQuarterParamToYearQuarter(new YearQuarterParam(2016, LQ))).toEqual(new YearQuarter(2016, 2))
@@ -50,7 +42,7 @@ test('convertYearQuarterParamToYearQuarter', () => {
 })
 
 test('isOndemandQuarterApiPeriod', () => {
-  const client = new CachingBuffettCodeApiClientV2('token')
+  const client = new CachingBuffettCodeApiClientV3('token')
   const service = new CompanyService('2371', client)
 
   expect(service.isOndemandQuarterApiPeriod(new YearQuarter(2001, 4))).toBe(true)
@@ -72,9 +64,9 @@ test('isOndemandDailyApiPeriod', () => {
   const client = new CachingBuffettCodeApiClientV3('token')
   const service = new CompanyService('2371', client)
 
-  expect(service.isOndemandDailyApiPeriod(new DateParam(new Date('2003-10-10')))).toBe(true)
-  expect(service.isOndemandDailyApiPeriod(new DateParam(new Date('2016-11-12')))).toBe(true)
-  expect(service.isOndemandDailyApiPeriod(new DateParam(new Date('2016-11-13')))).toBe(false)
-  expect(service.isOndemandDailyApiPeriod(new DateParam(new Date()))).toBe(false)
-  expect(service.isOndemandDailyApiPeriod(new DateParam('latest'))).toBe(false)
+  expect(service.isOndemandDailyApiPeriod(DateParam.from(new Date('2003-10-10')))).toBe(true)
+  expect(service.isOndemandDailyApiPeriod(DateParam.from(new Date('2016-11-12')))).toBe(true)
+  expect(service.isOndemandDailyApiPeriod(DateParam.from(new Date('2016-11-13')))).toBe(false)
+  expect(service.isOndemandDailyApiPeriod(DateParam.from(new Date()))).toBe(false)
+  expect(service.isOndemandDailyApiPeriod(DateParam.from('latest'))).toBe(false)
 })

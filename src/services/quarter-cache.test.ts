@@ -1,4 +1,4 @@
-import * as quarterFixture from '~/__mocks__/fixtures/v2/quarter'
+import * as quarterFixture from '~/__mocks__/fixtures/v3/quarter'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { getMock, putMock } from '~/services/cache-test-helper'
 import { QuarterCache } from '~/services/quarter-cache'
@@ -7,7 +7,7 @@ test('key', () => {
   expect(QuarterCache.key('6501', new YearQuarter(2019, 4))).toBe('quarter-6501-2019Q4')
 })
 
-const quarter = quarterFixture['2371'][0]
+const quarter = quarterFixture['data']
 const columnDescription = quarterFixture['column_description']
 const yearQuarter = new YearQuarter(2018, 1)
 

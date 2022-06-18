@@ -16,7 +16,7 @@ export class DailyCache {
 
   static getData(ticker: string, date: Date | DateParam): object | null {
     if (date instanceof Date) {
-      date = new DateParam(date)
+      date = DateParam.from(date)
     }
 
     const cached = DailyCache.cache[`${ticker}-${date}`]

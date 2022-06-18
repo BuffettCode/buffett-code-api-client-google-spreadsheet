@@ -1,4 +1,3 @@
-import { BuffettCodeApiClientV2 } from '~/api/v2/client'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
@@ -9,16 +8,8 @@ import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 export class CompanyService {
   public company: object
 
-  constructor(
-    public ticker: string,
-    client: BuffettCodeApiClientV2 | BuffettCodeApiClientV3,
-    private today: Date = new Date()
-  ) {
+  constructor(public ticker: string, client: BuffettCodeApiClientV3, private today: Date = new Date()) {
     this.company = client.company(ticker)
-  }
-
-  public isSupportedTicker(): boolean {
-    return !!this.company
   }
 
   public convertYearQuarterParamToYearQuarter(period: YearQuarterParam): YearQuarter {
@@ -40,10 +31,6 @@ export class CompanyService {
   }
 
   public isOndemandQuarterApiPeriod(_period: YearQuarter | YearQuarterParam): boolean {
-    if (!this.isSupportedTicker()) {
-      throw new Error('unsupported ticker')
-    }
-
     let period: YearQuarter
     if (_period instanceof YearQuarterParam) {
       period = this.convertYearQuarterParamToYearQuarter(_period)

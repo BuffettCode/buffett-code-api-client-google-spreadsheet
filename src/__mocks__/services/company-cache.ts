@@ -10,10 +10,6 @@ export class CompanyCache {
     CompanyCache.cache[ticker] = company
   }
 
-  static putAll(companies: object): void {
-    Object.keys(companies).forEach(ticker => CompanyCache.put(ticker, companies[ticker][0]))
-  }
-
   // for testing
   static clearAll(): void {
     CompanyCache.cache = {}

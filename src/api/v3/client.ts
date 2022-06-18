@@ -114,8 +114,8 @@ export class BuffettCodeApiClientV3 {
     const endpoint = BuffettCodeApiClientV3.baseUrl + '/bulk/daily'
     const builder = new UrlBuilder(endpoint, {
       ticker,
-      from: new DateParam(range.from).toString(),
-      to: new DateParam(range.to).toString()
+      from: DateParam.from(range.from).toString(),
+      to: DateParam.from(range.to).toString()
     })
     const url = builder.toString()
     const options = this.defaultOptions()

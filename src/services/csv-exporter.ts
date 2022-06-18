@@ -4,6 +4,7 @@ import { CachingBuffettCodeApiClientV3 } from '~/api/v3/caching-client'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
+import { ErrorHandler } from '~/services/error-handler'
 import { Setting } from '~/setting'
 
 export class CsvExporter {
@@ -28,9 +29,12 @@ export class CsvExporter {
 
     const setting = Setting.load()
     const client = new CachingBuffettCodeApiClientV3(setting.token)
-    const companyService = new CompanyService(ticker, client, today)
-    if (!companyService.isSupportedTicker()) {
-      throw new Error('<<サポートされていないtickerです>>')
+
+    let companyService
+    try {
+      companyService = new CompanyService(ticker, client, today)
+    } catch (e) {
+      ErrorHandler.handle(e)
     }
 
     const ondemandQuarterApiPeriodRange = new OndemandApiPeriodRange(companyService)
@@ -52,12 +56,16 @@ export class CsvExporter {
     }
 
     const quarters = []
-    quarterApiPeriods.forEach(period => {
-      quarters.push(client.quarter(ticker, YearQuarterParam.fromYearQuarter(period)))
-    })
-    ondemandQuarterApiPeriods.forEach(period => {
-      quarters.push(client.ondemandQuarter(ticker, YearQuarterParam.fromYearQuarter(period)))
-    })
+    try {
+      quarterApiPeriods.forEach(period => {
+        quarters.push(client.quarter(ticker, YearQuarterParam.fromYearQuarter(period)))
+      })
+      ondemandQuarterApiPeriods.forEach(period => {
+        quarters.push(client.ondemandQuarter(ticker, YearQuarterParam.fromYearQuarter(period)))
+      })
+    } catch (e) {
+      ErrorHandler.handle(e)
+    }
 
     if (!quarters.length) {
       throw new Error('<<指定されたデータを取得できませんでした>>')
@@ -100,10 +108,16 @@ export class CsvExporter {
     const numRows = data.length
     const numColumns = data[0].length
 
-    const ss = SpreadsheetApp.getActiveSpreadsheet()
-    const sheet = ss.insertSheet()
-    const range = sheet.getRange(1, 1, numRows, numColumns) // starts from A1
+    try {
+      const ss = SpreadsheetApp.getActiveSpreadsheet()
+      const sheet = ss.insertSheet()
+      const range = sheet.getRange(1, 1, numRows, numColumns) // starts from A1
 
-    range.setValues(data)
+      range.setValues(data)
+    } catch (e) {
+      throw new Error(
+        `<<出力中にエラーが発生しました (${e.name}: ${e.message})。改善しない場合はGoogleアカウントのログアウトおよび再ログインをお試しください>>`
+      )
+    }
   }
 }

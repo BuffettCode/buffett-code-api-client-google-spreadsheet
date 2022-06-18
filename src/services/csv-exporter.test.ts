@@ -5,7 +5,6 @@ import { QuarterCache } from '~/services/quarter-cache'
 
 jest.mock('~/setting', () => jest.requireActual('~/__mocks__/setting'))
 jest.mock('~/api/v3/client', () => jest.requireActual('~/__mocks__/api/v3/client'))
-jest.mock('~/services/quarter-property-cache', () => jest.requireActual('~/__mocks__/services/quarter-property-cache'))
 jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
 jest.mock('~/services/quarter-cache', () => jest.requireActual('~/__mocks__/services/quarter-cache'))
 
