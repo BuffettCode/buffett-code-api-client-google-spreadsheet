@@ -19,13 +19,13 @@ export class BuffettCodeApiClientV3 {
     const fullOptions = { ...defaultOptions, ...options }
     const res = UrlFetchApp.fetch(url, fullOptions)
 
-    const code = res.getResponseCode()
-    const content = res.getContentText()
     const error = new HttpError(url, res)
-    if (Math.floor(code / 100) === 4 || Math.floor(code / 100) === 5 || error.isInvalidTestingRequest()) {
+    if (error.is4xxError() || error.is5xxError()) {
       throw error
     }
 
+    const content = res.getContentText()
+    const code = res.getResponseCode()
     let json
     try {
       json = JSON.parse(content)

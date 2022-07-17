@@ -37,7 +37,7 @@ export class ErrorHandler {
       throw new Error('<<データが見つかりません。tickerや期間に間違いがないかご確認ください>>')
     } else if (e.isApiQuotaExceeded()) {
       throw new Error('<<APIの実行回数が上限に達しました>>')
-    } else if (e.isBadRequest()) {
+    } else if (e.is4xxError()) {
       throw new Error(`<<無効なリクエストです (${e.name}: ${e.message})>>`)
     } else {
       console.error('システムエラー', e.name, e.message)
