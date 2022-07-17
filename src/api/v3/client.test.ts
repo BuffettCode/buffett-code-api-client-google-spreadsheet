@@ -15,16 +15,6 @@ import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
 describe('BuffettCodeApiClientV3', () => {
-  test('HttpError#isInvalidTestingRequest', () => {
-    const res1 = useMockedUrlFetchApp(200, '{"message":"Testing apikey is not allowed"}')()
-    const error1 = new HttpError('https://example.com', res1)
-    expect(error1.isInvalidTestingRequest()).toBeTruthy()
-
-    const res2 = useMockedUrlFetchApp(403, '{"message": "Forbidden"}')()
-    const error2 = new HttpError('https://example.com', res2)
-    expect(error2.isInvalidTestingRequest()).toBeFalsy()
-  })
-
   test('request', () => {
     const mockFetch = useMockedUrlFetchApp(200, '{"message": "this is a message"}')
 
@@ -45,7 +35,7 @@ describe('BuffettCodeApiClientV3', () => {
   })
 
   test('request when testing apikey error', () => {
-    useMockedUrlFetchApp(200, '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}')
+    useMockedUrlFetchApp(400, '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}')
 
     const request = BuffettCodeApiClientV3['request']
     expect(() => request('http://example.com')).toThrow(HttpError)
