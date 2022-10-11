@@ -1,5 +1,10 @@
 import { HttpError } from '~/api/http-error'
-import { ApiResponseError, OndemandApiNotEnabledError, UnsupportedTickerError } from '~/custom-functions/error'
+import {
+  ApiResponseError,
+  OndemandApiNotEnabledError,
+  PropertyNotFoundError,
+  UnsupportedTickerError
+} from '~/custom-functions/error'
 import { InvalidLYLQError, InvalidYearError, InvalidQuarterError } from '~/fiscal-periods/error'
 
 export class ErrorHandler {
@@ -18,6 +23,8 @@ export class ErrorHandler {
       throw new Error(`<<無効な決算年度が指定されています>>`)
     } else if (e instanceof InvalidQuarterError) {
       throw new Error(`<<無効な四半期が指定されています>>`)
+    } else if (e instanceof PropertyNotFoundError) {
+      throw new Error(`<<サポートされていない科目です>>`)
     } else {
       console.error('未定義のエラー', e.name, e.message)
       throw new Error(
