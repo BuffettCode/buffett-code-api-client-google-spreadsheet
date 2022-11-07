@@ -37,7 +37,7 @@ global.exportCsv = exportCsv
  * 指定した銘柄の財務数字や指標を取得します。
  *
  * @param {"6501"} ticker 銘柄コード
- * @param {"2017Q4"} period 会計期間 (例: 四半期 '2017Q4', 日付 '2020-09-06')
+ * @param {"2017Q4"} intent 会計期間 (例: 四半期 '2017Q4', 日付 '2020-09-06')、企業情報を取得する場合は`COMPANY'を指定してください
  * @param {"net_sales"} propertyName 項目名
  * @param {TRUE} isRawValue (オプション) 数値をRAWデータで表示するかどうか (デフォルト値: FALSE)
  * @param {TRUE} isWithUnits (オプション) 単位を末尾に付加するかどうか (デフォルト値: FALSE)
@@ -45,6 +45,6 @@ global.exportCsv = exportCsv
  * @return 指定した銘柄の財務数字または指標
  * @customfunction
  */
-global.BCODE = (ticker, period, propertyName, isRawValue = false, isWithUnits = false): number | string => {
-  return bcode(ticker, period, propertyName, isRawValue, isWithUnits)
+global.BCODE = (ticker, intent, propertyName, isRawValue = false, isWithUnits = false): number | string => {
+  return bcode(ticker, intent, propertyName, isRawValue, isWithUnits)
 }
