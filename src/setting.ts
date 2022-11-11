@@ -12,6 +12,8 @@ export class Setting {
   static readonly defaultOndemandApiEnabled = false
   static readonly defaultOndemandApiCallMode = Setting.ondemandApiCallModes.DEFAULT
 
+  static readonly companyIntent = 'COMPANY'
+
   private constructor(
     private _token: string,
     private _ondemandApiEnabled: boolean,

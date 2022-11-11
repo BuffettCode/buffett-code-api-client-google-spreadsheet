@@ -1,5 +1,6 @@
 import { HttpError } from '~/api/http-error'
 import { UrlBuilder } from '~/api/url-builder'
+import { Company } from '~/entities/v3/company'
 import { Daily } from '~/entities/v3/daily'
 import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
@@ -19,13 +20,13 @@ export class BuffettCodeApiClientV3 {
     const fullOptions = { ...defaultOptions, ...options }
     const res = UrlFetchApp.fetch(url, fullOptions)
 
-    const code = res.getResponseCode()
-    const content = res.getContentText()
     const error = new HttpError(url, res)
-    if (Math.floor(code / 100) === 4 || Math.floor(code / 100) === 5 || error.isInvalidTestingRequest()) {
+    if (error.is4xxError() || error.is5xxError()) {
       throw error
     }
 
+    const content = res.getContentText()
+    const code = res.getResponseCode()
     let json
     try {
       json = JSON.parse(content)
@@ -45,14 +46,14 @@ export class BuffettCodeApiClientV3 {
     }
   }
 
-  public company(ticker: string): object {
+  public company(ticker: string): Company {
     const endpoint = BuffettCodeApiClientV3.baseUrl + '/company'
     const builder = new UrlBuilder(endpoint, { ticker: ticker })
     const url = builder.toString()
     const options = this.defaultOptions()
 
     const res = BuffettCodeApiClientV3.request(url, options)
-    return res['data']
+    return Company.fromResponse(res)
   }
 
   public quarter(ticker: string, period: YearQuarterParam): Quarter {

@@ -4,6 +4,7 @@ import * as quarter from '~/__mocks__/fixtures/v3/quarter'
 import { HttpError } from '~/api/http-error'
 import { useMockedUrlFetchApp } from '~/api/test-helper'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
+import { Company } from '~/entities/v3/company'
 import { Daily } from '~/entities/v3/daily'
 import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
@@ -15,16 +16,6 @@ import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
 describe('BuffettCodeApiClientV3', () => {
-  test('HttpError#isInvalidTestingRequest', () => {
-    const res1 = useMockedUrlFetchApp(200, '{"message":"Testing apikey is not allowed"}')()
-    const error1 = new HttpError('https://example.com', res1)
-    expect(error1.isInvalidTestingRequest()).toBeTruthy()
-
-    const res2 = useMockedUrlFetchApp(403, '{"message": "Forbidden"}')()
-    const error2 = new HttpError('https://example.com', res2)
-    expect(error2.isInvalidTestingRequest()).toBeFalsy()
-  })
-
   test('request', () => {
     const mockFetch = useMockedUrlFetchApp(200, '{"message": "this is a message"}')
 
@@ -45,7 +36,7 @@ describe('BuffettCodeApiClientV3', () => {
   })
 
   test('request when testing apikey error', () => {
-    useMockedUrlFetchApp(200, '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}')
+    useMockedUrlFetchApp(400, '{"message":"Testing Apikey is only allowed to ticker ending with \\"01\\""}')
 
     const request = BuffettCodeApiClientV3['request']
     expect(() => request('http://example.com')).toThrow(HttpError)
@@ -76,7 +67,7 @@ describe('BuffettCodeApiClientV3', () => {
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
-    expect(client.company(ticker)).toEqual(company['data'])
+    expect(client.company(ticker)).toEqual(Company.fromResponse(company))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(`https://api.buffett-code.com/api/v3/company?ticker=${ticker}`)
