@@ -3,6 +3,7 @@ import { default as company } from '~/__mocks__/fixtures/v3/company.js'
 import { default as daily } from '~/__mocks__/fixtures/v3/daily.js'
 import { default as quarter } from '~/__mocks__/fixtures/v3/quarter.js'
 import { HttpError } from '~/api/http-error'
+import { Company } from '~/entities/v3/company'
 import { Daily } from '~/entities/v3/daily'
 import { Quarter } from '~/entities/v3/quarter'
 
@@ -23,7 +24,7 @@ export class BuffettCodeApiClientV3 {
       throw new HttpError('/v3/company', res)
     }
 
-    return this.mockCompany()['data']
+    return Company.fromResponse(this.mockCompany())
   }
 
   quarter(ticker: string): Quarter {
