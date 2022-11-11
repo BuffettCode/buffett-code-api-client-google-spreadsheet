@@ -26,7 +26,7 @@
     "tsconfig-paths-webpack-plugin": "^3.5.1",
     "typescript": "^3.7.3",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.12"
   },
   "scripts": {
     "update-api-json": "npm run update-api-json:quarter && npm run update-api-json:indicator",
