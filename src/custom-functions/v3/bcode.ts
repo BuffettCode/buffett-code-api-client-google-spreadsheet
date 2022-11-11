@@ -19,7 +19,7 @@ export function bcode(
   }
 
   if (!intent) {
-    throw new Error('<<periodが有効ではありません>>')
+    throw new Error('<<intentが有効ではありません>>')
   }
 
   if (!propertyName) {
@@ -31,7 +31,7 @@ export function bcode(
     throw new Error('<<APIキーが有効ではありません>>')
   }
 
-  if (intent === 'COMPANY') {
+  if (typeof intent === 'string' && intent.toUpperCase() === Setting.companyIntent) {
     try {
       const client = new CachingBuffettCodeApiClientV3(setting.token)
       const result = bcodeCompany(client, ticker, propertyName)
