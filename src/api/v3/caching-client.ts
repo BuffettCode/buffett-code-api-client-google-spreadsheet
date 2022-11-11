@@ -1,4 +1,5 @@
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
+import { Company } from '~/entities/v3/company'
 import { Daily } from '~/entities/v3/daily'
 import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
@@ -12,7 +13,7 @@ export class CachingBuffettCodeApiClientV3 extends BuffettCodeApiClientV3 {
     super(token)
   }
 
-  company(ticker: string): object {
+  company(ticker: string): Company {
     const cached = CompanyCache.get(ticker)
     if (cached) {
       return cached

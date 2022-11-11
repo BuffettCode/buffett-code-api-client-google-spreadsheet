@@ -4,6 +4,7 @@ import * as quarter from '~/__mocks__/fixtures/v3/quarter'
 import { HttpError } from '~/api/http-error'
 import { useMockedUrlFetchApp } from '~/api/test-helper'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
+import { Company } from '~/entities/v3/company'
 import { Daily } from '~/entities/v3/daily'
 import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
@@ -66,7 +67,7 @@ describe('BuffettCodeApiClientV3', () => {
 
     const client = new BuffettCodeApiClientV3('foo')
     const ticker = '2371'
-    expect(client.company(ticker)).toEqual(company['data'])
+    expect(client.company(ticker)).toEqual(Company.fromResponse(company))
     expect(mockFetch.mock.calls.length).toBe(1)
     expect(mockFetch.mock.calls[0].length).toBe(2)
     expect(mockFetch.mock.calls[0][0]).toBe(`https://api.buffett-code.com/api/v3/company?ticker=${ticker}`)
