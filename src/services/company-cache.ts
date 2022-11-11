@@ -15,7 +15,7 @@ export class CompanyCache {
     return `${this.prefix}-column-description`
   }
 
-  static getData(ticker: string): object | null {
+  private static getData(ticker: string): object | null {
     const cache = CacheService.getUserCache()
     const key = this.key(ticker)
     const cached = cache.get(key)
@@ -26,7 +26,7 @@ export class CompanyCache {
     return JSON.parse(cached)
   }
 
-  static getColumnDescription(): object | null {
+  private static getColumnDescription(): object | null {
     const cache = CacheService.getUserCache()
     const cached = cache.get(this.columnDescriptionKey())
     if (!cached) {
@@ -46,13 +46,13 @@ export class CompanyCache {
     return new Company(cachedData, cachedColumnDescription)
   }
 
-  static putData(ticker: string, company: object, expirationInSeconds = 21600): void {
+  private static putData(ticker: string, company: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
     const key = this.key(ticker)
     cache.put(key, JSON.stringify(company), expirationInSeconds)
   }
 
-  static putColumnDescription(columnDescription: object, expirationInSeconds = 21600): void {
+  private static putColumnDescription(columnDescription: object, expirationInSeconds = 21600): void {
     const cache = CacheService.getUserCache()
     cache.put(this.columnDescriptionKey(), JSON.stringify(columnDescription), expirationInSeconds)
   }

@@ -18,7 +18,7 @@ export class BuffettCodeApiClientV3 {
     this.mockQuarter.mockReturnValue(quarter)
   }
 
-  company(ticker: string): object {
+  company(ticker: string): Company {
     if (ticker !== '2371') {
       const res = new HTTPResnpose()
       throw new HttpError('/v3/company', res)
