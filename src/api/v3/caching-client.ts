@@ -1,11 +1,14 @@
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
 import { Company } from '~/entities/v3/company'
 import { Daily } from '~/entities/v3/daily'
+import { Monthly } from '~/entities/v3/monthly'
 import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
+import { YearMonth } from '~/fiscal-periods/year-month'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { CompanyCache } from '~/services/company-cache'
 import { DailyCache } from '~/services/daily-cache'
+import { MonthlyCache } from '~/services/monthly-cache'
 import { QuarterCache } from '~/services/quarter-cache'
 
 export class CachingBuffettCodeApiClientV3 extends BuffettCodeApiClientV3 {
@@ -75,6 +78,18 @@ export class CachingBuffettCodeApiClientV3 extends BuffettCodeApiClientV3 {
     QuarterCache.put(ticker, quarter)
 
     return quarter
+  }
+
+  monthly(ticker: string, period: YearMonth): Monthly {
+    const cached = MonthlyCache.get(ticker, period)
+    if (cached) {
+      return cached
+    }
+
+    const monthly = super.monthly(ticker, period)
+    MonthlyCache.put(ticker, monthly)
+
+    return monthly
   }
 
   // TODO: Add bulkDaily and bulkQuarter support
