@@ -1,16 +1,19 @@
 import * as company from '~/__mocks__/fixtures/v3/company'
 import * as daily from '~/__mocks__/fixtures/v3/daily'
+import * as monthly from '~/__mocks__/fixtures/v3/monthly'
 import * as quarter from '~/__mocks__/fixtures/v3/quarter'
 import { HttpError } from '~/api/http-error'
 import { useMockedUrlFetchApp } from '~/api/test-helper'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
 import { Company } from '~/entities/v3/company'
 import { Daily } from '~/entities/v3/daily'
+import { Monthly } from '~/entities/v3/monthly'
 import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { DateRange } from '~/fiscal-periods/date-range'
 import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
 import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
+import { YearMonth } from '~/fiscal-periods/year-month'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
@@ -205,6 +208,22 @@ describe('BuffettCodeApiClientV3', () => {
     expect(mockFetch.mock.calls[0][0]).toBe(
       'https://api.buffett-code.com/api/v3/ondemand/daily?ticker=2371&date=2021-08-11'
     )
+    expect(mockFetch.mock.calls[0][1]).toEqual({
+      headers: { 'x-api-key': 'foo' },
+      muteHttpExceptions: true
+    })
+  })
+
+  test('monthly', () => {
+    const mockFetch = useMockedUrlFetchApp(200, JSON.stringify(monthly))
+
+    const client = new BuffettCodeApiClientV3('foo')
+    const ticker = '2371'
+    const period = new YearMonth(2018, 1)
+    expect(client.monthly(ticker, period)).toEqual(Monthly.fromResponse(monthly))
+    expect(mockFetch.mock.calls.length).toBe(1)
+    expect(mockFetch.mock.calls[0].length).toBe(2)
+    expect(mockFetch.mock.calls[0][0]).toBe('https://api.buffett-code.com/api/v3/monthly?ticker=2371&year=2018&month=1')
     expect(mockFetch.mock.calls[0][1]).toEqual({
       headers: { 'x-api-key': 'foo' },
       muteHttpExceptions: true
