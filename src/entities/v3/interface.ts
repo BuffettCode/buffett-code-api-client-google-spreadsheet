@@ -1,3 +1,10 @@
+export interface HasData {
+  propertyNames(): string[]
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  valueOf(propertyName: string): any
+}
+
 export interface HasColumnDescription {
   propertyNames(): string[]
 
