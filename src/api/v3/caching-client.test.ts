@@ -1,16 +1,19 @@
 import { CompanyCache } from '~/__mocks__/services/company-cache'
 import { DailyCache } from '~/__mocks__/services/daily-cache'
+import { MonthlyCache } from '~/__mocks__/services/monthly-cache'
 import { QuarterCache } from '~/__mocks__/services/quarter-cache'
 import { CachingBuffettCodeApiClientV3 } from '~/api/v3/caching-client'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { LqWithOffset } from '~/fiscal-periods/lq-with-offset'
 import { LyWithOffset } from '~/fiscal-periods/ly-with-offset'
+import { YearMonth } from '~/fiscal-periods/year-month'
 import { YearQuarter } from '~/fiscal-periods/year-quarter'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 
 jest.mock('~/api/v3/client', () => jest.requireActual('~/__mocks__/api/v3/client'))
 jest.mock('~/services/company-cache', () => jest.requireActual('~/__mocks__/services/company-cache'))
 jest.mock('~/services/daily-cache', () => jest.requireActual('~/__mocks__/services/daily-cache'))
+jest.mock('~/services/monthly-cache', () => jest.requireActual('~/__mocks__/services/monthly-cache'))
 jest.mock('~/services/quarter-cache', () => jest.requireActual('~/__mocks__/services/quarter-cache'))
 
 const LY = new LyWithOffset()
@@ -206,5 +209,38 @@ describe('ondemandDaily', () => {
     expect(daily).toEqual(cached)
 
     expect(DailyCache.get(ticker, period)).toEqual(cached)
+  })
+})
+
+describe('monthly', () => {
+  const ticker = '2371'
+
+  beforeAll(() => {
+    MonthlyCache.clearAll()
+  })
+
+  const period = new YearMonth(2022, 5)
+
+  test('(uncached)', () => {
+    expect(MonthlyCache.get(ticker, period)).toBeNull()
+
+    const client = new CachingBuffettCodeApiClientV3('token')
+    const res = client.monthly(ticker, period)
+    expect(res).not.toBeNull()
+    expect(res.period()).toEqual(period)
+
+    expect(MonthlyCache.get(ticker, period)).toEqual(res)
+  })
+
+  test('(cached)', () => {
+    const cached = MonthlyCache.get(ticker, period)
+    expect(cached).not.toBeNull()
+
+    const client = new CachingBuffettCodeApiClientV3('token')
+    const res = client.monthly(ticker, period)
+    expect(res).toEqual(cached)
+    expect(res.period()).toEqual(period)
+
+    expect(MonthlyCache.get(ticker, period)).toEqual(cached)
   })
 })

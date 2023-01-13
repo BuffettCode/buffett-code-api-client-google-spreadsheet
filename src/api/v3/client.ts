@@ -2,9 +2,11 @@ import { HttpError } from '~/api/http-error'
 import { UrlBuilder } from '~/api/url-builder'
 import { Company } from '~/entities/v3/company'
 import { Daily } from '~/entities/v3/daily'
+import { Monthly } from '~/entities/v3/monthly'
 import { Quarter } from '~/entities/v3/quarter'
 import { DateParam } from '~/fiscal-periods/date-param'
 import { DateRange } from '~/fiscal-periods/date-range'
+import { YearMonth } from '~/fiscal-periods/year-month'
 import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { YearQuarterRange } from '~/fiscal-periods/year-quarter-range'
 
@@ -136,5 +138,19 @@ export class BuffettCodeApiClientV3 {
 
     const res = BuffettCodeApiClientV3.request(url, options)
     return Daily.fromResponse(res)
+  }
+
+  public monthly(ticker: string, period: YearMonth): Monthly {
+    const endpoint = BuffettCodeApiClientV3.baseUrl + '/monthly'
+    const builder = new UrlBuilder(endpoint, {
+      ticker,
+      year: period.year,
+      month: period.month
+    })
+    const url = builder.toString()
+    const options = this.defaultOptions()
+
+    const res = BuffettCodeApiClientV3.request(url, options)
+    return Monthly.fromResponse(res)
   }
 }
