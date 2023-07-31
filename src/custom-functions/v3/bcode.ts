@@ -29,8 +29,12 @@ export function bcode(
   }
 
   const setting = Setting.load()
-  if (!setting.token) {
-    throw new Error('<<APIキーが有効ではありません>>')
+  if (setting.token === null) {
+    throw new Error('<<APIキーの読み取りに失敗しました>>')
+  }
+
+  if (setting.token === '') {
+    throw new Error('<<APIキーが設定されていません>>')
   }
 
   if (typeof intent === 'string' && intent.toUpperCase() === Setting.companyIntent) {
