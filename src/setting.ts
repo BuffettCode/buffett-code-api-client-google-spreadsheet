@@ -15,12 +15,12 @@ export class Setting {
   static readonly companyIntent = 'COMPANY'
 
   private constructor(
-    private _token: string,
+    private _token: string | null,
     private _ondemandApiEnabled: boolean,
     private _ondemandApiCallMode: 'default' | 'force'
   ) {}
 
-  public get token(): string {
+  public get token(): string | null {
     return this._token
   }
 
