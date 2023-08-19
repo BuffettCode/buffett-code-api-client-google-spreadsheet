@@ -57,4 +57,34 @@ export class CompanyService {
 
     return date.toDate().valueOf() < fixedTierOldestDate.valueOf()
   }
+
+  public isOutOfQuarterApiRange(_period: YearQuarter | YearQuarterParam): boolean {
+    let period: YearQuarter
+    if (_period instanceof YearQuarterParam) {
+      period = this.convertYearQuarterParamToYearQuarter(_period)
+    } else {
+      period = _period
+    }
+
+    const oldestPeriod = new YearQuarter(
+      this.company.data['oldest_fiscal_year'],
+      this.company.data['oldest_fiscal_quarter']
+    )
+
+    return !period.isAfterOrEqual(oldestPeriod)
+  }
+
+  public isOutOfDailyApiRange(dateParam: DateParam): boolean {
+    if (dateParam.isLatest()) {
+      return false
+    }
+
+    const date = dateParam.toDate()
+    if (date.valueOf() > new Date().valueOf()) {
+      return true
+    }
+
+    const oldestDate = new Date(this.company.data['oldest_date'])
+    return date.valueOf() < oldestDate.valueOf()
+  }
 }
