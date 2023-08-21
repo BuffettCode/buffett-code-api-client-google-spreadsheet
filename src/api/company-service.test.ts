@@ -70,3 +70,28 @@ test('isOndemandDailyApiPeriod', () => {
   expect(service.isOndemandDailyApiPeriod(DateParam.from(new Date()))).toBe(false)
   expect(service.isOndemandDailyApiPeriod(DateParam.from('latest'))).toBe(false)
 })
+
+test('isOutOfQuarterApiRange', () => {
+  const client = new CachingBuffettCodeApiClientV3('token')
+  const service = new CompanyService('2371', client)
+
+  expect(service.isOutOfQuarterApiRange(new YearQuarter(2001, 3))).toBe(true)
+  expect(service.isOutOfQuarterApiRange(new YearQuarter(2001, 4))).toBe(false)
+  expect(service.isOutOfQuarterApiRange(new YearQuarterParam(LY, 3))).toBe(false)
+  expect(service.isOutOfQuarterApiRange(new YearQuarterParam(2001, LQ))).toBe(true)
+  expect(service.isOutOfQuarterApiRange(new YearQuarterParam(LY, LQ))).toBe(false)
+  expect(service.isOutOfQuarterApiRange(new YearQuarterParam(new LyWithOffset(-20), 3))).toBe(true)
+  expect(service.isOutOfQuarterApiRange(new YearQuarterParam(new LyWithOffset(-20), 4))).toBe(false)
+  expect(service.isOutOfQuarterApiRange(new YearQuarterParam(new LyWithOffset(-20), LQ))).toBe(true)
+})
+
+test('isOutOfDailyApiRange', () => {
+  const client = new CachingBuffettCodeApiClientV3('token')
+  const service = new CompanyService('2371', client)
+
+  expect(service.isOutOfDailyApiRange(DateParam.from(new Date('2003-10-09')))).toBe(true)
+  expect(service.isOutOfDailyApiRange(DateParam.from(new Date('2003-10-10')))).toBe(false)
+  expect(service.isOutOfDailyApiRange(DateParam.from(new Date()))).toBe(false)
+  expect(service.isOutOfDailyApiRange(DateParam.from(new Date('2999-12-31')))).toBe(true)
+  expect(service.isOutOfDailyApiRange(DateParam.from('latest'))).toBe(false)
+})

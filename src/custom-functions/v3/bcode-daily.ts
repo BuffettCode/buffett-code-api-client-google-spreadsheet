@@ -1,6 +1,11 @@
 import { CompanyService } from '~/api/company-service'
 import { BuffettCodeApiClientV3 } from '~/api/v3/client'
-import { ApiResponseError, OndemandApiNotEnabledError, PropertyNotFoundError } from '~/custom-functions/error'
+import {
+  ApiResponseError,
+  OndemandApiNotEnabledError,
+  PropertyNotFoundError,
+  UnsupportedRangeError
+} from '~/custom-functions/error'
 import { BcodeResult } from '~/custom-functions/v3/bcode-result'
 import { Daily } from '~/entities/v3/daily'
 import { DateParam } from '~/fiscal-periods/date-param'
@@ -14,6 +19,10 @@ export function bcodeDaily(
   forceOndemandApiEnabled: boolean
 ): BcodeResult {
   const companyService = new CompanyService(ticker, client)
+
+  if (companyService.isOutOfDailyApiRange(date)) {
+    throw new UnsupportedRangeError()
+  }
 
   let daily: Daily
   if (forceOndemandApiEnabled || companyService.isOndemandDailyApiPeriod(date)) {

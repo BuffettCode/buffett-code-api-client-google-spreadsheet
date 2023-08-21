@@ -3,7 +3,8 @@ import {
   ApiResponseError,
   OndemandApiNotEnabledError,
   PropertyNotFoundError,
-  UnsupportedTickerError
+  UnsupportedTickerError,
+  UnsupportedRangeError
 } from '~/custom-functions/error'
 import { InvalidLYLQError, InvalidYearError, InvalidQuarterError } from '~/fiscal-periods/error'
 
@@ -25,6 +26,8 @@ export class ErrorHandler {
       throw new Error(`<<無効な四半期が指定されています>>`)
     } else if (e instanceof PropertyNotFoundError) {
       throw new Error(`<<サポートされていない科目です>>`)
+    } else if (e instanceof UnsupportedRangeError) {
+      throw new Error(`<<サポートされていない範囲が指定されています>>`)
     } else {
       console.error('未定義のエラー', e.name, e.message)
       throw new Error(
