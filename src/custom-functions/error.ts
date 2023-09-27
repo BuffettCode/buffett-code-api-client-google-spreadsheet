@@ -33,3 +33,12 @@ export class UnsupportedTickerError implements Error {
     this.message = message
   }
 }
+
+export class UnsupportedRangeError implements Error {
+  public name = 'UnsupportedRangeError'
+  public message: string
+
+  constructor(message = '') {
+    this.message = message
+  }
+}

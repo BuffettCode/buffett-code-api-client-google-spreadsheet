@@ -16,6 +16,15 @@ export class InvalidQuarterError implements Error {
   }
 }
 
+export class InvalidMonthError implements Error {
+  public name = 'InvalidMonthError'
+  public message: string
+
+  constructor(message = '') {
+    this.message = message
+  }
+}
+
 export class InvalidLYLQError implements Error {
   public name = 'InvalidLYLQError'
   public message: string

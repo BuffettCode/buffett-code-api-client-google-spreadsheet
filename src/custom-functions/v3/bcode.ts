@@ -1,9 +1,11 @@
 import { bcodeCompany } from './bcode-company'
 import { CachingBuffettCodeApiClientV3 } from '~/api/v3/caching-client'
 import { bcodeDaily } from '~/custom-functions/v3/bcode-daily'
+import { bcodeMonthly } from '~/custom-functions/v3/bcode-monthly'
 import { bcodeQuarter } from '~/custom-functions/v3/bcode-quarter'
 import { BcodeResult } from '~/custom-functions/v3/bcode-result'
 import { PeriodParser } from '~/fiscal-periods/period-parser'
+import { YearQuarterParam } from '~/fiscal-periods/year-quarter-param'
 import { ErrorHandler } from '~/services/error-handler'
 import { Setting } from '~/setting'
 
@@ -27,8 +29,12 @@ export function bcode(
   }
 
   const setting = Setting.load()
-  if (!setting.token) {
-    throw new Error('<<APIキーが有効ではありません>>')
+  if (setting.token === null) {
+    throw new Error('<<APIキーの読み取りに失敗しました>>')
+  }
+
+  if (setting.token === '') {
+    throw new Error('<<APIキーが設定されていません>>')
   }
 
   if (typeof intent === 'string' && intent.toUpperCase() === Setting.companyIntent) {
@@ -58,7 +64,7 @@ export function bcode(
         setting.ondemandApiEnabled,
         setting.isOndemandApiCallModeForce()
       )
-    } else {
+    } else if (parsedPeriod instanceof YearQuarterParam) {
       result = bcodeQuarter(
         client,
         ticker,
@@ -67,6 +73,8 @@ export function bcode(
         setting.ondemandApiEnabled,
         setting.isOndemandApiCallModeForce()
       )
+    } else {
+      result = bcodeMonthly(client, ticker, parsedPeriod, propertyName)
     }
 
     return result.format(isRawValue, isWithUnits)
